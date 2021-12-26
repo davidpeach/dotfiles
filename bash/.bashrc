@@ -119,9 +119,3 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# This file needs tidying and learning all of it.
-# If not running interactively, do not do anything
-[[ $- != *i* ]] && return
-# Otherwise start tmux
-[[ -z "$TMUX" ]] && exec tmux
