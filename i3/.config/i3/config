@@ -188,6 +188,9 @@ bindsym $mod+Shift+x exec i3lock
 
 exec_always xrandr --output HDMI-0 --primary --auto --right-of DVI-I-0
 
+exec_always feh --bg-fill ~/Pictures/Wallpapers/Aloy-face.jpg
+exec_always compton --config ~/.config/compton.conf 
+
 exec gnome-terminal
 exec firefox
 
