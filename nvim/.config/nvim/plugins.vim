@@ -10,5 +10,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'slamdunk/vim-php-static-analysis'
+Plug 'fladson/vim-kitty'
 
 call plug#end()
