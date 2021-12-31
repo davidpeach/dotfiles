@@ -31,5 +31,6 @@ alias gc="git commit -S -m"
 alias gp="git push"
 alias gpl="git pull"
 
+alias fixp="sudo chown -R david:david ."
 
 export PATH=$HOME/.bin:$HOME/.config/composer/vendor/bin:$PATH
