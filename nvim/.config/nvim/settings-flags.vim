@@ -31,3 +31,6 @@ set ttyfast                 " Speed up scrolling in Vim
 " set backupdir=~/.cache/vim " Directory to store backup files.
 set relativenumber
 set scrolloff=8
+
+set splitbelow
+set splitright
