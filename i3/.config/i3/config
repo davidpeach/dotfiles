@@ -41,7 +41,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec "kitty"
+
+default_border pixel 0
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -141,7 +143,7 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-for_window [class="kitty"] fullscreen enable
+for_window [class="kitty"] enable
 
 assign [class="kitty" instance="test1"] $ws1 
 assign [class="kitty" instance="test2"] $ws9 
@@ -177,7 +179,7 @@ mode "resize" {
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
-        bindsym Escape mode "default"
+        # bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
 
@@ -187,7 +189,9 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        position top
 }
+
 
 bindsym $mod+Shift+x exec i3lock
 
@@ -201,9 +205,10 @@ exec_always compton --config ~/.config/compton.conf
 exec kitty --name=test1
 exec kitty --name=test2
 
-exec google-chrome-stable
+exec firejail google-chrome-stable
 exec firefox
 exec slack
 
-
+floating_minimum_size 75 x 50
+floating_maximum_size 800 x 1000
 
