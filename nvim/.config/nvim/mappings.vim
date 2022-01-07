@@ -27,8 +27,9 @@ nnoremap <leader>ga :G add -p<cr>
 
 
 " -- file mappings
-nnoremap <leader>ev :tabedit ~/.dotfiles/nvim/.config/nvim/init.vim<cr>
-nnoremap <leader>ek :tabedit ~/.dotfiles/kitty/.config/kitty/kitty.conf<cr>
+nmap <leader>ve :edit ~/.dotfiles/nvim/.config/nvim/init.vim<cr>
+nmap <leader>vr :source ~/.dotfiles/nvim/.config/nvim/init.vim<cr>
+nmap <leader>ek :edit ~/.dotfiles/kitty/.config/kitty/kitty.conf<cr>
 map gf :edit <cfile><cr>
 
 " why have I got this?
