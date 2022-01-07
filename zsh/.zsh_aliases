@@ -1,8 +1,8 @@
 
 alias v="nvim"
 
-alias be="v ~/.dotfiles/bash/.bash_aliases"
-alias bs="source ~/.bashrc"
+alias be="v ~/.dotfiles/zsh/.zsh_aliases"
+alias bs="source ~/.zshrc"
 alias i3c="v ~/.dotfiles/i3/.config/i3/config"
 
 alias vc="nano ~/.config/nvim/init.vim"
@@ -14,7 +14,9 @@ alias ....="cd ../../.."
 alias c="clear"
 alias h="c && cd ~ && ls -lah"
 
-alias p="/home/david/Programs/PhpStorm/bin/phpstorm.sh"
+# TMUX
+alias tl="tmux ls"
+alias tk="tmux kill-session"
 
 alias a="php artisan"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
@@ -34,3 +36,4 @@ alias gpl="git pull"
 alias fixp="sudo chown -R david:david ."
 
 export PATH=$HOME/.bin:$HOME/.config/composer/vendor/bin:$PATH
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
