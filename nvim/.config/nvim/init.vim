@@ -90,7 +90,9 @@ source ~/.config/nvim/plugins/nerdtree.vim
 source ~/.config/nvim/plugins/peekaboo.vim
 source ~/.config/nvim/plugins/php-static-analysis.vim
 source ~/.config/nvim/plugins/plenary.vim
+" source ~/.config/nvim/plugins/projectionist.vim
 source ~/.config/nvim/plugins/quickscope.vim
+source ~/.config/nvim/plugins/snippets.vim
 source ~/.config/nvim/plugins/solarized.vim
 source ~/.config/nvim/plugins/vim-surround.vim
 source ~/.config/nvim/plugins/startify.vim
