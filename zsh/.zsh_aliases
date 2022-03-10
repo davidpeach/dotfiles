@@ -20,7 +20,7 @@ alias tk="tmux kill-session"
 
 alias a="php artisan"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-alias stan="./vendor/bin/phpstan analyse"
+alias stan="./vendor/bin/phpstan analyse --memory-limit=2G"
 alias t="./vendor/bin/phpunit"
 alias tf="t --filter="
 alias tt="stan && t"
