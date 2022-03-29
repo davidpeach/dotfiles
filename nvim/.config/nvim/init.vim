@@ -1,19 +1,104 @@
-local map = vim.api.nvim_set_keymap
-map('n', '<Space>', '', {});
-vim.g.mapleader = ' '
+set number
+set relativenumber
+set termguicolors
+set tabstop=4
+set nocp
+filetype plugin on
 
-map('n', '<leader>s', ':so %<cr>', { noremap = true })
-map('n', '<leader>n', ':bnext<cr>', { noremap = true })
-map('n', '<leader>p', ':bprev<cr>', { noremap = true })
+" Netrw Customization
+let g:netrw_winsize = 30
+let g:netrw_banner = 0
 
-vim.o.relativenumber = true
-vim.o.number = true
+let mapleader = " "
 
-local Plug = vim.fn['plug#']
-vim.call('plug#begin', '~/.nvim/plugged')
-    Plug 'neovim/nvim-lspconfig';
-vim.call('plug#end')
+" Automatically source this file when saved.
+autocmd! BufWritePost $MYVIMRC source $MYVIMRC | echom "Reloaded $NVIMRC"
 
+" Keep centred when going to next / previous finds.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Break points for undos
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+
+" Moving things up and down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+inoremap <C-j> <esc>:m .+1<CR>==
+inoremap <C-k> <esc>:m .-2<CR>==
+nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>k :m .-2<CR>==
+
+" Disable arrow keys by default
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+" Easier Jumping forwards and backwards
+nnoremap <leader><Left> <C-O>
+nnoremap <leader><Right> <C-I>
+
+" Function Keys
+nnoremap <leader><F1> :e $MYVIMRC<CR>
+
+" Number Keys
+nnoremap <leader>1 :Lexplore<CR>
+nnoremap <leader>2 :Lexplore %:p:h<CR>
+
+
+
+
+
+
+
+call plug#begin('~/.nvim/plugged')
+source ~/.config/nvim/plugins/lsp.vim
+Plug 'tpope/vim-fugitive'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'BurntSushi/ripgrep'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'tpope/vim-projectionist'
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+call plug#end()
+
+set background=dark " or light if you want light mode
+colorscheme gruvbox
+
+
+let g:projectionist_heuristics = {
+      \   "artisan": {
+      \     "app/Http/Controllers/*Controller.php": {
+      \        "type": "source",
+      \        "alternate": "tests/Feature/{}Test.php",
+      \     },
+      \     "tests/Feature/*Test.php" : {
+      \		"type": "test",
+      \		"alternate": "app/Http/Controllers/{}Controller.php",
+      \	    }
+      \   }
+      \ }
+
+
+
+" Telescope Mappings
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+
+
+
+
+lua << EOF
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -47,7 +132,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'phpactor' }
+local servers = {'intelephense'}
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
@@ -57,3 +142,6 @@ for _, lsp in pairs(servers) do
     }
   }
 end
+EOF
+
+

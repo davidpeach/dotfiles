@@ -5,7 +5,7 @@ alias be="v ~/.dotfiles/zsh/.zsh_aliases"
 alias bs="source ~/.zshrc"
 alias i3c="v ~/.dotfiles/i3/.config/i3/config"
 
-alias vc="nano ~/.config/nvim/init.vim"
+alias vc="v ~/.config/nvim/init.vim"
 
 alias ..="cd .."
 alias ...="cd ../.."
