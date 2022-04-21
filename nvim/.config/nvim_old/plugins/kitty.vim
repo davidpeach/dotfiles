@@ -1,2 +1,0 @@
-
-Plug 'fladson/vim-kitty'
