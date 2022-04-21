@@ -38,5 +38,7 @@ alias gpl="git pull"
 
 alias fixp="sudo chown -R david:david ."
 
+alias startpostgres="pg_ctl -D /var/lib/postgres/data -l logfile start"
+
 export PATH=$HOME/.bin:$HOME/.config/composer/vendor/bin:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
