@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DP_EDITOR="kitty -e nvim"
+
+declare -a configs=(
+    "neovim - $HOME/.config/nvim/init.lua"
+    "xmonad - $HOME/.xmonad/xmonad.hs"
+    "quit"
+)
+
+choice=$(printf '%s\n' "${configs[@]}" | dmenu -i -l 5 -p 'Edit Config: ')
+
+if [[ "$choice" == "quit" ]]; then
+
+    echo "NOPE" && exit 1
+
+elif [[ "$choice" ]]; then
+
+    cfg=$(printf '%s\n' "${choice}" | awk '{print $NF}')
+    $DP_EDITOR "$cfg"
+
+else
+
+    echo "Program terminated" && exit 1
+
+fi

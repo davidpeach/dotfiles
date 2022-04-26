@@ -62,7 +62,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run")
+    -- , ((modm,               xK_p     ), spawn "dmenu_run")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -290,8 +290,12 @@ defaults = def {
 
     } `additionalKeysP`
     [ ("M-S-z", spawn "xscreensaver-command -lock")
-    , ("M-S-=", unGrab *> spawn "scrot -s"        )
-    , ("M-]"  , spawn "firefox"                   )
+    , ("M-S-=", unGrab *> spawn "scrot -s")
+    -- , ("M-]", spawn "firefox")
+    , ("M-S-<Return>" , spawn "dmenu_run"                                  )
+    , ("M-p e", spawn "$HOME/.local/bin/config-open" )
+    , ("M-<Return>"   , spawn (myTerminal) )
+    -- , ("M-p"          , spawn "dmenu_run" )
     ]
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
