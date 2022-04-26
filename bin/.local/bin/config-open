@@ -5,8 +5,10 @@ set -euo pipefail
 DP_EDITOR="kitty -e nvim"
 
 declare -a configs=(
+    "kitty - $HOME/.config/kitty/kitty.conf"
     "neovim - $HOME/.config/nvim/init.lua"
     "xmonad - $HOME/.xmonad/xmonad.hs"
+    "zsh - $HOME/.zshrc"
     "quit"
 )
 
