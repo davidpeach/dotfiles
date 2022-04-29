@@ -1,10 +1,13 @@
-font_size 16.0
-adjust_line_height  18
+font_family JetBrainsMono Nerd Font
+
+font_size 13.0
+adjust_line_height  175%
 enable_audio_bell no
 window_padding_width 10
-
+hide_window_decorations yes
+cursor_blink_interval 0
 
 # BEGIN_KITTY_THEME
-# Solarized8 Dark
+# Tokyo Night
 include current-theme.conf
 # END_KITTY_THEME
