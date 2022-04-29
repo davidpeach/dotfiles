@@ -21,6 +21,15 @@ lsp_installer.on_server_ready(function(server)
 	 	opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 	 end
 
+	 if server.name == "phpactor" then
+	 	local phpactor_opts = require("user.lsp.settings.phpactor")
+	 	opts = vim.tbl_deep_extend("force", phpactor_opts, opts)
+	 end
+
+	 if server.name == "efm" then
+	 	local efm_opts = require("user.lsp.settings.efm_opts")
+	 	opts = vim.tbl_deep_extend("force", efm_opts, opts)
+	 end
 --	 if server.name == "pyright" then
 --	 	local pyright_opts = require("user.lsp.settings.pyright")
 --	 	opts = vim.tbl_deep_extend("force", pyright_opts, opts)

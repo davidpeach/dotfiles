@@ -20,16 +20,22 @@ M.setup = function()
     signs = {
       active = signs,
     },
-    update_in_insert = true,
+   -- update_in_insert = true,
     underline = true,
     severity_sort = true,
     float = {
       focusable = false,
       style = "minimal",
       border = "rounded",
-      source = "always",
+      source = true,
       header = "",
       prefix = "",
+      format = function(diagnostic)
+      if diagnostic.user_data ~= nil and diagnostic.user_data.lsp.code ~= nil then
+        return string.format("%s: %s", diagnostic.user_data.lsp.code, diagnostic.message)
+      end
+      return diagnostic.message
+    end,
     },
   }
 

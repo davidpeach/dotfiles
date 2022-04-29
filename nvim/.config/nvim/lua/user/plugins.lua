@@ -44,30 +44,48 @@ return packer.startup(function(use)
   use "wbthomason/packer.nvim" -- Have packer manage itself
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
+  use "tpope/vim-commentary"
+   use "lewis6991/gitsigns.nvim"
+   use "kyazdani42/nvim-web-devicons"
+   use "akinsho/bufferline.nvim"
+   use "moll/vim-bbye"
+   use "akinsho/toggleterm.nvim"
+   use 'kyazdani42/nvim-tree.lua'
 
-  use "airblade/vim-rooter"
-  use "farmergreg/vim-lastplace"
-  use "glepnir/dashboard-nvim"
+ use "airblade/vim-rooter"
+ use "farmergreg/vim-lastplace"
+ use "glepnir/dashboard-nvim"
 
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
-  use "saadparwaiz1/cmp_luasnip"
-  use "hrsh7th/cmp-nvim-lsp"
+   use "hrsh7th/nvim-cmp"
+   use "hrsh7th/cmp-buffer"
+   use "hrsh7th/cmp-path"
+   use "hrsh7th/cmp-cmdline"
+   use "saadparwaiz1/cmp_luasnip"
+   use "hrsh7th/cmp-nvim-lsp"
 
-  use "L3MON4D3/LuaSnip"
-  use "rafamadriz/friendly-snippets"
+   use "L3MON4D3/LuaSnip"
+   use "rafamadriz/friendly-snippets"
 
-  use "neovim/nvim-lspconfig"
-  use "williamboman/nvim-lsp-installer"
-
+   use "neovim/nvim-lspconfig"
+   use "williamboman/nvim-lsp-installer"
+  use 'voldikss/vim-floaterm'
   use "nvim-telescope/telescope.nvim"
   use "nvim-telescope/telescope-media-files.nvim"
 
-  use {
-      "luisiacc/gruvbox-baby", branch = "main"
-  }
+   use {
+       "luisiacc/gruvbox-baby", branch = "main"
+   }
+
+     use {
+   "folke/which-key.nvim",
+   config = function()
+     require("which-key").setup {
+       -- your configuration comes here
+       -- or leave it empty to use the default settings
+       -- refer to the configuration section below
+     }
+   end
+ }
 
   use {
       "nvim-treesitter/nvim-treesitter",
@@ -76,7 +94,7 @@ return packer.startup(function(use)
           require('user.treesitter')
       end
   }
-  
+
   use {
     'phpactor/phpactor',
     branch = 'master',
