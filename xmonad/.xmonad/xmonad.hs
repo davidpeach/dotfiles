@@ -1,5 +1,6 @@
 -- Imports
 import XMonad
+import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.ThreeColumns
@@ -8,6 +9,7 @@ import XMonad.Util.Ungrab
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 import Data.Monoid
+import System.IO
 import System.Exit
 
 import qualified XMonad.StackSet as W
@@ -235,7 +237,23 @@ myEventHook = mempty
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
-myLogHook = return ()
+myLogHook :: Handle -> X ()
+myLogHook h = dynamicLogWithPP $ def { 
+      ppOutput = hPutStrLn h 
+     , ppCurrent = xmobarColor "#98be65" "" . wrap "(" ")" -- Current workspace
+    -- , ppVisible = xmobarColor "#98be65" "" -- Visible but not current workspace
+    , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" -- Hidden workspace
+     , ppHiddenNoWindows = xmobarColor "#bada55" "" -- Hidden workspace
+    , ppTitle = xmobarColor "#b3afc2" "" . shorten 60 -- Title of active window
+     , ppSep = "<fc=#666666> • </fc>" -- Separators
+    -- , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!" -- Urgent workspace
+    , ppOrder = \(ws:_:t:ex) -> [ws] ++ ex ++ [t]
+}
+-- myLogHook = dynamicLogWithPP xmobarPP {
+--       ppOutput = hPutStrLn xmproc
+--     , ppSep             = " • "
+--     , ppOrder           = \[ws, l, _, wins] -> [ws, l, wins]
+--     }
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -255,8 +273,10 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc"
-    xmonad $ docks defaults 
+    h <- spawnPipe "xmobar ~/.config/xmobar/xmobarrc"
+    xmonad $ docks $ defaults {
+        logHook = myLogHook h
+    }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -285,7 +305,7 @@ defaults = def {
         layoutHook         = myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
+        logHook            = return (),
         startupHook        = myStartupHook
 
     } `additionalKeysP`
