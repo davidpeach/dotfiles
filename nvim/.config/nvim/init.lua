@@ -11,6 +11,7 @@ require 'user.toggleterm'
 require 'user.nvimtree'
 require 'user.dashboard'
 require 'user.vim-test'
+require 'user.vim-projectionist'
 
 local colorscheme = "gruvbox-baby"
 

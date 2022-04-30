@@ -213,6 +213,11 @@ _G.packer_plugins = {
     path = "/home/david/.local/share/nvim/site/pack/packer/start/vim-lastplace",
     url = "https://github.com/farmergreg/vim-lastplace"
   },
+  ["vim-projectionist"] = {
+    loaded = true,
+    path = "/home/david/.local/share/nvim/site/pack/packer/start/vim-projectionist",
+    url = "https://github.com/tpope/vim-projectionist"
+  },
   ["vim-rooter"] = {
     loaded = true,
     path = "/home/david/.local/share/nvim/site/pack/packer/start/vim-rooter",
