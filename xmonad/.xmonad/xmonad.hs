@@ -102,7 +102,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 ------------------------------------------------------------------------
 
-myLayout = smartSpacing 5 $ avoidStruts (Full ||| tiled ||| Mirror tiled ||| threeCol)
+myLayout = avoidStruts (Full ||| tiled ||| Mirror tiled ||| threeCol)
   where
     threeCol = ThreeColMid nmaster delta ratio
     tiled    = Tall nmaster delta ratio

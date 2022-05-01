@@ -1,7 +1,0 @@
-
-xmonad.hs:105:12: warning: [-Wdeprecations]
-    In the use of ‘smartSpacing’ (imported from XMonad.Layout.Spacing):
-    Deprecated: "Use spacingRaw instead."
-    |
-105 | myLayout = smartSpacing 5 $ avoidStruts (Full ||| tiled ||| Mirror tiled ||| threeCol)
-    |            ^^^^^^^^^^^^
