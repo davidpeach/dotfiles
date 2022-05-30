@@ -23,7 +23,7 @@ myFocusFollowsMouse = False
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
-myBorderWidth   = 0  -- width of window border in pixels
+myBorderWidth   = 5  -- width of window border in pixels
 
 myModMask       = mod4Mask -- "Windows" Key. 
 
@@ -45,11 +45,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_space ), sendMessage NextLayout)  -- Rotate through the available layout algorithms
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)  --  Reset the layouts on the current workspace to default
     , ((modm,               xK_n     ), refresh)  -- Resize viewed windows to the correct size
-    , ((modm,               xK_Tab   ), windows W.focusDown)  -- Move focus to the next window
+    -- , ((modm,               xK_Tab   ), windows W.focusDown)  -- Move focus to the next window
     , ((modm,               xK_j     ), windows W.focusDown)  -- Move focus to the next window
     , ((modm,               xK_k     ), windows W.focusUp  )  -- Move focus to the previous window
-    , ((modm,               xK_m     ), windows W.focusMaster  )  -- Move focus to the master window
-    , ((modm,               xK_Return), windows W.swapMaster)  -- Swap the focused window and the master window
+    , ((modm,               xK_Tab   ), windows W.focusMaster  )  -- Move focus to the master window
+    , ((modm,               xK_m     ), windows W.swapMaster)  -- Swap the focused window and the master window
     , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )  -- Swap the focused window with the next window
     , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )  -- Swap the focused window with the previous window
     , ((modm,               xK_h     ), sendMessage Shrink)  -- Shrink the master area
@@ -100,10 +100,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
-
 ------------------------------------------------------------------------
-
-myLayout = avoidStruts (Full ||| tiled ||| Mirror tiled ||| threeCol)
+-- spacingRaw False (Border 10 0 10 0) True (Border 0 10 0 10) True $ smartBorders $
+myLayout = avoidStruts (spacingRaw False (Border 0 7 0 7) True (Border 7 0 7 0) True $ tiled ||| smartBorders Full)
+-- myLayout = avoidStruts (tiled ||| Full)
   where
     threeCol = ThreeColMid nmaster delta ratio
     tiled    = Tall nmaster delta ratio
@@ -215,8 +215,10 @@ defaults = def {
         mouseBindings      = myMouseBindings,
 
       -- hooks, layouts
-        layoutHook = myLayout,
-        -- layoutHook         = spacingRaw True (Border 0 10 10 10) True (Border 10 10 10 10) True $ withBorder 5 $ myLayout,
+        -- layoutHook = avoidStruts (spacingRaw False (Border 10 0 10 0) True (Border 0 10 0 10) True $ Tall (1 (3/100) (1/2)) ||| Full),
+        -- layoutHook = spacingRaw True (Border 10 10 10 10) True $ smartBorders  myLayout,
+        -- layoutHook         = avoidStruts (spacingRaw False (Border 10 0 10 0) True (Border 0 10 0 10) True Tile ||| smartBorders Full),
+        layoutHook         =  myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook            = return (),
