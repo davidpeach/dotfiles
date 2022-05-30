@@ -132,10 +132,11 @@ myManageHook = composeAll
       , className =? "Gimp"                --> doFloat
       , resource  =? "desktop_window"      --> doIgnore
       , resource  =? "kdesktop"            --> doIgnore
+      , className =? "kitty"               --> doShift ( myWorkspaces !! 0 )
+      , className =? "Google-chrome"       --> doShift ( myWorkspaces !! 1 )
       , title     =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 4 )
       , className =? "Slack"               --> doShift ( myWorkspaces !! 5 )
-      , className =? "Google-chrome"       --> doShift ( myWorkspaces !! 1 )
-      , className =? "kitty"               --> doShift ( myWorkspaces !! 0 )
+      , className =? "Signal"              --> doShift ( myWorkspaces !! 8 )
     ]
 
 ------------------------------------------------------------------------
@@ -232,6 +233,7 @@ defaults = def {
     , ("M-p e", spawn "$HOME/.local/bin/config-open" )
     , ("M-s d", spawn "$HOME/.local/bin/site-deployer" )
     , ("M-<Return>"   , spawn (myTerminal) )
+    , ("M-s 9"   , spawn "signal-desktop")
     ]
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
