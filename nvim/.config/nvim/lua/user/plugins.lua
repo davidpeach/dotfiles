@@ -117,6 +117,9 @@ return packer.startup(function(use)
             require 'user.plugins.telescope'
         end
     }
+
+    use 'nvim-telescope/telescope-file-browser.nvim'
+
     use "nvim-telescope/telescope-media-files.nvim"
 
     use {
