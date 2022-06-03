@@ -13,6 +13,7 @@ declare -a stowFolders=(
      i3
      kitty
      nvim
+     polybar
      xmonad
      zsh
 )

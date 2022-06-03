@@ -40,10 +40,19 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+for_window [class=".*"] border pixel 7
+smart_gaps on
+smart_borders on
+gaps inner 8
+gaps outer 0
+# gaps inner all set 20
+# gaps outer current plus 5
+hide_edge_borders smart
+
 # start a terminal
 bindsym $mod+Return exec "kitty"
 
-default_border pixel 0
+default_border pixel 4
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -187,15 +196,15 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-        position top
-}
+# bar {
+#         status_command i3status
+#         position top
+# }
 
 
 bindsym $mod+Shift+x exec i3lock
 
-exec_always xrandr --output HDMI-0 --primary --auto --right-of DVI-I-0
+# exec_always xrandr --output HDMI-0 --primary --auto --right-of DVI-I-0
 
 # Set up the wallpaper
 exec_always feh --bg-fill ~/.wallpapers/hzd2.jpg
@@ -211,4 +220,45 @@ exec slack
 
 floating_minimum_size 75 x 50
 floating_maximum_size 800 x 1000
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #bb9af7
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
+
+#background #24283b
+#foreground #c0caf5
+#selection_background #364A82
+#selection_foreground #c0caf5
+#url_color #73daca
+#cursor #c0caf5
+
+## Tabs
+#active_tab_background #7aa2f7
+#active_tab_foreground #1f2335
+#inactive_tab_background #292e42
+#inactive_tab_foreground #545c7e
+##tab_bar_background #1D202F
+
+## normal
+#color0 #1D202F
+#color1 #f7768e
+#color2 #9ece6a
+#color3 #e0af68
+#color4 #7aa2f7
+#color5 #bb9af7
+#color6 #7dcfff
+#color7 #a9b1d6
+
+## bright
+#color8 #414868
+#color9 #f7768e
+#color10 #9ece6a
+#color11 #e0af68
+#color12 #7aa2f7
+#color13 #bb9af7
+#color14 #7dcfff
+#color15 #c0caf5
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
