@@ -52,6 +52,7 @@ return packer.startup(function(use)
             require 'user.plugins.vim-projectionist'
         end
     }
+    use "tpope/vim-fugitive"
     use {
         "lewis6991/gitsigns.nvim",
         config = function ()
