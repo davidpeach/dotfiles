@@ -26,7 +26,7 @@ keymap("n", "<leader>1", ":NvimTreeToggle<cr>", opts)
 
 -- File Searching
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>fa", "<cmd>Telescope find_files hidden=true<cr>", opts)
+keymap("n", "<leader>fa", "<cmd>Telescope find_files hidden=true no_ignore=true<cr>", opts)
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
 keymap("n", "<leader>fh", "<cmd>Telescope oldfiles<cr>", opts)
