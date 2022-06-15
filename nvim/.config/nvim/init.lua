@@ -15,3 +15,11 @@ vim.g.tokyonight_style = "storm"
 vim.g.tokyonight_transparent = true
 
 require 'colorizer'.setup()
+
+-- MOVE MOVE
+P = function (v)
+    print(vim.inspect(v))
+    return v
+end
+
+vim.keymap.set('n', '<leader><leader>x', ':w<cr> :source %<cr>')
