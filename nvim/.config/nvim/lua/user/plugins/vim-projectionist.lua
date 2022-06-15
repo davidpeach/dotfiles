@@ -7,9 +7,9 @@ vim.cmd([[
     \   },
     \   "app/Http/Controllers/*Controller.php": {
     \     "type": "source",
-    \     "alternate": "tests/Feature/Http/{}ControllerTest.php",
+    \     "alternate": "tests/Feature/Http/Controllers/{}ControllerTest.php",
     \   },
-    \   "tests/Feature/Http/*ControllerTest.php": {
+    \   "tests/Feature/Http/Controllers/*ControllerTest.php": {
     \     "type": "test",
     \     "alternate": "app/Http/Controllers/{}Controller.php",
     \   },
