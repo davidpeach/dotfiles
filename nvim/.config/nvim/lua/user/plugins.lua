@@ -48,7 +48,15 @@ return packer.startup(function(use)
     use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
     -- Debugging
-    use "mfussenegger/nvim-dap"
+    use {
+        "mfussenegger/nvim-dap",
+        config = function ()
+            require 'user.plugins.nvim-dap'
+        end
+    }
+    use "rcarriga/nvim-dap-ui"
+    use "theHamsta/nvim-dap-virtual-text"
+    use "nvim-telescope/telescope-dap.nvim"
 
     use "tpope/vim-commentary"
     use {
@@ -87,12 +95,6 @@ return packer.startup(function(use)
 
     use "airblade/vim-rooter"
     use "farmergreg/vim-lastplace"
-    use {
-        "glepnir/dashboard-nvim",
-        config = function ()
-            require 'user.plugins.dashboard'
-        end
-    }
 
     use {
         "hrsh7th/nvim-cmp",
