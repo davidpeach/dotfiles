@@ -1,16 +1,30 @@
 #!/bin/bash
 
 sudo pacman -S \
-    stow \
-    neovim \
-    libva-utils \
-    xorg \
-    xorg-xinit \
-    nitrogen \
-    picom \
-    i3-gaps \
+    alsa-utils \
+    btop \
+    dbeaver \
     firefox \
-    kitty
+    fzf \
+    i3-gaps \
+    kitty \
+    leiningen \
+    libva-utils \
+    make \
+    neovim \
+    nitrogen \
+    nnn \
+    picom \
+    polybar \
+    signal-desktop \
+    stow \
+    tree \
+    wget \
+    xorg \
+    xorg-xinit
+
+# YAY
+# slack-desktop
 
 joinByChar() {
   local IFS="$1"
