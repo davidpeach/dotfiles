@@ -1,5 +1,17 @@
 #!/bin/bash
 
+sudo pacman -S \
+    stow \
+    neovim \
+    libva-utils \
+    xorg \
+    xorg-xinit \
+    nitrogen \
+    picom \
+    i3-gaps \
+    firefox \
+    kitty
+
 joinByChar() {
   local IFS="$1"
   shift
