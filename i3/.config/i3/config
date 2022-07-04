@@ -214,9 +214,9 @@ exec_always compton --config ~/.config/compton.conf
 exec kitty --name=test1
 exec kitty --name=test2
 
-exec firejail google-chrome-stable
+exec google-chrome-stable
 exec firefox
-exec slack
+#exec slack
 
 floating_minimum_size 75 x 50
 floating_maximum_size 800 x 1000
