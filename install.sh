@@ -35,12 +35,12 @@ joinByChar() {
 declare -a stowFolders=(
      bash
      bin
-     dmenu-scripts
+#     dmenu-scripts
      i3
      kitty
      nvim
      polybar
-     xmonad
+#     xmonad
      zsh
 )
 
