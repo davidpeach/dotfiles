@@ -22,32 +22,32 @@ bufferline.setup {
     custom_areas = {
       left = function()
         return {
-          { text = '    ', guifg = '#8fff6d' },
+          { text = '    ', fg = '#8fff6d' },
         }
       end,
     },
   },
   highlights = {
     background = {
-      guibg = { attribute = 'bg', highlight = 'TabLineFill' },
+      bg = { attribute = 'bg', highlight = 'TabLineFill' },
     },
     fill = {
-      guibg = { attribute = 'bg', highlight = 'TabLineFill' },
+      bg = { attribute = 'bg', highlight = 'TabLineFill' },
     },
     tab = {
-      guibg = { attribute = 'bg', highlight = 'TabLineFill' },
+      bg = { attribute = 'bg', highlight = 'TabLineFill' },
     },
     close_button = {
-      guibg = { attribute = 'bg', highlight = 'TabLineFill' },
+      bg = { attribute = 'bg', highlight = 'TabLineFill' },
     },
     separator = {
-      guibg = { attribute = 'bg', highlight = 'TabLineFill' },
+      bg = { attribute = 'bg', highlight = 'TabLineFill' },
     },
     modified = {
-      guifg = { attribute = 'fg', highlight = 'DiffAdd' },
+      fg = { attribute = 'fg', highlight = 'DiffAdd' },
     },
     modified_selected = {
-      guifg = { attribute = 'fg', highlight = 'DiffAdd' },
+      fg = { attribute = 'fg', highlight = 'DiffAdd' },
     },
   },
 }

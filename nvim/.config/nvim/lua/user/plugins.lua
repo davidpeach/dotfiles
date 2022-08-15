@@ -108,7 +108,12 @@ return packer.startup(function(use)
     use "saadparwaiz1/cmp_luasnip"
     use "hrsh7th/cmp-nvim-lsp"
 
-    use "L3MON4D3/LuaSnip"
+    use {
+        "L3MON4D3/LuaSnip",
+        config = function ()
+            require 'user.plugins.luasnip'
+        end
+    }
     use "rafamadriz/friendly-snippets"
 
     use "neovim/nvim-lspconfig"
