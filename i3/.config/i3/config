@@ -41,10 +41,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 for_window [class=".*"] border pixel 7
-smart_gaps on
-smart_borders on
-gaps inner 8
-gaps outer 0
+#smart_gaps on
+#smart_borders on
+# gaps inner 8
+# gaps outer 0
 # gaps inner all set 20
 # gaps outer current plus 5
 hide_edge_borders smart
@@ -156,9 +156,9 @@ for_window [class="kitty"] enable
 
 assign [class="kitty" instance="test1"] $ws1 
 assign [class="kitty" instance="test2"] $ws9 
-assign [class="Google-chrome"] $ws2 
+# assign [class="Google-chrome"] $ws2 
 assign [class="firefox"] $ws5
-assign [class="Slack"] $ws6
+# assign [class="Slack"] $ws6
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -263,4 +263,4 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 #color14 #7dcfff
 #color15 #c0caf5
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh 

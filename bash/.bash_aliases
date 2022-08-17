@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias v="nvim"
 
 alias be="v ~/.dotfiles/bash/.bash_aliases"
@@ -31,4 +33,4 @@ alias gp="git push"
 alias gpl="git pull"
 
 
-export PATH=$HOME/.bin:$HOME/.config/composer/vendor/bin:$PATH
+export PATH=$HOME/neovim/bin:$HOME/.bin:$HOME/.config/composer/vendor/bin:$PATH
