@@ -131,6 +131,8 @@ return packer.startup(function(use)
         end
     }
 
+    use 'BurntSushi/ripgrep'
+
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
     use 'nvim-telescope/telescope-file-browser.nvim'
