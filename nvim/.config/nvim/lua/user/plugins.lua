@@ -86,12 +86,12 @@ return packer.startup(function(use)
             require 'user.plugins.toggleterm'
         end
     }
-    use {
-        'kyazdani42/nvim-tree.lua',
-        config = function ()
-            require 'user.plugins.nvimtree'
-        end
-    }
+    -- use {
+    --     'kyazdani42/nvim-tree.lua',
+    --     config = function ()
+    --         require 'user.plugins.nvimtree'
+    --     end
+    -- }
 
     use "airblade/vim-rooter"
     use "farmergreg/vim-lastplace"
