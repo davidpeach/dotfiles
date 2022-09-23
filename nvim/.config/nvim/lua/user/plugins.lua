@@ -86,12 +86,12 @@ return packer.startup(function(use)
             require 'user.plugins.toggleterm'
         end
     }
-    use {
-        'kyazdani42/nvim-tree.lua',
-        config = function ()
-            require 'user.plugins.nvimtree'
-        end
-    }
+    -- use {
+    --     'kyazdani42/nvim-tree.lua',
+    --     config = function ()
+    --         require 'user.plugins.nvimtree'
+    --     end
+    -- }
 
     use "airblade/vim-rooter"
     use "farmergreg/vim-lastplace"
@@ -130,6 +130,8 @@ return packer.startup(function(use)
             require 'user.plugins.telescope'
         end
     }
+
+    use 'BurntSushi/ripgrep'
 
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
@@ -187,6 +189,8 @@ return packer.startup(function(use)
             require 'user.plugins.vim-test'
         end
     }
+
+    use 'diepm/vim-rest-console'
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

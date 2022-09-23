@@ -9,6 +9,8 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+keymap("n", "<leader><leader>pf", ":!vendor/bin/pint && vendor/bin/phpstan<CR>", opts)
+
 -- Easier window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
