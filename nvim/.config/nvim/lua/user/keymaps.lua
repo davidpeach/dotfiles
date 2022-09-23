@@ -44,4 +44,3 @@ keymap('n', '<Leader>tv', ':TestVisit<CR>', { silent = false })
 keymap('n', '<F1>', ':FloatermToggle scratch<CR>', opts)
 keymap('t', '<F1>', '<C-\\><C-n>:FloatermToggle scratch<CR>', opts)
 
-keymap('n', '<Leader>pp', ":PhpactorTransform<CR>d", { silent = false})

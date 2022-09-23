@@ -29,6 +29,14 @@ vim.cmd([[
     \     "type": "test",
     \     "alternate": "app/Console/Commands/{}.php",
     \   },
+    \   "app/Domains/*.php": {
+    \     "type": "source",
+    \     "alternate": "tests/Domains/{}Test.php",
+    \   },
+    \   "tests/Domains/*Test.php": {
+    \     "type": "test",
+    \     "alternate": "app/Domains/{}.php",
+    \   },
     \ }}
 ]])
 
