@@ -191,6 +191,9 @@ return packer.startup(function(use)
     }
 
     use 'diepm/vim-rest-console'
+    
+    use "EdenEast/nightfox.nvim"
+    
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
