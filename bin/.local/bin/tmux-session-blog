@@ -11,10 +11,6 @@ if [ $? != 0 ]; then
     tmux new-window -t $session
     tmux rename-window -t $session Code
     tmux send-keys -t $session 'nvim ~/Projects/davidpeach.me/' C-m
-    
-    tmux new-window -t $session
-    tmux rename-window -t $session Browser
-    tmux send-keys -t $session 'lynx http://localhost:3000' C-m
 fi
 
 tmux attach -t $session
