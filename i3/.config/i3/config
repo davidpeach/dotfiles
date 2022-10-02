@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 12
+font pango:JetBrainsMono Nerd Font 14
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -41,8 +41,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 for_window [class=".*"] border pixel 7
-#smart_gaps on
-#smart_borders on
+# smart_gaps on
+# smart_borders on
 # gaps inner 8
 # gaps outer 0
 # gaps inner all set 20
@@ -58,7 +58,7 @@ default_border pixel 4
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -115,18 +115,32 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
+# Terminal / Tmux
+set $ws1 "1:&#xf120;" 
+
+# Browsers (Chrome and Firefox)
+set $ws2 "2:&#xf269;"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
-set $ws6 "6"
+
+# Slack / Chat
+set $ws6 "6:&#xf198;"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# set $ws11 "11:tbc"
+# set $ws12 "12:tbc"
+# set $ws13 "13:tbc"
+# set $ws14 "14:tbc"
+# set $ws15 "15:tbc"
+# set $ws16 "16:tbc"
+# set $ws17 "17:tbc"
+# set $ws18 "18:tbc"
+# set $ws19 "19:tbc"
+# set $ws20 "20:tbc"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -152,55 +166,45 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+bindsym $mod+mod2+KP_1 exec kitty -e ~/my-script
+# bindsym $mod+mod2+KP_2 workspace number 12
+# bindsym $mod+mod2+KP_3 workspace number 13
+# bindsym $mod+mod2+KP_4 workspace number 14
+# bindsym $mod+mod2+KP_5 workspace number 15
+# bindsym $mod+mod2+KP_6 workspace number 16
+# bindsym $mod+mod2+KP_7 workspace number 17
+# bindsym $mod+mod2+KP_8 workspace number 18
+# bindsym $mod+mod2+KP_9 workspace number 19
+# bindsym $mod+mod2+KP_0 workspace number 20
+
+
+mode "work" {
+
+    bindsym F1 mode "default"
+}
+bindsym F1 mode "work"
+
 for_window [class="kitty"] enable
 
-assign [class="kitty" instance="test1"] $ws1 
-assign [class="kitty" instance="test2"] $ws9 
-# assign [class="Google-chrome"] $ws2 
-assign [class="firefox"] $ws5
+assign [class="kitty" instance="main"] $ws1 
+assign [title="Google Chrome"] $ws2 
+assign [class="firefox"] $ws2
 # assign [class="Slack"] $ws6
 
-# reload the configuration file
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym j resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
-        # bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#         status_command i3status
-#         position top
-# }
-
 
 bindsym $mod+Shift+x exec i3lock
 
@@ -209,58 +213,33 @@ workspace_auto_back_and_forth yes
 # exec_always xrandr --output HDMI-0 --primary --auto --right-of DVI-I-0
 
 # Set up the wallpaper
-exec_always feh --bg-fill ~/.wallpapers/hzd2.jpg
-exec_always compton --config ~/.config/compton.conf 
+# exec_always feh --bg-fill ~/.wallpapers/hzd2.jpg
+# exec_always compton --config ~/.config/compton.conf 
 
 # Start default programs
-exec kitty --name=test1
-exec kitty --name=test2
-
+exec kitty --name=main
 exec google-chrome-stable
 exec firefox
 #exec slack
 
-floating_minimum_size 75 x 50
-floating_maximum_size 800 x 1000
-client.focused          #4c7899 #285577 #ffffff #2e9ef4   #bb9af7
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+## Dracula
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
+client.background       #F8F8F2
 
-#background #24283b
-#foreground #c0caf5
-#selection_background #364A82
-#selection_foreground #c0caf5
-#url_color #73daca
-#cursor #c0caf5
+bar {
+        font pango:JetBrainsMono Nerd Font 14
+        strip_workspace_numbers yes
+        position top
+        status_command /bin/bumblebee-status \
+        -m spacer spacer pomodoro spacer amixer spacer memory spacer arch-update  \
+        -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
+        -t dracula-powerline
+    }
 
-## Tabs
-#active_tab_background #7aa2f7
-#active_tab_foreground #1f2335
-#inactive_tab_background #292e42
-#inactive_tab_foreground #545c7e
-##tab_bar_background #1D202F
-
-## normal
-#color0 #1D202F
-#color1 #f7768e
-#color2 #9ece6a
-#color3 #e0af68
-#color4 #7aa2f7
-#color5 #bb9af7
-#color6 #7dcfff
-#color7 #a9b1d6
-
-## bright
-#color8 #414868
-#color9 #f7768e
-#color10 #9ece6a
-#color11 #e0af68
-#color12 #7aa2f7
-#color13 #bb9af7
-#color14 #7dcfff
-#color15 #c0caf5
-
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
+bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-24' -p 'What is your pleasure..? '"
