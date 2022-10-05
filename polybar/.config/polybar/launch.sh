@@ -8,7 +8,13 @@ polybar-msg cmd quit
 
 # Launch bar1 and bar2
 echo "---" | tee -a /tmp/polybar1.log 
-polybar bar1 --config=$HOME/.config/polybar/config.ini 2>&1 | tee -a /tmp/polybar1.log & disown
-# polybar bar2 --config=$HOME/.config/polybar/config2.ini 2>&1 | tee -a /tmp/polybar2.log & disown
 
-echo "Bars launched..."
+# if [ -z ${MONITOR_ID_1+x} ]; then
+    polybar bar1 --config=$HOME/.config/polybar/config.ini 2>&1 | tee -a /tmp/polybar1.log & disown
+# fi
+
+# if [ ! -z ${MONITOR_ID_2+x} ]; then
+    # polybar bar2 --config=$HOME/.config/polybar/config2.ini 2>&1 | tee -a /tmp/polybar2.log & disown
+# fi
+
+# echo "Bars launched..."
