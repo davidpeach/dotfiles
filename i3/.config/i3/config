@@ -135,7 +135,7 @@ assign [class="Slack"] $ws6
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-24' -p 'What is your pleasure..? '"
+bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-16' -p 'What is your pleasure..? '"
 
 mode "resize" {
         bindsym h resize shrink width 10 px or 10 ppt
@@ -156,6 +156,10 @@ exec kitty --name=main
 exec google-chrome-stable
 exec firefox
 #exec slack
+
+exec ~/.local/bin/tmux-session-dotfiles
+exec ~/.local/bin/tmux-session-blog
+
 
 ## Dracula
 # class                 border  bground text    indicator child_border
