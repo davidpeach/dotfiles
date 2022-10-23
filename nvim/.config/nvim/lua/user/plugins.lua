@@ -93,7 +93,15 @@ return packer.startup(function(use)
     --     end
     -- }
 
-    use "airblade/vim-rooter"
+    use {
+        "airblade/vim-rooter",
+        setup = function()
+            vim.g.rooter_manual_only = 1
+        end,
+        config = function()
+            vim.cmd('Rooter')
+        end,
+    }
     use "farmergreg/vim-lastplace"
 
     use {
@@ -200,14 +208,25 @@ return packer.startup(function(use)
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
     }
- 
-    use({"adalessa/laravel.nvim",
-        requires = {
-            { "nvim-lua/plenary.nvim" },
-            { "rcarriga/nvim-notify" },
-            { "nvim-telescope/telescope.nvim" },
-        },
-    })
+
+    use {
+        'nvim-orgmode/orgmode',
+        config = function()
+            require('orgmode').setup{}
+        end
+    }
+
+    use "tpope/vim-dadbod"
+    use "tpope/vim-eunuch"
+    use "kristijanhusak/vim-dadbod-ui"
+
+    -- use({"adalessa/laravel.nvim",
+    --     requires = {
+    --         { "nvim-lua/plenary.nvim" },
+    --         { "rcarriga/nvim-notify" },
+    --         { "nvim-telescope/telescope.nvim" },
+    --     },
+    -- })
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
