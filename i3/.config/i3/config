@@ -121,9 +121,9 @@ bindsym $mod+mod2+KP_1 exec kitty -e ~/my-script
 
 mode "work" {
 
-    bindsym F1 mode "default"
+    bindsym $mod+F1 mode "default"
 }
-bindsym F1 mode "work"
+bindsym $mod+F1 mode "work"
 
 for_window [class="kitty"] enable
 
@@ -172,12 +172,13 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 
 bar {
-        font pango:JetBrainsMono Nerd Font 14
-        strip_workspace_numbers yes
-        position top
-        status_command /bin/bumblebee-status \
-        -m spacer datetime spacer pomodoro spacer amixer spacer memory spacer arch-update battery  \
-        -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
-        -t dracula-powerline
+    status_command i3blocks
+        # font pango:JetBrainsMono Nerd Font 14
+        # strip_workspace_numbers yes
+        # position top
+        # status_command /bin/bumblebee-status \
+        # -m spacer datetime spacer pomodoro spacer amixer spacer memory spacer arch-update battery  \
+        # -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
+        # -t dracula-powerline
     }
 
