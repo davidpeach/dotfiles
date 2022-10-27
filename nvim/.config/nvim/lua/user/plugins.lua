@@ -41,7 +41,6 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-  -- My plugins here
     use "wbthomason/packer.nvim" -- Have packer manage itself
 
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
@@ -86,12 +85,6 @@ return packer.startup(function(use)
             require 'user.plugins.toggleterm'
         end
     }
-    -- use {
-    --     'kyazdani42/nvim-tree.lua',
-    --     config = function ()
-    --         require 'user.plugins.nvimtree'
-    --     end
-    -- }
 
     use {
         "airblade/vim-rooter",
@@ -122,7 +115,6 @@ return packer.startup(function(use)
             require 'user.plugins.luasnip'
         end
     }
-    use "rafamadriz/friendly-snippets"
 
     use "neovim/nvim-lspconfig"
     use "williamboman/nvim-lsp-installer"
@@ -134,6 +126,7 @@ return packer.startup(function(use)
     }
     use {
         "nvim-telescope/telescope.nvim",
+        tag = '0.1.0',
         config = function()
             require 'user.plugins.telescope'
         end
@@ -146,14 +139,6 @@ return packer.startup(function(use)
     use 'nvim-telescope/telescope-file-browser.nvim'
 
     use "nvim-telescope/telescope-media-files.nvim"
-
-    use {
-        "luisiacc/gruvbox-baby", branch = "main"
-    }
-
-    use {
-        "folke/tokyonight.nvim"
-    }
 
     use {
         "norcalli/nvim-colorizer.lua"
@@ -200,20 +185,11 @@ return packer.startup(function(use)
 
     use 'diepm/vim-rest-console'
 
-    use "EdenEast/nightfox.nvim"
-
     use 'Mofiqul/dracula.nvim'
 
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
-
-    use {
-        'nvim-orgmode/orgmode',
-        config = function()
-            require('orgmode').setup{}
-        end
     }
 
     use "tpope/vim-dadbod"
