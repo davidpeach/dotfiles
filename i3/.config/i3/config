@@ -173,6 +173,7 @@ client.background       #F8F8F2
 
 bar {
     status_command i3blocks
+    position top
         # font pango:JetBrainsMono Nerd Font 14
         # strip_workspace_numbers yes
         # position top
