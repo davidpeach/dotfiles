@@ -117,13 +117,8 @@ return packer.startup(function(use)
     }
 
     use "neovim/nvim-lspconfig"
-    use "williamboman/nvim-lsp-installer"
-    use {
-        'voldikss/vim-floaterm',
-        config = function ()
-            require 'user.plugins.floaterm'
-        end
-    }
+    use { "williamboman/mason.nvim" }
+
     use {
         "nvim-telescope/telescope.nvim",
         tag = '0.1.0',
@@ -131,13 +126,9 @@ return packer.startup(function(use)
             require 'user.plugins.telescope'
         end
     }
-
     use 'BurntSushi/ripgrep'
-
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
     use 'nvim-telescope/telescope-file-browser.nvim'
-
     use "nvim-telescope/telescope-media-files.nvim"
 
     use {
@@ -165,16 +156,21 @@ return packer.startup(function(use)
             require('user.plugins.treesitter')
         end
     }
-
     use {
-        'phpactor/phpactor',
-        branch = 'master',
-        ft = 'php',
-        run = 'composer install --no-dev -o',
-        config = function()
-            require 'user.plugins.phpactor'
+        'voldikss/vim-floaterm',
+        config = function ()
+            require 'user.plugins.floaterm'
         end
     }
+    -- use {
+    --     'phpactor/phpactor',
+    --     branch = 'master',
+    --     ft = 'php',
+    --     run = 'composer install --no-dev -o',
+    --     config = function()
+    --         require 'user.plugins.phpactor'
+    --     end
+    -- }
 
     use {
         "vim-test/vim-test",
@@ -185,8 +181,8 @@ return packer.startup(function(use)
 
     use 'diepm/vim-rest-console'
 
-    use 'Mofiqul/dracula.nvim'
-
+    use 'arcticicestudio/nord-vim'
+    
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -196,13 +192,6 @@ return packer.startup(function(use)
     use "tpope/vim-eunuch"
     use "kristijanhusak/vim-dadbod-ui"
 
-    -- use({"adalessa/laravel.nvim",
-    --     requires = {
-    --         { "nvim-lua/plenary.nvim" },
-    --         { "rcarriga/nvim-notify" },
-    --         { "nvim-telescope/telescope.nvim" },
-    --     },
-    -- })
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
