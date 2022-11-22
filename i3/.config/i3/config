@@ -1,3 +1,5 @@
+set $terminal "kitty"
+
 # ================================
 # Set my MOD key to the Super Key.
 # ================================
@@ -6,7 +8,7 @@ set $mod Mod4
 # ===========================
 # Set the font and font size.
 # ===========================
-font pango:JetBrainsMono Nerd Font 14
+font pango:Hack Nerd Font 14
 
 # ============================================================
 # Hook up the screenlocking functionality to "i3lock" program.
@@ -237,8 +239,8 @@ exec slack
 # =============================================
 # Load up pre-configured TMUX sessions on boot.
 # =============================================
-exec ~/.local/bin/tmux-session-dotfiles
-exec ~/.local/bin/tmux-session-blog
+# exec ~/.local/bin/tmux-session-dotfiles
+# exec ~/.local/bin/tmux-session-blog
 
 # ==============================
 # Set the colour scheme colours.
@@ -257,9 +259,10 @@ client.background       #F8F8F2
 # Current bar: "i3blocks".
 # =========================
 bar {
-    status_command i3blocks
+    font pango:Hack 12
+    separator_symbol "  "
+    status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
     position top
-        # font pango:JetBrainsMono Nerd Font 14
         # strip_workspace_numbers yes
         # position top
         # status_command /bin/bumblebee-status \
