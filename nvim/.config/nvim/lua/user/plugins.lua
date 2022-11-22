@@ -116,8 +116,16 @@ return packer.startup(function(use)
         end
     }
 
-    use "neovim/nvim-lspconfig"
-    use { "williamboman/mason.nvim" }
+    use {
+        "neovim/nvim-lspconfig",
+        requires = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim"
+        },
+        config = function ()
+            require 'user.plugins.lsp'
+        end
+    }
 
     use {
         "nvim-telescope/telescope.nvim",

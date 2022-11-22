@@ -1,7 +1,6 @@
 require 'user.options'
 require 'user.keymaps'
 require 'user.plugins'
-require 'user.lsp'
 
 local colorscheme = "nord"
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
