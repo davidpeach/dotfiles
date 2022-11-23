@@ -3,34 +3,23 @@ if not status_ok then
     return
 end
 
-
 local actions = require "telescope.actions"
 
 telescope.setup {
     defaults = {
-
         path_display = { truncate = 1 },
         prompt_prefix = " ",
         selection_caret = " ",
         -- path_display = { "smart" },
         layout_config = {
+            -- previewer = false,
             prompt_position = 'top',
         },
         sorting_strategy = 'ascending',
-
+        file_ignore_patterns = { '.git/' },
         mappings = {
             i = {
-                ["<C-n>"] = actions.cycle_history_next,
-                ["<C-p>"] = actions.cycle_history_prev,
-
-                ["<C-j>"] = actions.move_selection_next,
-                ["<C-k>"] = actions.move_selection_previous,
-
                 ["<C-c>"] = actions.close,
-
-                ["<Down>"] = actions.move_selection_next,
-                ["<Up>"] = actions.move_selection_previous,
-
                 ["<CR>"] = actions.select_default,
                 ["<C-x>"] = actions.select_horizontal,
                 ["<C-v>"] = actions.select_vertical,
@@ -85,6 +74,24 @@ telescope.setup {
         },
     },
     pickers = {
+        find_files = {
+            previewer = false,
+            layout_config = {
+                width = 80,
+            },
+        },
+        buffers = {
+            previewer = false,
+            layout_config = {
+                width = 80,
+            },
+        },
+        oldfiles = {
+            previewer = false,
+            layout_config = {
+                width = 80,
+            }
+        }
         -- Default configuration for builtin pickers goes here:
         -- picker_name = {
         --   picker_config_key = value,
@@ -95,23 +102,15 @@ telescope.setup {
     },
     extensions = {
         media_files = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
             filetypes = {"png", "webp", "jpg", "jpeg"},
-            find_cmd = "rg" -- find command (defaults to `fd`)
+            find_cmd = "rg"
         },
         fzf = {
-            fuzzy = true, -- false will only do exact matching
-            override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = 'smart_case',
         },
-        -- Your extension configuration goes here:
-        -- extension_name = {
-        --   extension_config_key = value,
-        -- }
-        -- please take a look at the readme of the extension you want to configure
     },
 }
 
@@ -121,10 +120,11 @@ require('telescope').load_extension "fzf"
 require("telescope").load_extension "file_browser"
 require("telescope").load_extension "dap"
 
-vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-vim.keymap.set("n", "<leader>fa", "<cmd>Telescope find_files hidden=true no_ignore=true<cr>")
-vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-vim.keymap.set("n", "<leader>fu", "<cmd>Telescope buffers<cr>")
-vim.keymap.set("n", "<leader>fh", "<cmd>Telescope oldfiles<cr>")
-vim.keymap.set("n", "<leader>h", "<cmd>Telescope help_tags<cr>")
-vim.keymap.set("n", "<space>fb", ":Telescope file_browser<cr>")
+vim.keymap.set("n", "<leader>ff", [[<cmd>Telescope find_files<cr>]])
+vim.keymap.set("n", "<leader>fa", [[<cmd>Telescope find_files hidden=true no_ignore=true<cr>]])
+vim.keymap.set("n", "<leader>fg", [[<cmd>Telescope live_grep<cr>]])
+vim.keymap.set("n", "<leader>fu", [[<cmd>Telescope buffers<cr>]])
+vim.keymap.set("n", "<leader>fh", [[<cmd>Telescope oldfiles<cr>]])
+vim.keymap.set("n", "<leader>h",  [[<cmd>Telescope help_tags<cr>]])
+vim.keymap.set("n", "<space>fb",  [[<cmd>Telescope file_browser<cr>]])
+vim.keymap.set("n", "<leader>fs", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]])

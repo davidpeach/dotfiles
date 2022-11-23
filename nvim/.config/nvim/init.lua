@@ -17,4 +17,6 @@ require('lualine').setup({
 
 require 'colorizer'.setup()
 
+vim.keymap.set("n", "<leader>db", [[ :DBUIToggle<cr> ]])
 vim.keymap.set('n', '<leader><leader>x', ':w<cr> :source %<cr>')
+vim.keymap.set("n", "<leader><leader>r", ":enew<cr>:set ft=rest<cr>");

@@ -64,7 +64,18 @@ return packer.startup(function(use)
             require 'user.plugins.vim-projectionist'
         end
     }
-    use "tpope/vim-fugitive"
+
+    use {
+        "tpope/vim-fugitive",
+        config = function ()
+            vim.keymap.set("n", "<leader>go", [[ :Git<cr> ]])
+            vim.keymap.set("n", "<leader>gp", [[ :Git push<cr> ]])
+            vim.keymap.set("n", "<leader>gl", [[ :Git pull<cr> ]])
+            vim.keymap.set("n", "<leader>gb", [[ :Git blame<cr> ]])
+            vim.keymap.set("n", "<leader>gf", [[ :Git fetch<cr> ]])
+        end
+    }
+
     use {
         "lewis6991/gitsigns.nvim",
         config = function ()
@@ -72,12 +83,6 @@ return packer.startup(function(use)
         end
     }
     use "kyazdani42/nvim-web-devicons"
-    use {
-        "akinsho/bufferline.nvim",
-        config = function ()
-            require 'user.plugins.bufferline'
-        end
-    }
     use "moll/vim-bbye"
     use {
         "akinsho/toggleterm.nvim",
@@ -170,15 +175,15 @@ return packer.startup(function(use)
             require 'user.plugins.floaterm'
         end
     }
-    -- use {
-    --     'phpactor/phpactor',
-    --     branch = 'master',
-    --     ft = 'php',
-    --     run = 'composer install --no-dev -o',
-    --     config = function()
-    --         require 'user.plugins.phpactor'
-    --     end
-    -- }
+    use {
+        'phpactor/phpactor',
+        branch = 'master',
+        ft = 'php',
+        run = 'composer install --no-dev -o',
+        config = function()
+            require 'user.plugins.phpactor'
+        end
+    }
 
     use {
         "vim-test/vim-test",
@@ -198,7 +203,12 @@ return packer.startup(function(use)
 
     use "tpope/vim-dadbod"
     use "tpope/vim-eunuch"
-    use "kristijanhusak/vim-dadbod-ui"
+    use {
+        "kristijanhusak/vim-dadbod-ui",
+        config = function ()
+            -- vim.keymap.set("n", "<leader>do", [[ :DBUI<cr> ]])
+        end
+    }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
