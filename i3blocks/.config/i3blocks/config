@@ -1,0 +1,32 @@
+[volume]
+command=$SCRIPT_DIR/volume/volume
+LABEL=♪ 
+#LABEL=VOL 
+interval=once
+signal=10
+STEP=2%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+#NATURAL_MAPPING=0
+
+[iface]
+command=$SCRIPT_DIR/iface/iface
+#LABEL=wlan0:
+IFACE=wlp0s20f0u9
+#ADDRESS_FAMILY=inet6?
+color=#b48ead
+interval=10
+# set this to 1 to display the name of the connected WIFI interface instead of the IP address.
+display_wifi_name=1
+
+[kubernetes]
+command=$SCRIPT_DIR/kubernetes/kubernetes
+interval=10
+
+[time]
+command=$SCRIPT_DIR/time/time
+interval=1
+#TZ_FILE=~/.tz
+STRFTIME_FORMAT=%H:%M
+TZONES=$DEFAULT_TZ
+TZ_LABELS=
