@@ -36,6 +36,12 @@ require('lspconfig').sumneko_lua.setup({
 require('lspconfig').intelephense.setup({
     capabilities = capabilities
 });
+require('lspconfig').astro.setup({
+    capabilities = capabilities
+});
+require('lspconfig').tsserver.setup({
+    capabilities = capabilities
+});
 -- require('lspconfig')['phpactor'].setup({
 --     capabilities = capabilities,
 --     flags = {
