@@ -33,6 +33,11 @@ require('lspconfig').sumneko_lua.setup({
     },
 })
 
+require('lspconfig').volar.setup({
+    capabilities = capabilities,
+    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' }
+});
+
 require('lspconfig').intelephense.setup({
     capabilities = capabilities
 });

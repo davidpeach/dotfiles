@@ -169,12 +169,7 @@ return packer.startup(function(use)
             require('user.plugins.treesitter')
         end
     }
-    use {
-        'voldikss/vim-floaterm',
-        config = function ()
-            require 'user.plugins.floaterm'
-        end
-    }
+
     use {
         'phpactor/phpactor',
         branch = 'master',
