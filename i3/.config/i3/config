@@ -209,8 +209,8 @@ bindsym $mod+r mode "resize"
 # Opening certain programs in specific workspaces.
 # ================================================
 assign [class="kitty" instance="main"]  $ws1 
-assign [title="Google Chrome"]          $ws2 
 assign [class="firefox"]                $ws2
+assign [title="Google Chrome"]          $ws3 
 assign [class="Slack"]                  $ws6
 
 bindsym $mod+Shift+c reload
@@ -232,9 +232,8 @@ workspace_auto_back_and_forth yes
 # Automatically open these programs on boot.
 # ==========================================
 exec kitty --name=main
-exec google-chrome-stable
-exec firefox
-exec slack
+exec firefox --new-instance -P "Personal"
+exec firefox --new-instance -P "Google"
 
 # =============================================
 # Load up pre-configured TMUX sessions on boot.
@@ -271,3 +270,5 @@ bar {
         # -t dracula-powerline
     }
 
+exec setxkbmap gb
+exec always nitrogen --restore
