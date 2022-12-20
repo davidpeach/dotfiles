@@ -21,5 +21,8 @@ vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
 vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
 vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
 
-require('nvim-dap-virtual-text').setup()
+require('nvim-dap-virtual-text').setup {
+    enabled = true
+}
 require('dapui').setup()
+

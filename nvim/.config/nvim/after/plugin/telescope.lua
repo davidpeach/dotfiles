@@ -128,3 +128,4 @@ vim.keymap.set("n", "<leader>fh", [[<cmd>Telescope oldfiles<cr>]])
 vim.keymap.set("n", "<leader>h",  [[<cmd>Telescope help_tags<cr>]])
 vim.keymap.set("n", "<space>fb",  [[<cmd>Telescope file_browser<cr>]])
 vim.keymap.set("n", "<leader>fs", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]])
+
