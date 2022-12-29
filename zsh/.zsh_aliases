@@ -1,12 +1,17 @@
 
 alias v="nvim"
 
+# Edit and source zsh aliases.
 alias be="v ~/.dotfiles/zsh/.zsh_aliases"
 alias bs="source ~/.zshrc"
+
+# I3 config.
 alias i3c="v ~/.dotfiles/i3/.config/i3/config"
 
-alias vc="v ~/.config/nvim/init.vim"
+# Neovim Config.
+alias vc="v ~/.config/nvim/"
 
+# back, Back, BACK!
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."

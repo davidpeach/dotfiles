@@ -1,30 +1,50 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.o.backup = false
-vim.o.clipboard = "unnamedplus"
-vim.o.completeopt = "menuone,noselect"
-vim.o.fileencoding = "utf-8"
-vim.o.hlsearch = false
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.pumheight = 10
-vim.o.smartindent = true
-vim.o.splitbelow = true
-vim.o.splitright = true
-vim.o.swapfile = false
-vim.o.termguicolors = true
-vim.o.updatetime = 250
-vim.o.expandtab = true
-vim.o.shiftwidth = 4
-vim.o.tabstop = 4
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.numberwidth = 4
-vim.o.signcolumn = "yes"
-vim.o.scrolloff = 8
-vim.o.sidescrolloff = 8
-vim.o.guifont = "monospace:h17"
-vim.o.undofile = true
-vim.o.breakindent = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+
+vim.opt.smartindent = true
+
+vim.opt.wrap = false
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+vim.opt.wildmode = 'longest:full,full'
+
+vim.opt.termguicolors = true
+vim.opt.spell = true
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+vim.opt.list = true
+vim.opt.listchars = "tab:> ,trail:."
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+
+vim.opt.clipboard = "unnamedplus"
+
+vim.opt.confirm = true
+
+vim.opt.undofile = true
+vim.opt.backup = true
+vim.opt.backupdir:remove('.')
+
+vim.opt.completeopt = "menuone,noselect"
+vim.opt.fileencoding = "utf-8"
+vim.opt.hlsearch = false
+vim.opt.swapfile = false
+vim.opt.updatetime = 250
+vim.opt.signcolumn = "yes"
+vim.opt.guifont = "monospace:h17"
+vim.opt.breakindent = true
+
 vim.cmd [[colorscheme dracula]]
