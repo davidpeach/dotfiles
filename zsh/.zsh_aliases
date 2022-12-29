@@ -1,5 +1,5 @@
 
-alias v="nvim"
+alias v="~/nvim/bin/nvim"
 
 # Edit and source zsh aliases.
 alias be="v ~/.dotfiles/zsh/.zsh_aliases"
