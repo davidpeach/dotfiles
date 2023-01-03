@@ -279,4 +279,4 @@ bindsym $mod+mod2+KP_1 [instance="fm"] scratchpad show; move position center
 
 exec --no-startup-id kitty --name fm -e ranger
 
-include $HOME/.config/i3/includes/host-specific.conf
+include $HOME/.config/i3-includes/host-specific.conf
