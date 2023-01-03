@@ -203,6 +203,12 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+mode "scratchpads" {
+        bindsym 1 [instance="fm"] scratchpad show; move position center
+        bindsym Return mode "default"
+        bindsym $mod+Shift+s mode "default"
+}
+bindsym $mod+Shift+s mode "scratchpads"
 # for_window [class="kitty"] enable
 
 # ================================================
