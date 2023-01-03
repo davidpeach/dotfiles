@@ -111,10 +111,10 @@ bindsym $mod+c focus child
 # ===========
 
 ## Terminal
-set $ws1 "1:&#xf120;" 
+set $ws1 "1: &#xf120;  " 
 
 ## Browsers
-set $ws2 "2:&#xf269;"
+set $ws2 "2: &#xf269;  "
 
 ## UNSET
 set $ws3 "3"
@@ -126,7 +126,7 @@ set $ws4 "4"
 set $ws5 "5"
 
 ## Slack / Chat
-set $ws6 "6:&#xf198;"
+set $ws6 "6: &#xf198;  "
 
 ## UNSET
 set $ws7 "7"
@@ -171,7 +171,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # =============================================
 # Keybindings with NUM LOCK and keypad numbers.
 # =============================================
-bindsym $mod+mod2+KP_1 exec kitty -e ~/my-script
+# bindsym $mod+mod2+KP_1 exec kitty -e ~/my-script
 # bindsym $mod+mod2+KP_2 workspace number 12
 # bindsym $mod+mod2+KP_3 workspace number 13
 # bindsym $mod+mod2+KP_4 workspace number 14
@@ -258,11 +258,11 @@ client.background       #F8F8F2
 # Current bar: "i3blocks".
 # =========================
 bar {
-    font pango:Hack 12
+    font pango:JetBrainsMono Nerd Font 12
     separator_symbol "  "
     status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
     position top
-        # strip_workspace_numbers yes
+    strip_workspace_numbers yes
         # position top
         # status_command /bin/bumblebee-status \
         # -m spacer datetime spacer pomodoro spacer amixer spacer memory spacer arch-update battery  \
@@ -272,3 +272,11 @@ bar {
 
 exec setxkbmap gb
 exec always nitrogen --restore
+
+# Scratchpads
+
+bindsym $mod+mod2+KP_1 [instance="fm"] scratchpad show; move position center
+
+exec --no-startup-id kitty --name fm -e ranger
+
+include $HOME/.config/i3/includes/host-specific.conf
