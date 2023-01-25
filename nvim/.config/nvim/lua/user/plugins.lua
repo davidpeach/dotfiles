@@ -44,47 +44,24 @@ return packer.startup(function(use)
     use "wbthomason/packer.nvim" -- Have packer manage itself
 
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-    use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
     -- Debugging
-    use {
-        "mfussenegger/nvim-dap",
-        config = function ()
-            require 'user.plugins.nvim-dap'
-        end
-    }
+    use 'mfussenegger/nvim-dap'
     use "rcarriga/nvim-dap-ui"
     use "theHamsta/nvim-dap-virtual-text"
     use "nvim-telescope/telescope-dap.nvim"
 
     use "tpope/vim-commentary"
-    use {
-        "tpope/vim-projectionist",
-        config = function ()
-            require 'user.plugins.vim-projectionist'
-        end
-    }
-    use "tpope/vim-fugitive"
-    use {
-        "lewis6991/gitsigns.nvim",
-        config = function ()
-            require 'user.plugins.gitsigns'
-        end
-    }
+    use 'tpope/vim-projectionist'
+
+    use 'tpope/vim-fugitive'
+
+    use 'lewis6991/gitsigns.nvim'
     use "kyazdani42/nvim-web-devicons"
-    use {
-        "akinsho/bufferline.nvim",
-        config = function ()
-            require 'user.plugins.bufferline'
-        end
-    }
+
     use "moll/vim-bbye"
-    use {
-        "akinsho/toggleterm.nvim",
-        config = function ()
-            require 'user.plugins.toggleterm'
-        end
-    }
+
+    use 'akinsho/toggleterm.nvim'
 
     use {
         "airblade/vim-rooter",
@@ -97,73 +74,48 @@ return packer.startup(function(use)
     }
     use "farmergreg/vim-lastplace"
 
-    use {
-        "hrsh7th/nvim-cmp",
-        config = function ()
-            require 'user.plugins.cmp'
-        end
-    }
+    use 'hrsh7th/nvim-cmp'
     use "hrsh7th/cmp-buffer"
     use "hrsh7th/cmp-path"
     use "hrsh7th/cmp-cmdline"
     use "saadparwaiz1/cmp_luasnip"
     use "hrsh7th/cmp-nvim-lsp"
 
+    use 'L3MON4D3/LuaSnip'
+
     use {
-        "L3MON4D3/LuaSnip",
-        config = function ()
-            require 'user.plugins.luasnip'
-        end
+        "neovim/nvim-lspconfig",
+        requires = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            "j-hui/fidget.nvim",
+        }
     }
 
-    use "neovim/nvim-lspconfig"
-    use "williamboman/nvim-lsp-installer"
-    use {
-        'voldikss/vim-floaterm',
-        config = function ()
-            require 'user.plugins.floaterm'
-        end
-    }
-    use {
-        "nvim-telescope/telescope.nvim",
-        tag = '0.1.0',
-        config = function()
-            require 'user.plugins.telescope'
-        end
-    }
-
+    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
     use 'BurntSushi/ripgrep'
-
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
     use 'nvim-telescope/telescope-file-browser.nvim'
-
     use "nvim-telescope/telescope-media-files.nvim"
 
     use {
         "norcalli/nvim-colorizer.lua"
     }
 
-    use {
-        'windwp/nvim-autopairs',
-        config = function()
-            require('nvim-autopairs').setup()
-        end
-    }
+    use 'windwp/nvim-autopairs'
+
+    use 'folke/which-key.nvim'
 
     use {
-        "folke/which-key.nvim",
-        config = function()
-            require("which-key").setup {}
-        end
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            pcall(require('nvim-treesitter.install').update { with_sync = true })
+        end,
     }
 
-    use {
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
-        config = function ()
-            require('user.plugins.treesitter')
-        end
+    use { -- Additional text objects via treesitter
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        after = 'nvim-treesitter',
     }
 
     use {
@@ -171,22 +123,14 @@ return packer.startup(function(use)
         branch = 'master',
         ft = 'php',
         run = 'composer install --no-dev -o',
-        config = function()
-            require 'user.plugins.phpactor'
-        end
     }
 
-    use {
-        "vim-test/vim-test",
-        config = function ()
-            require 'user.plugins.vim-test'
-        end
-    }
+    use 'vim-test/vim-test'
 
     use 'diepm/vim-rest-console'
 
+    use 'arcticicestudio/nord-vim'
     use 'Mofiqul/dracula.nvim'
-
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -194,15 +138,8 @@ return packer.startup(function(use)
 
     use "tpope/vim-dadbod"
     use "tpope/vim-eunuch"
-    use "kristijanhusak/vim-dadbod-ui"
+    use 'kristijanhusak/vim-dadbod-ui'
 
-    -- use({"adalessa/laravel.nvim",
-    --     requires = {
-    --         { "nvim-lua/plenary.nvim" },
-    --         { "rcarriga/nvim-notify" },
-    --         { "nvim-telescope/telescope.nvim" },
-    --     },
-    -- })
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then

@@ -1,12 +1,17 @@
 
-alias v="nvim"
+alias v="~/nvim/bin/nvim"
 
+# Edit and source zsh aliases.
 alias be="v ~/.dotfiles/zsh/.zsh_aliases"
 alias bs="source ~/.zshrc"
+
+# I3 config.
 alias i3c="v ~/.dotfiles/i3/.config/i3/config"
 
-alias vc="v ~/.config/nvim/init.vim"
+# Neovim Config.
+alias vc="v ~/.config/nvim/"
 
+# back, Back, BACK!
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -14,19 +19,29 @@ alias ....="cd ../../.."
 alias c="clear"
 alias h="c && cd ~ && ls -lah"
 
+# NEOVIM
+alias nvim="~/nvim/bin/nvim"
+alias v="nvim"
+
 # TMUX
 alias tl="tmux ls"
 alias tk="tmux kill-session"
+alias ta="tmux attach"
 
+# Laravel
 alias a="php artisan"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias s="a serve"
+alias ae="a env:encrypt --env=production --key=$TF_VAR_laravel_encryption_secret --force"
+
+# Testing / Scanning project
 alias stan="./vendor/bin/phpstan analyse --memory-limit=2G"
-alias t="./vendor/bin/phpunit"
+alias phpunit="./vendor/bin/phpunit"
+alias t="phpunit"
 alias tf="t --filter="
 alias tt="stan && t"
-alias s="a serve"
-alias phpunit="./vendor/bin/phpunit"
 
+# Git
 alias g="git"
 alias gs="g status"
 alias ga="g add -p"
@@ -36,8 +51,8 @@ alias gc="git commit -S -m"
 alias gp="git push"
 alias gpl="git pull"
 
+# Fix permissions to my own from current directory recursively.
 alias fixp="sudo chown -R david:david ."
 
-alias startpostgres="pg_ctl -D /var/lib/postgres/data -l logfile start"
-
-export PATH=$HOME/.bin:$HOME/.config/composer/vendor/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH
+# Update executable PATH.
+export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
