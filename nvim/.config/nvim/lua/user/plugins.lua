@@ -43,25 +43,22 @@ packer.init {
 return packer.startup(function(use)
     use "wbthomason/packer.nvim" -- Have packer manage itself
 
-    use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-
-    -- Debugging
-    use 'mfussenegger/nvim-dap'
-    use "rcarriga/nvim-dap-ui"
-    use "theHamsta/nvim-dap-virtual-text"
-    use "nvim-telescope/telescope-dap.nvim"
-
     use "tpope/vim-commentary"
     use 'tpope/vim-projectionist'
-
+    use 'tpope/vim-surround'
+    use "tpope/vim-eunuch"
+    use "tpope/vim-unimpaired"
     use 'tpope/vim-fugitive'
+    use 'tpope/vim-repeat'
 
-    use 'lewis6991/gitsigns.nvim'
-    use "kyazdani42/nvim-web-devicons"
+    use 'sheerun/vim-polyglot'
 
-    use "moll/vim-bbye"
+    use 'jessarcher/vim-heritage'
 
-    use 'akinsho/toggleterm.nvim'
+
+    use "farmergreg/vim-lastplace"
+
+    use 'windwp/nvim-autopairs'
 
     use {
         "airblade/vim-rooter",
@@ -72,8 +69,40 @@ return packer.startup(function(use)
             vim.cmd('Rooter')
         end,
     }
-    use "farmergreg/vim-lastplace"
 
+  use 'karb94/neoscroll.nvim'
+
+  use 'famiu/bufdelete.nvim'
+
+
+  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+
+    -- Debugging
+    use 'mfussenegger/nvim-dap'
+    use "rcarriga/nvim-dap-ui"
+    use "theHamsta/nvim-dap-virtual-text"
+
+    use "nvim-telescope/telescope-dap.nvim"
+    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+    use { 'nvim-telescope/telescope-live-grep-args.nvim' }
+    use 'BurntSushi/ripgrep'
+    use 'nvim-telescope/telescope-file-browser.nvim'
+    use "nvim-telescope/telescope-media-files.nvim"
+
+
+
+
+
+
+
+
+    use 'lewis6991/gitsigns.nvim'
+    use "kyazdani42/nvim-web-devicons"
+
+    use "moll/vim-bbye"
+
+    use 'akinsho/toggleterm.nvim'
     use 'hrsh7th/nvim-cmp'
     use "hrsh7th/cmp-buffer"
     use "hrsh7th/cmp-path"
@@ -92,17 +121,11 @@ return packer.startup(function(use)
         }
     }
 
-    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
-    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-    use 'BurntSushi/ripgrep'
-    use 'nvim-telescope/telescope-file-browser.nvim'
-    use "nvim-telescope/telescope-media-files.nvim"
 
     use {
         "norcalli/nvim-colorizer.lua"
     }
 
-    use 'windwp/nvim-autopairs'
 
     use 'folke/which-key.nvim'
 
@@ -137,7 +160,6 @@ return packer.startup(function(use)
     }
 
     use "tpope/vim-dadbod"
-    use "tpope/vim-eunuch"
     use 'kristijanhusak/vim-dadbod-ui'
 
     -- Automatically set up your configuration after cloning packer.nvim
