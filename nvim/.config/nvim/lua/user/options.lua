@@ -14,6 +14,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 vim.opt.wildmode = 'longest:full,full'
+vim.opt.completeopt = "menuone,longest,preview"
 
 vim.opt.termguicolors = true
 vim.opt.spell = true
@@ -38,12 +39,11 @@ vim.opt.undofile = true
 vim.opt.backup = true
 vim.opt.backupdir:remove('.')
 
-vim.opt.completeopt = "menuone,noselect"
 vim.opt.fileencoding = "utf-8"
 vim.opt.hlsearch = false
 vim.opt.swapfile = false
 vim.opt.updatetime = 250
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes:2"
 vim.opt.guifont = "monospace:h17"
 vim.opt.breakindent = true
 

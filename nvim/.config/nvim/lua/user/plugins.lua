@@ -1,170 +1,157 @@
-local fn = vim.fn
-
--- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
 
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-  augroup packer_user_config
-  autocmd!
-  autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
+local packer_bootstrap = ensure_packer()
 
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
--- Have packer use a popup window
-packer.init {
+require('packer').reset()
+require('packer').init({
+  compile_path = vim.fn.stdpath('data')..'/site/plugin/packer_compiled.lua',
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "rounded" }
+      return require('packer.util').float({ border = 'solid' })
     end,
   },
+})
+
+local use = require('packer').use
+use "wbthomason/packer.nvim" -- Have packer manage itself
+
+use 'Mofiqul/dracula.nvim'
+
+use "tpope/vim-commentary"
+use 'tpope/vim-projectionist'
+use 'tpope/vim-surround'
+use "tpope/vim-eunuch"
+use "tpope/vim-unimpaired"
+use 'tpope/vim-repeat'
+use 'sheerun/vim-polyglot'
+use "farmergreg/vim-lastplace"
+use 'jessarcher/vim-heritage'
+-- use ({
+--   'whatyouhide/vim-textobj-xmlattr',
+--   requires = 'kana/vim-textobj-user'
+-- })
+-- use('christoomey/vim-tmux-navigator') -- investigate
+use {
+  "airblade/vim-rooter",
+  setup = function()
+    vim.g.rooter_manual_only = 1
+  end,
+  config = function()
+    vim.cmd('Rooter')
+  end,
+}
+use 'windwp/nvim-autopairs'
+use 'karb94/neoscroll.nvim'
+use 'famiu/bufdelete.nvim'
+use({
+  'AndrewRadev/splitjoin.vim',
+  config = function()
+    vim.g.splitjoin_html_attributes_bracket_on_new_line = 1
+    vim.g.splitjoin_trailing_comma = 1
+    vim.g.splitjoin_php_method_chain_full = 1
+  end,
+})
+use({
+  'sickill/vim-pasta',
+  config = function()
+    vim.g.pasta_disabled_filetypes = { 'fugitive' }
+  end,
+})
+use({
+  'nvim-telescope/telescope.nvim',
+  requires = {
+    'nvim-lua/plenary.nvim',
+    'kyazdani42/nvim-web-devicons',
+    'nvim-telescope/telescope-live-grep-args.nvim',
+    'nvim-telescope/telescope-file-browser.nvim',
+    'nvim-telescope/telescope-media-files.nvim',
+    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+  }
+})
+use 'BurntSushi/ripgrep'
+
+use 'lewis6991/gitsigns.nvim'
+use 'tpope/vim-fugitive'
+
+use {
+  "neovim/nvim-lspconfig",
+  requires = {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "j-hui/fidget.nvim",
+  }
+}
+use {
+  'hrsh7th/nvim-cmp',
+  requires = {
+    use "hrsh7th/cmp-nvim-lsp",
+    use "hrsh7th/cmp-nvim-lsp-signature-help",
+    use "hrsh7th/cmp-buffer",
+    use "hrsh7th/cmp-path",
+    use 'L3MON4D3/LuaSnip',
+    use "saadparwaiz1/cmp_luasnip",
+    use 'onsails/lspkind-nvim'
+  }
+}
+-- use "hrsh7th/cmp-cmdline"
+
+use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+
+-- Debugging
+use 'mfussenegger/nvim-dap'
+use "rcarriga/nvim-dap-ui"
+use "theHamsta/nvim-dap-virtual-text"
+use "nvim-telescope/telescope-dap.nvim"
+
+use "moll/vim-bbye"
+
+use 'akinsho/toggleterm.nvim'
+
+use {
+  "norcalli/nvim-colorizer.lua"
 }
 
--- Install your plugins here
-return packer.startup(function(use)
-  use "wbthomason/packer.nvim" -- Have packer manage itself
+use 'folke/which-key.nvim'
 
-  use "tpope/vim-commentary"
-  use 'tpope/vim-projectionist'
-  use 'tpope/vim-surround'
-  use "tpope/vim-eunuch"
-  use "tpope/vim-unimpaired"
-  use 'tpope/vim-fugitive'
-  use 'tpope/vim-repeat'
-
-  use 'sheerun/vim-polyglot'
-
-  use 'jessarcher/vim-heritage'
-
-
-  use "farmergreg/vim-lastplace"
-
-  use 'windwp/nvim-autopairs'
-
-  use {
-    "airblade/vim-rooter",
-    setup = function()
-      vim.g.rooter_manual_only = 1
-    end,
-    config = function()
-      vim.cmd('Rooter')
-    end,
+use {
+  'nvim-treesitter/nvim-treesitter',
+  run = function()
+    pcall(require('nvim-treesitter.install').update { with_sync = true })
+  end,
+  requires = {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    'nvim-treesitter/nvim-treesitter-textobjects',
   }
+}
 
-  use 'karb94/neoscroll.nvim'
+use {
+  'phpactor/phpactor',
+  branch = 'master',
+  ft = 'php',
+  run = 'composer install --no-dev -o',
+}
 
-  use 'famiu/bufdelete.nvim'
+use 'vim-test/vim-test'
 
+use 'diepm/vim-rest-console'
 
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+use {
+  'nvim-lualine/lualine.nvim',
+  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+}
 
-  -- Debugging
-  use 'mfussenegger/nvim-dap'
-  use "rcarriga/nvim-dap-ui"
-  use "theHamsta/nvim-dap-virtual-text"
+use "tpope/vim-dadbod"
+use 'kristijanhusak/vim-dadbod-ui'
 
-  use "nvim-telescope/telescope-dap.nvim"
-  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-  use { 'nvim-telescope/telescope-live-grep-args.nvim' }
-  use 'BurntSushi/ripgrep'
-  use 'nvim-telescope/telescope-file-browser.nvim'
-  use "nvim-telescope/telescope-media-files.nvim"
-
-
-
-
-
-
-
-
-  use 'lewis6991/gitsigns.nvim'
-  use "kyazdani42/nvim-web-devicons"
-
-  use "moll/vim-bbye"
-
-  use 'akinsho/toggleterm.nvim'
-  use 'hrsh7th/nvim-cmp'
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
-  use "saadparwaiz1/cmp_luasnip"
-  use "hrsh7th/cmp-nvim-lsp"
-
-  use 'L3MON4D3/LuaSnip'
-
-  use {
-    "neovim/nvim-lspconfig",
-    requires = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "j-hui/fidget.nvim",
-    }
-  }
-
-
-  use {
-    "norcalli/nvim-colorizer.lua"
-  }
-
-
-  use 'folke/which-key.nvim'
-
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end,
-    requires = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    }
-  }
-
-  use {
-    'phpactor/phpactor',
-    branch = 'master',
-    ft = 'php',
-    run = 'composer install --no-dev -o',
-  }
-
-  use 'vim-test/vim-test'
-
-  use 'diepm/vim-rest-console'
-
-  use 'arcticicestudio/nord-vim'
-  use 'Mofiqul/dracula.nvim'
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
-
-  use "tpope/vim-dadbod"
-  use 'kristijanhusak/vim-dadbod-ui'
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
-end)
-
+if packer_bootstrap then
+    require('packer').sync()
+end
