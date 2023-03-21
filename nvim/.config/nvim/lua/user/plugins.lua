@@ -22,18 +22,37 @@ require('packer').init({
 })
 
 local use = require('packer').use
-use "wbthomason/packer.nvim" -- Have packer manage itself
 
+-- Have Packer manage itself
+use "wbthomason/packer.nvim" 
+
+-- Theme "Dracula"
 use 'Mofiqul/dracula.nvim'
+use {
+  'nvim-lualine/lualine.nvim',
+  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+}
 
+-- Passive Plugins
+use "farmergreg/vim-lastplace"
+use 'windwp/nvim-autopairs'
+use 'karb94/neoscroll.nvim'
+use({
+  'sickill/vim-pasta',
+  config = function()
+    vim.g.pasta_disabled_filetypes = { 'fugitive' }
+  end,
+})
+use "norcalli/nvim-colorizer.lua"
+
+-- Utility Plugins
+use 'folke/which-key.nvim'
 use "tpope/vim-commentary"
 use 'tpope/vim-projectionist'
-use 'tpope/vim-surround'
+use "tpope/vim-surround"
 use "tpope/vim-eunuch"
 use "tpope/vim-unimpaired"
 use 'tpope/vim-repeat'
-use 'sheerun/vim-polyglot'
-use "farmergreg/vim-lastplace"
 use 'jessarcher/vim-heritage'
 -- use ({
 --   'whatyouhide/vim-textobj-xmlattr',
@@ -49,8 +68,6 @@ use {
     vim.cmd('Rooter')
   end,
 }
-use 'windwp/nvim-autopairs'
-use 'karb94/neoscroll.nvim'
 use 'famiu/bufdelete.nvim'
 use({
   'AndrewRadev/splitjoin.vim',
@@ -60,12 +77,8 @@ use({
     vim.g.splitjoin_php_method_chain_full = 1
   end,
 })
-use({
-  'sickill/vim-pasta',
-  config = function()
-    vim.g.pasta_disabled_filetypes = { 'fugitive' }
-  end,
-})
+
+-- Project Search
 use({
   'nvim-telescope/telescope.nvim',
   requires = {
@@ -79,9 +92,8 @@ use({
 })
 use 'BurntSushi/ripgrep'
 
-use 'lewis6991/gitsigns.nvim'
-use 'tpope/vim-fugitive'
-
+-- Code Plugins
+use 'sheerun/vim-polyglot'
 use {
   "neovim/nvim-lspconfig",
   requires = {
@@ -90,6 +102,17 @@ use {
     "j-hui/fidget.nvim",
   }
 }
+
+use {
+  'phpactor/phpactor',
+  branch = 'master',
+  ft = 'php',
+  run = 'composer install --no-dev -o',
+}
+-- Git Integration
+use 'lewis6991/gitsigns.nvim'
+use 'tpope/vim-fugitive'
+
 use {
   'hrsh7th/nvim-cmp',
   requires = {
@@ -106,21 +129,15 @@ use {
 
 use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
 
--- Debugging
+-- Code Debugging
 use 'mfussenegger/nvim-dap'
 use "rcarriga/nvim-dap-ui"
 use "theHamsta/nvim-dap-virtual-text"
 use "nvim-telescope/telescope-dap.nvim"
 
-use "moll/vim-bbye"
-
+-- Integrated Terminal
 use 'akinsho/toggleterm.nvim'
 
-use {
-  "norcalli/nvim-colorizer.lua"
-}
-
-use 'folke/which-key.nvim'
 
 use {
   'nvim-treesitter/nvim-treesitter',
@@ -133,21 +150,13 @@ use {
   }
 }
 
-use {
-  'phpactor/phpactor',
-  branch = 'master',
-  ft = 'php',
-  run = 'composer install --no-dev -o',
-}
 
+-- Testing Integration
 use 'vim-test/vim-test'
 
+-- Rest endpoint Integration
 use 'diepm/vim-rest-console'
 
-use {
-  'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-}
 
 use "tpope/vim-dadbod"
 use 'kristijanhusak/vim-dadbod-ui'
