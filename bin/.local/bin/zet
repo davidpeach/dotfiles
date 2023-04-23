@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+declare -a commands=(new date)
+
+if [[ -n $COMP_LINE ]]; then
+    for c in "${commands[@]}"; do
+        [[ ${c:0:${#2}} == "${2,,}" ]] && echo "$c"
+    done
+    exit
+fi
+
+_date() {
+    while read -r line; do
+        now=$(date +%Y%m%d%H%M%S)
+        line="${line} ($now)"
+        echo "$line"
+    done
+}
+
+_new() {
+    path_to_zet="$HOME/Zet"
+    now=$(date +%Y%m%d%H%M%S)
+    zetfilepath="$path_to_zet/$now"
+
+    if [[ -d $zetfilepath ]]; then
+        echo "Zet entry exists for this moment"
+        exit 1
+    fi
+
+    mkdir -p "$zetfilepath"
+    touch "$zetfilepath/README.md"
+
+    echo "# $* ($now)" | tee "$zetfilepath/README.md"
+
+    $EDITOR "$zetfilepath/README.md"
+}
+
+declare CMD="$1"; shift
+
+for c in "${commands[@]}"; do
+    [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
+done
