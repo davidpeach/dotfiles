@@ -26,11 +26,12 @@ local use = require('packer').use
 -- Have Packer manage itself
 use "wbthomason/packer.nvim" 
 
--- Theme "Dracula"
 use 'Mofiqul/dracula.nvim'
+
+-- use { "catppuccin/nvim", as = "catppuccin" }
 use {
   'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  requires = { opt = true, 'kyazdani42/nvim-web-devicons' }
 }
 
 -- Passive Plugins
@@ -160,6 +161,12 @@ use 'diepm/vim-rest-console'
 
 use "tpope/vim-dadbod"
 use 'kristijanhusak/vim-dadbod-ui'
+
+-- Wiki Wiki wild wild west
+use {
+  "vimwiki/vimwiki",
+}
+use "tools-life/taskwiki"
 
 if packer_bootstrap then
     require('packer').sync()

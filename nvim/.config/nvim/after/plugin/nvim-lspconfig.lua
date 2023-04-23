@@ -3,6 +3,7 @@ require('mason-lspconfig').setup({ automatic_installation = true })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+require('lspconfig').bashls.setup({ capabilities = capabilities })
 require('lspconfig').intelephense.setup({ capabilities = capabilities })
 require('lspconfig').volar.setup({
   capabilities = capabilities,
@@ -15,6 +16,7 @@ require('lspconfig').volar.setup({
   }
 })
 require('lspconfig').tailwindcss.setup({ capabilities = capabilities })
+require('lspconfig').cssls.setup({ capabilities = capabilities })
 
 vim.keymap.set('n', '<Leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>')
 vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')

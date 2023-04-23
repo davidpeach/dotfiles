@@ -47,4 +47,4 @@ vim.opt.signcolumn = "yes:2"
 vim.opt.guifont = "monospace:h17"
 vim.opt.breakindent = true
 
-vim.cmd [[colorscheme dracula]]
+-- vim.cmd [[colorscheme dracula]]

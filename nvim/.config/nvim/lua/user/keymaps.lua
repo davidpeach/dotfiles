@@ -13,6 +13,6 @@ vim.keymap.set("n", "<Right>", ":bn<cr>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Down>", ":bd<cr>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Up>", ":%bd<cr>", { noremap = true, silent = true })
 
--- Open Netrw file drawer.
-vim.keymap.set("n", "<leader>1", ":Lex 30<cr>", { noremap = true, silent = true })
+-- Macros
+vim.keymap.set("n", "<leader>1", ":r !date +\\%Y\\%m\\%d\\%H\\%M\\%S<cr>ddPjdd", { noremap = true, silent = true })
 
