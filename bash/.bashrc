@@ -29,7 +29,7 @@
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
+export SHELL=/usr/bin/bash
 # set variable identifying the chroot you work in (used in the prompt below)
 #if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 #    debian_chroot=$(cat /etc/debian_chroot)
@@ -71,7 +71,7 @@
 #*)
 #    ;;
 #esac
-
+export PS1="\[\033[38;5;39m\]\u\[$(tput sgr0)\]\[\033[38;5;11m\]@\[$(tput sgr0)\]\[\033[38;5;39m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;78m\]\w\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;80m\]>\[$(tput sgr0)\] \[$(tput sgr0)\]"
 # enable color support of ls and also add handy aliases
 #if [ -x /usr/bin/dircolors ]; then
 #    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
