@@ -1,3 +1,33 @@
+# ===============================
+# Let's fix things for KDE Plasma
+# ===============================
+exec --no-startup-id wmctrl -c Plasma
+for_window [title="Desktop @ QRect.*"] kill; floating enable; border none
+for_window [class="yakuake"] floating enable;
+for_window [class="lattedock"] floating enable;
+for_window [class="plasmashell"] floating enable;
+for_window [class="Kmix"] floating enable; border none
+for_window [class="kruler"] floating enable; border none
+for_window [class="Plasma"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
+no_focus [class="plasmashell" window_type="notification"] 
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_role="About"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [instance="__scratchpad"] floating enable
+
+
+# =============================
+# Set the terminal to be kitty.
+# =============================
 set $terminal "kitty"
 
 # ================================
@@ -18,17 +48,15 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # =============================================================
 # Start the network manager system tray in top right of screen.
 # =============================================================
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 
 # =========================================
-# Use pactl to adjust volume in PulseAudio.
-# todo: I need to get the key bindings to work here.
+# Bind KDE audio controls to function keys.
 # =========================================
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"
+bindsym XF86AudioLowerVolume exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"
+bindsym XF86AudioMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mute"
+bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "mic_mute"
 
 # ===========================================================
 # Set which button to hold for moving floating windows about.
@@ -58,7 +86,7 @@ bindsym $mod+Return exec "kitty"
 # ================================
 # BINDING :: Kill focussed window.
 # ================================
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # ============================================
 # Navigating windows in the current workspace.
@@ -79,7 +107,7 @@ bindsym $mod+Shift+l move right
 # ============================================================
 # Create a new container with it's split in a given direction.
 # ============================================================
-bindsym $mod+x split h
+bindsym $mod+\ split h
 bindsym $mod+y split v
 
 # ===============================
@@ -111,34 +139,64 @@ bindsym $mod+c focus child
 # ===========
 
 ## Terminal
-set $ws1 "1: &#xf120;  " 
+set $ws1 "1: " 
 
 ## Browsers
-set $ws2 "2: &#xf269;  "
+set $ws2 "2: "
 
 ## UNSET
-set $ws3 "3"
+set $ws3 "3: "
 
 ## UNSET
-set $ws4 "4"
+set $ws4 "4: "
 
 ## UNSET
-set $ws5 "5"
+set $ws5 "5: "
 
-## Slack / Chat
-set $ws6 "6: &#xf198;  "
+## UNSET
+set $ws6 "6: "
 
 ## UNSET
 set $ws7 "7"
 
 ## UNSET
-set $ws8 "8"
+set $ws8 "8:󱋊 "
 
 ## UNSET
 set $ws9 "9"
 
 ## UNSET
 set $ws10 "10"
+
+## Slack
+set $ws11 "11: "
+
+## UNSET
+set $ws12 "12"
+
+## UNSET
+set $ws13 "13"
+
+## UNSET
+set $ws14 "14"
+
+## UNSET
+set $ws15 "15"
+
+## UNSET
+set $ws16 "16"
+
+## UNSET
+set $ws17 "17"
+
+## UNSET
+set $ws18 "18"
+
+## UNSET
+set $ws19 "19"
+
+## UNSET
+set $ws20 "20"
 
 # ==============================
 # Navigation between workspaces.
@@ -154,6 +212,16 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
+bindsym $mod+F1 workspace number $ws11
+bindsym $mod+F2 workspace number $ws12
+bindsym $mod+F3 workspace number $ws13
+bindsym $mod+F4 workspace number $ws14
+bindsym $mod+F5 workspace number $ws15
+bindsym $mod+F6 workspace number $ws16
+bindsym $mod+F7 workspace number $ws17
+bindsym $mod+F8 workspace number $ws18
+bindsym $mod+F9 workspace number $ws19
+bindsym $mod+F10 workspace number $ws20
 # ==============================
 # Moving containers between workspaces.
 # ==============================
@@ -182,46 +250,32 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # bindsym $mod+mod2+KP_9 workspace number 19
 # bindsym $mod+mod2+KP_0 workspace number 20
 
-# =======================================
-# Different modes for different... needs.
-# =======================================
-mode "work" {
-
-    # Mode specific bindings will go here.
-
-    bindsym $mod+F1 mode "default"
-}
-bindsym $mod+F1 mode "work"
-
 mode "resize" {
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym j resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-        bindsym Return mode "default"
-        bindsym $mod+r mode "default"
+  bindsym h resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym j resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
-
-mode "scratchpads" {
-        bindsym 1 [instance="fm"] scratchpad show; move position center
-        bindsym Return mode "default"
-        bindsym $mod+Shift+s mode "default"
-}
-bindsym $mod+Shift+s mode "scratchpads"
-# for_window [class="kitty"] enable
 
 # ================================================
 # Opening certain programs in specific workspaces.
 # ================================================
 assign [class="kitty" instance="main"]  $ws1 
-assign [class="firefox"]                $ws2
-assign [title="Google Chrome"]          $ws3 
+assign [class="firefox"] $ws2
+assign [title="Google Chrome"] $ws3 
+assign [instance="ranger"]              $ws4
 assign [class="Slack"]                  $ws6
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# ===========================================
+# Use plasma's logout screen instead of i3's.
+# ===========================================
+bindsym $mod+Shift+e exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-16' -p 'What is your pleasure..? '"
 
 # =======================
@@ -234,19 +288,6 @@ bindsym $mod+Shift+x exec i3lock
 # ======================================================================
 workspace_auto_back_and_forth yes
 
-# ==========================================
-# Automatically open these programs on boot.
-# ==========================================
-exec kitty --name=main
-exec firefox --new-instance -P "Personal"
-exec firefox --new-instance -P "Google"
-
-# =============================================
-# Load up pre-configured TMUX sessions on boot.
-# =============================================
-# exec ~/.local/bin/tmux-session-dotfiles
-# exec ~/.local/bin/tmux-session-blog
-
 # ==============================
 # Set the colour scheme colours.
 # Current Theme : "Dracula".
@@ -257,32 +298,14 @@ client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
 client.background       #F8F8F2
 
-# =========================
-# Status bar configuration.
-# Current bar: "i3blocks".
-# =========================
-bar {
-    font pango:JetBrainsMono Nerd Font 12
-    separator_symbol "  "
-    status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks
-    position top
-    strip_workspace_numbers yes
-        # position top
-        # status_command /bin/bumblebee-status \
-        # -m spacer datetime spacer pomodoro spacer amixer spacer memory spacer arch-update battery  \
-        # -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
-        # -t dracula-powerline
-    }
+gaps inner 10px
+smart_gaps on
+
+exec_always ~/.config/polybar/launch.sh
 
 exec setxkbmap gb
-exec always nitrogen --restore
-
-# Scratchpads
-
-bindsym $mod+mod2+KP_1 [instance="fm"] scratchpad show; move position center
-
-exec --no-startup-id kitty --name fm -e ranger
-
-include $HOME/.config/i3-includes/host-specific.conf
+exec_always feh --bg-fill ~/Downloads/Resident\ Evil\ Village_20210517184052.png
+exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
