@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-declare -a commands=(new date)
+declare -a commands=(date new latest)
 
 if [[ -n $COMP_LINE ]]; then
     for c in "${commands[@]}"; do
@@ -35,8 +35,12 @@ _new() {
     $EDITOR "$zetfilepath/README.md"
 }
 
-declare CMD="$1"; shift
+_latest() {
+    found=$(find "$HOME/Zet" -maxdepth 1 -regex "$HOME/Zet/[0-9]*" | tail -n 1)
+    $EDITOR "$found/README.md"
+}
 
+declare CMD="$1"; shift
 for c in "${commands[@]}"; do
     [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
 done
