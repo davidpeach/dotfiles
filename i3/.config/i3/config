@@ -276,6 +276,10 @@ bindsym $mod+Shift+r restart
 # Use plasma's logout screen instead of i3's.
 # ===========================================
 bindsym $mod+Shift+e exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
+
+# ============
+# Custom Dmenu 
+# ============
 bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-16' -p 'What is your pleasure..? '"
 
 # =======================
