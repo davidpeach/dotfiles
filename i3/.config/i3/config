@@ -307,5 +307,4 @@ smart_gaps on
 exec_always ~/.config/polybar/launch.sh
 
 exec setxkbmap gb
-exec_always feh --bg-fill ~/Downloads/Resident\ Evil\ Village_20210517184052.png
 exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0

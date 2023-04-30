@@ -14,13 +14,16 @@ alias ....="cd ../../.."
 
 alias c="clear"
 alias h="c && cd ~ && ls -lah"
+alias x="exit"
 
 # =============
 # Tmux Aliases.
 # =============
-alias t="tmux"
-alias tk="t kill-server"
-alias ta="t attach"
+alias t="tmux-switcher ~"
+alias tk="tmux kill-server"
+alias ta="tmux attach"
+
+alias d="docker"
 
 # ================
 # Laravel Aliases.
@@ -40,6 +43,8 @@ alias gpl="git pull"
 alias lynx="~/.local/bin/lynx"
 alias "?"="duck"
 
+export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-test"
+export GEOMIQ_GIT_HOST="geomiqgitlab"
 
 export EDITOR="nvim"
 export VISUAL="nvim"

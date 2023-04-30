@@ -28,16 +28,13 @@ use "wbthomason/packer.nvim"
 
 use 'Mofiqul/dracula.nvim'
 
--- use { "catppuccin/nvim", as = "catppuccin" }
 use {
   'nvim-lualine/lualine.nvim',
   requires = { opt = true, 'kyazdani42/nvim-web-devicons' }
 }
 
 -- Passive Plugins
-use "farmergreg/vim-lastplace"
 use 'windwp/nvim-autopairs'
-use 'karb94/neoscroll.nvim'
 use({
   'sickill/vim-pasta',
   config = function()
@@ -55,11 +52,6 @@ use "tpope/vim-eunuch"
 use "tpope/vim-unimpaired"
 use 'tpope/vim-repeat'
 use 'jessarcher/vim-heritage'
--- use ({
---   'whatyouhide/vim-textobj-xmlattr',
---   requires = 'kana/vim-textobj-user'
--- })
--- use('christoomey/vim-tmux-navigator') -- investigate
 use {
   "airblade/vim-rooter",
   setup = function()
@@ -69,15 +61,6 @@ use {
     vim.cmd('Rooter')
   end,
 }
-use 'famiu/bufdelete.nvim'
-use({
-  'AndrewRadev/splitjoin.vim',
-  config = function()
-    vim.g.splitjoin_html_attributes_bracket_on_new_line = 1
-    vim.g.splitjoin_trailing_comma = 1
-    vim.g.splitjoin_php_method_chain_full = 1
-  end,
-})
 
 -- Project Search
 use({
@@ -126,19 +109,12 @@ use {
     use 'onsails/lspkind-nvim'
   }
 }
--- use "hrsh7th/cmp-cmdline"
-
-use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
 
 -- Code Debugging
 use 'mfussenegger/nvim-dap'
 use "rcarriga/nvim-dap-ui"
 use "theHamsta/nvim-dap-virtual-text"
 use "nvim-telescope/telescope-dap.nvim"
-
--- Integrated Terminal
-use 'akinsho/toggleterm.nvim'
-
 
 use {
   'nvim-treesitter/nvim-treesitter',
