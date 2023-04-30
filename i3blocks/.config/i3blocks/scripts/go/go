@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-go version 2>/dev/null | awk '{ gsub("go", ""); print $2 }'
