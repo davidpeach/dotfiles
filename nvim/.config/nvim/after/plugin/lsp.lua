@@ -8,6 +8,8 @@ lsp.ensure_installed({
 	'lua_ls',
 	'intelephense',
 	'ansiblels',
+    'dockerls',
+    'gopls',
 })
 
 local cmp = require("cmp")

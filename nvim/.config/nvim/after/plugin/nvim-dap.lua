@@ -2,7 +2,7 @@ local dap = require('dap')
 dap.adapters.php = {
   type = 'executable',
   command = 'node',
-  args = { os.getenv("HOME") .. "/nvim/vscode-php-debug/out/phpDebug.js" }
+  args = { os.getenv("HOME") .. "/vscode-php-debug/out/phpDebug.js" }
 }
 
 dap.configurations.php = {
@@ -12,18 +12,38 @@ dap.configurations.php = {
     name = 'Listen for Xdebug',
     port = 9003,
     pathMappings = {
-      ["/var/www/html"] = "/home/david/Projects/finance-backend"
+      ["/var/www/html"] = "${workspaceFolder}"
     }
   }
 }
 
+
+
+dap.adapters.go = {
+  type = 'executable';
+  command = 'node';
+  args = {os.getenv('HOME') .. '/vscode-go/dist/debugAdapter.js'};
+}
+dap.configurations.go = {
+  {
+    type = 'go';
+    name = 'Debug';
+    request = 'launch';
+    showLog = false;
+    program = "${file}";
+    dlvToolPath = vim.fn.exepath('dlv')  -- Adjust to where delve is installed
+  },
+}
+
+
+
 -- Keybindings
-vim.keymap.set("n", "<F8>", ":lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set("n", "<F9>", ":lua require'dap'.continue()<CR>")
-vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
-vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
-vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
-vim.keymap.set("n", "<leader>dg", ":lua require'dapui'.toggle()<CR>")
+vim.keymap.set("n", ",b", ":lua require'dap'.toggle_breakpoint()<CR>")
+vim.keymap.set("n", ",c", ":lua require'dap'.continue()<CR>")
+vim.keymap.set("n", ",v", ":lua require'dap'.step_over()<CR>")
+vim.keymap.set("n", ",i", ":lua require'dap'.step_into()<CR>")
+vim.keymap.set("n", ",o", ":lua require'dap'.step_out()<CR>")
+vim.keymap.set("n", ",t", ":lua require'dapui'.toggle()<CR>")
 
 require('nvim-dap-virtual-text').setup {
     enabled = true
@@ -108,4 +128,5 @@ require("dapui").setup({
     max_value_lines = 100, -- Can be integer or nil.
   }
 })
+
 
