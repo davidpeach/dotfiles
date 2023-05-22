@@ -3,19 +3,16 @@
 sudo pacman -S \
     alsa-utils \
     btop \
-    dbeaver \
     firefox \
     fzf \
-    i3-gaps \
+    go \
+    i3 \
     kitty \
-    leiningen \
     libva-utils \
     make \
     neovim \
     nitrogen \
-    nnn \
     picom \
-    polybar \
     signal-desktop \
     stow \
     tree \
@@ -23,27 +20,29 @@ sudo pacman -S \
     xorg \
     xorg-xinit
 
+# install nvim-dap requirements for:
+# - php
+# - go
+
+# Install golang packages with go install for neovim
+# - gofumpt
+# - go delve
 # YAY
 # slack-desktop
 
-joinByChar() {
-  local IFS="$1"
-  shift
-  joined="$*"
-}
+ln -s ~/dots/.bashrc ~/.bashrc
+
+[[ -e $HOME/.config ]] || mkdir -p "$HOME/.config"
+
+rm -rf "$HOME"/.config/i3
+ln -s "$HOME/dots/i3" "$HOME"/.config/
+
+rm -rf "$HOME"/.config/nvim
+ln -s "$HOME/dots/nvim" "$HOME"/.config/
+
 
 declare -a stowFolders=(
      bash
      bin
-#     dmenu-scripts
-     i3
      kitty
-     nvim
-     polybar
-#     xmonad
-     zsh
 )
-
-joinByChar ' ' "${stowFolders[@]}"
-
-stow --restow $joined
