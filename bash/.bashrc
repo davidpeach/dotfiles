@@ -1,27 +1,3 @@
-#                       ,---.           ,---.
-#                      / /"`.\.--"""--./,'"\ \
-#                      \ \    _       _    / /
-#                       `./  / __   __ \  \,'
-#                        /    /_O)_(_O\    \
-#                        |  .-'  ___  `-.  |
-#                     .--|       \_/       |--.
-#                   ,'    \   \   |   /   /    `.
-#                  /       `.  `--^--'  ,'       \
-#               .-"""""-.    `--.___.--'     .-"""""-.
-#          .---/         \------------------/         \---.
-#          | .-\         /------------------\         /-. |
-#          | |  `-`--`--'                    `--'--'-'  | |
-#          | |         "David Peach's .bashrc"          | |
-#          | |__________________________________________| |
-#          |______________________________________________|
-#                     )__________|__|__________(
-#                    |            ||            |
-#                    |____________||____________|
-#                      ),-----.(      ),-----.(  
-#                    ,'   ==.   \    /   .==   `.
-#                   /            )  (            \
-#                   `==========='    `==========='
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -77,15 +53,17 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\] \$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# Directories
+# ======================
+export DOTFILES=$HOME/.dotfiles/
+export WORKCODE=$HOME/Geomiq/code/
+export PROJECTS=$HOME/Projects/
 
 # Aliases
 # ============
@@ -144,6 +122,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Make GPG and pinentry work nicely.
+# -----------------------------------------------------------------------------
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 
 
@@ -158,7 +140,19 @@ complete -C lupo lupo
 # ================
 # Export Variables
 # ================
-export PATH=$HOME/.bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
+
+# CDPATH
+# Tell bash about nested directories that I care about.
+# Then I can `cd folder` and it will look in those nested directories.
+export CDPATH=\
+./:\
+$DOTFILES:\
+$WORKCODE:\
+$PROJECTS:\
+$HOME
+
+
+export PATH=$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
 export EDITOR="nvim"
 export VISUAL="nvim"
 export SHELL=/usr/bin/bash
