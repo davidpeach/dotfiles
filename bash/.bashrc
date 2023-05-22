@@ -168,3 +168,8 @@ export NVM_DIR="$HOME/.nvm"
 # ----------------------------------------------------------
 export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-test"
 export GEOMIQ_GIT_HOST="geomiqgitlab"
+export USE_GKE_GCLOUD_AUTH_PLUGIN="True"
+
+if [[ -f /home/david/.secrets ]]; then
+    source /home/david/.secrets
+fi
