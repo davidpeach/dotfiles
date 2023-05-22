@@ -1,35 +1,10 @@
-# ===============================
-# Let's fix things for KDE Plasma
-# ===============================
-exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop @ QRect.*"] kill; floating enable; border none
-for_window [class="yakuake"] floating enable;
-for_window [class="lattedock"] floating enable;
-for_window [class="plasmashell"] floating enable;
-for_window [class="Kmix"] floating enable; border none
-for_window [class="kruler"] floating enable; border none
-for_window [class="Plasma"] floating enable; border none
-for_window [class="Klipper"] floating enable; border none
-for_window [class="krunner"] floating enable; border none
-for_window [class="Plasmoidviewer"] floating enable; border none
-for_window [title="plasma-desktop"] floating enable; border none
-for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
-no_focus [class="plasmashell" window_type="notification"] 
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_role="About"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
-for_window [instance="__scratchpad"] floating enable
-
-
+bindsym printt+i exec kitty -c "v ~/.bashrc"
 # =============================
 # Set the terminal to be kitty.
 # =============================
 set $terminal "kitty"
 
+bindsym $mod+v exec touch test.txt
 # ================================
 # Set my MOD key to the Super Key.
 # ================================
@@ -48,7 +23,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # =============================================================
 # Start the network manager system tray in top right of screen.
 # =============================================================
-# exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
 
 # =========================================
 # Bind KDE audio controls to function keys.
@@ -63,6 +38,8 @@ bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /compon
 # ===========================================================
 floating_modifier $mod
 
+gaps inner 20px
+smart_gaps on
 # =====================================
 # Set the border width for all windows.
 # =====================================
@@ -81,7 +58,7 @@ default_border pixel 4
 # ===============================
 # BINDING :: Open Kitty terminal.
 # ===============================
-bindsym $mod+Return exec "kitty"
+bindsym $mod+Return exec $terminal
 
 # ================================
 # BINDING :: Kill focussed window.
@@ -107,8 +84,8 @@ bindsym $mod+Shift+l move right
 # ============================================================
 # Create a new container with it's split in a given direction.
 # ============================================================
-bindsym $mod+\ split h
-bindsym $mod+y split v
+bindsym $mod+backslash split h
+bindsym $mod+minus split v
 
 # ===============================
 # Toggle fullscreen for a window.
@@ -116,11 +93,9 @@ bindsym $mod+y split v
 bindsym $mod+f fullscreen toggle
 
 # ==================================
-# Toggle the layout for a container.
+# Cycle through layouts for a container.
 # ==================================
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+e layout toggle splith splitv tabbed
 
 # ==================================================
 # Toggle floating for a focused container / window.
@@ -131,72 +106,28 @@ bindsym $mod+space focus mode_toggle
 # ========================================================
 # Switch focus between a window and it's parent container.
 # ========================================================
-bindsym $mod+a focus parent
-bindsym $mod+c focus child
+bindsym $mod+w focus parent
+bindsym $mod+s focus child
+
+bindsym $mod+F3 exec --no-startup-id ~/.local/bin/wgstatus
+bindsym $mod+slash exec --no-startup-id dunstctl close-all
+
+bindsym $mod+b exec --no-startup-id ~/.local/bin/batstatus
+bindsym $mod+t exec --no-startup-id ~/.local/bin/whatsthetimemrwolf
 
 # ===========
 # Workspaces.
 # ===========
-
-## Terminal
 set $ws1 "1: " 
-
-## Browsers
 set $ws2 "2: "
-
-## UNSET
 set $ws3 "3: "
-
-## UNSET
 set $ws4 "4: "
-
-## UNSET
 set $ws5 "5: "
-
-## UNSET
 set $ws6 "6: "
-
-## UNSET
 set $ws7 "7"
-
-## UNSET
 set $ws8 "8:󱋊 "
-
-## UNSET
 set $ws9 "9"
-
-## UNSET
 set $ws10 "10"
-
-## Slack
-set $ws11 "11: "
-
-## UNSET
-set $ws12 "12"
-
-## UNSET
-set $ws13 "13"
-
-## UNSET
-set $ws14 "14"
-
-## UNSET
-set $ws15 "15"
-
-## UNSET
-set $ws16 "16"
-
-## UNSET
-set $ws17 "17"
-
-## UNSET
-set $ws18 "18"
-
-## UNSET
-set $ws19 "19"
-
-## UNSET
-set $ws20 "20"
 
 # ==============================
 # Navigation between workspaces.
@@ -206,22 +137,12 @@ bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
 bindsym $mod+4 workspace number $ws4
 bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
+bindsym $mod+z workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
-bindsym $mod+F1 workspace number $ws11
-bindsym $mod+F2 workspace number $ws12
-bindsym $mod+F3 workspace number $ws13
-bindsym $mod+F4 workspace number $ws14
-bindsym $mod+F5 workspace number $ws15
-bindsym $mod+F6 workspace number $ws16
-bindsym $mod+F7 workspace number $ws17
-bindsym $mod+F8 workspace number $ws18
-bindsym $mod+F9 workspace number $ws19
-bindsym $mod+F10 workspace number $ws20
 # ==============================
 # Moving containers between workspaces.
 # ==============================
@@ -238,17 +159,9 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # =============================================
 # Keybindings with NUM LOCK and keypad numbers.
+# Example for possible future use.
 # =============================================
 # bindsym $mod+mod2+KP_1 exec kitty -e ~/my-script
-# bindsym $mod+mod2+KP_2 workspace number 12
-# bindsym $mod+mod2+KP_3 workspace number 13
-# bindsym $mod+mod2+KP_4 workspace number 14
-# bindsym $mod+mod2+KP_5 workspace number 15
-# bindsym $mod+mod2+KP_6 workspace number 16
-# bindsym $mod+mod2+KP_7 workspace number 17
-# bindsym $mod+mod2+KP_8 workspace number 18
-# bindsym $mod+mod2+KP_9 workspace number 19
-# bindsym $mod+mod2+KP_0 workspace number 20
 
 mode "resize" {
   bindsym h resize shrink width 10 px or 10 ppt
@@ -260,6 +173,13 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+#mode "work" {
+#    bindsym Return mode "default"
+#    bindsym $mod+Right mode "default"
+#}
+#bindsym $mod+Right mode "work"; exec notify-send -u critical "Test"
+
+
 # ================================================
 # Opening certain programs in specific workspaces.
 # ================================================
@@ -267,15 +187,10 @@ assign [class="kitty" instance="main"]  $ws1
 assign [class="firefox"] $ws2
 assign [title="Google Chrome"] $ws3 
 assign [instance="ranger"]              $ws4
-assign [class="Slack"]                  $ws6
+#assign [class="Slack"]                  $ws6
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-
-# ===========================================
-# Use plasma's logout screen instead of i3's.
-# ===========================================
-bindsym $mod+Shift+e exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 # ============
 # Custom Dmenu 
@@ -291,7 +206,7 @@ bindsym $mod+Shift+x exec i3lock
 # Press same workspace key binding to go back to the previous workspace.
 # ======================================================================
 workspace_auto_back_and_forth yes
-
+focus_follows_mouse no
 # ==============================
 # Set the colour scheme colours.
 # Current Theme : "Dracula".
@@ -305,10 +220,24 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
 
-gaps inner 10px
-smart_gaps on
 
-exec_always ~/.config/polybar/launch.sh
+# # =========================
+# # Status bar configuration.
+# # Current bar: "i3status".
+# # =========================
+# bar {
+#     font pango:JetBrainsMono Nerd Font 12
+#     separator_symbol "  "
+#     status_command i3status
+#     position top
+#     strip_workspace_numbers yes
+#         # position top
+#         # status_command /bin/bumblebee-status \
+#         # -m spacer datetime spacer pomodoro spacer amixer spacer memory spacer arch-update battery  \
+#         # -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
+#         # -t dracula-powerline
+#     }
 
 exec setxkbmap gb
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
