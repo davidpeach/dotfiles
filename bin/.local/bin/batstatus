@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+declare bat_0_level=$(cat /sys/class/power_supply/BAT0/capacity)
+declare bat_1_level=$(cat /sys/class/power_supply/BAT1/capacity)
+declare message=$(printf "Battery 0: %s%%\nBattery 1: %s%%" "$bat_0_level" "$bat_1_level")
+
+dunstify "Battery Status" "$message" -h string:x-dunst-stack-tag:peachbatstatus

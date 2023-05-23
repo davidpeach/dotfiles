@@ -1,0 +1,28 @@
+#!/bin/bash
+
+export DISPLAY=:0
+export XAUTHORITY=/home/david/.Xauthority
+
+HDMI='DP-2-1'
+DISPLAY_PORT='DP-2-2'
+LAPTOP='eDP-1'
+
+DISPLAY_PORT_STATE=$(xrandr | grep "$DISPLAY_PORT connected")
+HDMI_STATE=$(xrandr | grep "$HDMI connected")
+
+if [[ -n $DISPLAY_PORT_STATE ]]; then
+    xrandr --output $HDMI --off
+    xrandr --output $LAPTOP --off
+    xrandr --output $DISPLAY_PORT --mode 3840x2160 --rate 60
+elif [[ -n $HDMI_STATE ]]; then
+    xrandr --output $DISPLAY_PORT --off
+    xrandr --output $LAPTOP --off
+    xrandr --output $HDMI --auto
+else
+    xrandr --output $DISPLAY_PORT --off
+    xrandr --output $HDMI --off
+    xrandr --output $LAPTOP --auto
+fi
+
+setxkbmap gb
+
