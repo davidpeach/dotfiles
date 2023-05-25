@@ -167,6 +167,8 @@ export NVM_DIR="$HOME/.nvm"
 # Work stuff
 # ----------------------------------------------------------
 export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-test"
+export GEOMIQ_PROJECT_ROOT="$HOME/Geomiq/code/site-app-wt"
+#export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-wt"
 export GEOMIQ_GIT_HOST="geomiqgitlab"
 export USE_GKE_GCLOUD_AUTH_PLUGIN="True"
 

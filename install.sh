@@ -30,19 +30,22 @@ sudo pacman -S \
 # YAY
 # slack-desktop
 
-ln -s ~/dots/.bashrc ~/.bashrc
+rm ~/.bashrc
+ln -s ~/dots/.bashrc ~/
+
+rm ~/.xinitrc
+ln -s ~/dots/.xinitrc ~/
 
 [[ -e $HOME/.config ]] || mkdir -p "$HOME/.config"
 
 rm -rf "$HOME"/.config/i3
-ln -s "$HOME/dots/i3" "$HOME"/.config/
+ln -s "$HOME/dots/i3" "$HOME"/.config/i3
 
 rm -rf "$HOME"/.config/nvim
-ln -s "$HOME/dots/nvim" "$HOME"/.config/
+ln -s "$HOME/dots/nvim" "$HOME"/.config/nvim
 
+rm -rf "$HOME"/.config/kitty
+ln -s "$HOME/dots/kitty" "$HOME"/.config/kitty
 
-declare -a stowFolders=(
-     bash
-     bin
-     kitty
-)
+rm -rf "$HOME"/.local/bin
+ln -s "$HOME/dots/scripts" "$HOME"/.local/bin

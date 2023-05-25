@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+set -e
+
+connected=$(sudo wg show)
+
+if [[ -z $connected ]]; then
+    sudo wg-quick up geomiq
+    notify-send "WireGuard Connected."
+else
+    sudo wg-quick down geomiq
+    notify-send "WireGuard disconnected."
+fi
+
