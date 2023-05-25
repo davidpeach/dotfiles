@@ -31,3 +31,7 @@ vim.g.VtrOrientation = "h"
 vim.g.VtrPercentage = 25
 vim.g.VtrClearSequence = ""
 
+vim.o.swapfile = "off"
+vim.o.dir = "~/tmp"
+vim.o.backup = false
+vim.o.writebackup = false

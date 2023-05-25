@@ -3,7 +3,7 @@
 declare -A map
 map['david']='HOME'
 map['davidpeach_me']='WEBSITE'
-map['site-app']='WORK'
+map['site-app']='GEO_PLATFORM'
 map['_dotfiles']='DOTFILES'
 map['bin']='BIN'
 map['Projects']='PROJECTS'

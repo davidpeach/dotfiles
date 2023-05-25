@@ -17,7 +17,7 @@ return require('packer').startup(function(use)
 	use({ 'rose-pine/neovim', as = 'rose-pine' })
 
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-    use({ 'theprimeagen/harpoon' })
+--    use({ 'theprimeagen/harpoon' })
     use({ 'mbbill/undotree' })
     use({ 'tpope/vim-fugitive' })
     use ({
@@ -62,5 +62,19 @@ return require('packer').startup(function(use)
     use ({ 'christoomey/vim-tmux-runner' })
 
     use ({ 'vim-test/vim-test' })
-
+    use ({ 'tpope/vim-commentary' })
+    use ({ 'tpope/vim-dadbod' })
+    use ({ 'kristijanhusak/vim-dadbod-ui' })
+    use ({
+        "folke/which-key.nvim",
+        config = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+            require("which-key").setup {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    })
 end)

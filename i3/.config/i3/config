@@ -1,10 +1,8 @@
-bindsym printt+i exec kitty -c "v ~/.bashrc"
 # =============================
 # Set the terminal to be kitty.
 # =============================
 set $terminal "kitty"
 
-bindsym $mod+v exec touch test.txt
 # ================================
 # Set my MOD key to the Super Key.
 # ================================
@@ -173,11 +171,13 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#mode "work" {
-#    bindsym Return mode "default"
-#    bindsym $mod+Right mode "default"
-#}
-#bindsym $mod+Right mode "work"; exec notify-send -u critical "Test"
+mode "work" {
+    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:peachmode
+    bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:peachmode
+
+    bindsym v exec --no-startup-id ~/.local/bin/wgtoggle
+}
+bindsym $mod+Right mode "work"; exec dunstify -u critical "Work" "work-related bindings" -h string:x-dunst-stack-tag:peachmode
 
 
 # ================================================
