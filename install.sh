@@ -1,5 +1,8 @@
-#!/bin/bash
+#!/usr/bin/bash
 
+INSTALL=true
+
+if
 sudo pacman -S \
     alsa-utils \
     btop \
@@ -30,22 +33,28 @@ sudo pacman -S \
 # YAY
 # slack-desktop
 
-rm ~/.bashrc
-ln -s ~/dots/.bashrc ~/
+if [[ ! -e $HOME/.local/bin ]]; then
+	mkdir -p $HOME/.local/bin
+fi
 
-rm ~/.xinitrc
-ln -s ~/dots/.xinitrc ~/
+if [[ ! -e $HOME/.config ]]; then
+	mkdir -p $HOME/.config 
+fi
 
-[[ -e $HOME/.config ]] || mkdir -p "$HOME/.config"
 
-rm -rf "$HOME"/.config/i3
-ln -s "$HOME/dots/i3" "$HOME"/.config/i3
+declare stow_directories=(
+	home
+	i3
+	kitty
+	lynx
+	nvim
+	picom
+	pictures
+	ranger
+	scripts
+	tmux
+)
 
-rm -rf "$HOME"/.config/nvim
-ln -s "$HOME/dots/nvim" "$HOME"/.config/nvim
-
-rm -rf "$HOME"/.config/kitty
-ln -s "$HOME/dots/kitty" "$HOME"/.config/kitty
-
-rm -rf "$HOME"/.local/bin
-ln -s "$HOME/dots/scripts" "$HOME"/.local/bin
+for folder in "$stow_directories[@]"; do
+	stow -R "$folder"
+done
