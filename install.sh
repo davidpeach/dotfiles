@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-INSTALL=true
+INSTALL_PACKAGES=false
 
-if
+if [[ "$INSTALL_PACKAGES" == true ]]; then
 sudo pacman -S \
     alsa-utils \
     btop \
@@ -22,7 +22,7 @@ sudo pacman -S \
     wget \
     xorg \
     xorg-xinit
-
+fi
 # install nvim-dap requirements for:
 # - php
 # - go
@@ -43,6 +43,7 @@ fi
 
 
 declare stow_directories=(
+	bin
 	home
 	i3
 	kitty
@@ -51,10 +52,9 @@ declare stow_directories=(
 	picom
 	pictures
 	ranger
-	scripts
 	tmux
 )
 
-for folder in "$stow_directories[@]"; do
-	stow -R "$folder"
+for folder in "${stow_directories[@]}"; do
+	stow "$folder" --dotfiles
 done
