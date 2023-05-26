@@ -14,8 +14,6 @@ return require('packer').startup(function(use)
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
-	use({ 'rose-pine/neovim', as = 'rose-pine' })
-
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 --    use({ 'theprimeagen/harpoon' })
     use({ 'mbbill/undotree' })
@@ -40,7 +38,8 @@ return require('packer').startup(function(use)
             {'L3MON4D3/LuaSnip'},     -- Required
         }
     })
-
+    use ({ 'hrsh7th/cmp-buffer' })
+    use ({ 'hrsh7th/cmp-path' })
     use ({ 'jose-elias-alvarez/null-ls.nvim' })
 
     use ({ 'mfussenegger/nvim-dap' })
@@ -77,4 +76,17 @@ return require('packer').startup(function(use)
             }
         end
     })
+    use ({ 'sheerun/vim-polyglot' })
+    use ({ 'lewis6991/gitsigns.nvim' })
+    use ({ 'norcalli/nvim-colorizer.lua' })
+  use 'Mofiqul/dracula.nvim'
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    setup = {
+        options = {
+            theme ='dracula.nvim'
+        }
+    }
+  }
 end)
