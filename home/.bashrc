@@ -164,6 +164,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# Task Warrior
+TASKRC=~/.config/task/taskrc 
+TASKDATA=~/.task
+
 # Work stuff
 # ----------------------------------------------------------
 export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-test"
