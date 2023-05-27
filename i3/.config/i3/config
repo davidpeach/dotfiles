@@ -241,3 +241,4 @@ client.background       #F8F8F2
 exec setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
+exec_always feh --bg-scale ~/.config/wallpapers/hzd3.jpg
