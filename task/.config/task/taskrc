@@ -41,3 +41,6 @@ hooks.location=~/.config/task/hooks
 
 context.workflow.read=+workflow
 context.workflow.write=+workflow
+context.finances.read=+finances
+context.finances.write=+finances
+context=workflow

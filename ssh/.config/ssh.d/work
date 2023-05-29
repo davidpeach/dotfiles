@@ -1,0 +1,4 @@
+Host workgitlab
+    HostName gitlab.com
+    IdentitiesOnly yes
+    IdentityFile ~/work/.ssh/id_rsa
