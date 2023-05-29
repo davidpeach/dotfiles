@@ -69,6 +69,8 @@ export PROJECTS=$HOME/Projects/
 # ============
 alias v="nvim"
 
+alias t="tmux attach || tmux"
+
 # Quick config editing
 # --------------------------------------------
 alias be="v ~/.dotfiles/bash/.bashrc"
