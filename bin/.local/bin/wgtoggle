@@ -5,10 +5,10 @@ set -e
 connected=$(sudo wg show)
 
 if [[ -z $connected ]]; then
-    sudo wg-quick up geomiq
+    sudo wg-quick up work
     notify-send "WireGuard Connected."
 else
-    sudo wg-quick down geomiq
+    sudo wg-quick down work
     notify-send "WireGuard disconnected."
 fi
 
