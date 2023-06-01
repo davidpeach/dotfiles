@@ -82,11 +82,13 @@ return require('packer').startup(function(use)
   use 'Mofiqul/dracula.nvim'
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     setup = {
         options = {
             theme ='dracula.nvim'
         }
     }
   }
+
+  use ({ 'diepm/vim-rest-console' })
 end)
