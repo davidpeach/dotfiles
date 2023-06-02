@@ -1,0 +1,393 @@
+#!/usr/bin/bash
+
+declare -a commands=(
+    init 
+    index 
+    convert_file 
+    build 
+    push 
+    post 
+    edit
+    watch
+    live
+)
+
+if [[ -n $COMP_LINE ]]; then
+    for c in "${commands[@]}"; do
+        [[ ${c:0:${#2}} == "${2,,}" ]] && echo "$c"
+    done
+    exit
+fi
+
+declare LUPO_DIRECTORY="$PWD"
+declare CONFIG_FILE=$LUPO_DIRECTORY/.config
+declare SRC_DIRECTORY="$LUPO_DIRECTORY/src"
+declare HTML_DIRECTORY="$LUPO_DIRECTORY/html"
+declare TMP_DIRECTORY="$LUPO_DIRECTORY/tmp"
+declare TEMPLATES_DIRECTORY="$LUPO_DIRECTORY/templates"
+
+declare remote_user=""
+declare ssh_identity_key=""
+declare domain_name=""
+declare remote_directory=""
+
+_parse_configuration() {
+    readarray -t lines < "$LUPO_DIRECTORY/.config"
+    for line in "${lines[@]}"; do
+        [[ -z "$line" ]] && continue
+        readarray -d ":" config_line <<< "$line"
+
+        key="${config_line[0]/:/}"
+        value="${config_line[1]//\"/}"
+        value="${value## }"
+        value="${value//$'\n'}"
+
+        case $key in
+            remote_user) remote_user="$value";;
+            ssh_identity_key) ssh_identity_key="$value";;
+            domain_name) domain_name="$value";;
+            remote_directory) remote_directory="$value";;
+        esac
+
+    done
+}
+
+_refresh_dir() {
+    if [[ -d $1 ]]; then
+        rm -rf "$1"
+    fi
+    mkdir -p "$1"
+}
+
+_refresh_file() {
+    if [[ -e "$1" ]]; then
+        rm "$1"
+    fi
+    touch "$1"
+    echo -e "${2:-}" > "$1"
+}
+
+_refresh_vars_template_file() {
+    string=""
+    string+="#!/usr/bin/bash\n"
+    string+="export title=\"\$title\$\"\n"
+    string+="export date=\"\$date\$\"\n"
+    string+="\$if(tags)\$\n"
+    string+="export tags=\"\$for(tags)\$\$tags\$\$sep\$,\$endfor\$\"\n"
+    string+="\$endif\$\n"
+
+    _refresh_file "$TMP_DIRECTORY/.vars.template.bash" "$string"
+}
+
+_create_dir_if_not_exists() {
+    if [[ ! -d $1 ]]; then
+        mkdir -p "$1"
+    fi
+}
+
+_create_file_if_not_exists() {
+    if [[ ! -f $1 ]]; then
+        touch "$1"
+    fi
+}
+
+# ====================================================
+# Work out the tag name from the full
+# path to the tag markdown file.
+# ----------------------------------------------------
+_get_tag_name_from_tag_source_file_path() {
+    tag="${1##"$TMP_DIRECTORY"/tags/}"
+    readarray -d "/" tagarray <<< "$tag"
+    tag="${tagarray[0]/"-"/" "/}"
+    tag="${tag^}"
+    echo "${tag[0]%%/}"
+}
+
+
+_get_target_file_path_from_src_file_path() {
+    full_src_path="$(realpath $1)"
+    target_file_path="${full_src_path##"$2"}"
+    if [[ ${1: -2} == "md" ]]; then
+      target_file_path="${target_file_path%%md}"
+      target_file_path="$target_file_path"html
+    fi
+    echo "$HTML_DIRECTORY$target_file_path"
+}
+
+_get_uri_from_src_file() {
+    filepath=${1##"$SRC_DIRECTORY"}
+    echo "${filepath%%index.md}"
+}
+
+# ====================================================
+# Create the frontmatter metadata from the
+# contents of the yaml filepath given.
+# ----------------------------------------------------
+_build_frontmatter() {
+    readarray -d ";" -t posts < "$1"
+
+    frontmatter="---\n"
+    frontmatter+="title: \"$2 \"\n"
+    frontmatter+="posts:\n"
+
+    for post in "${posts[@]}"; do
+        mapfile -t post <<< "$post"
+
+        first_loop=true
+        for line in "${post[@]}"; do
+            if [[ -z $line ]]; then
+                continue
+            fi
+
+            if [[ "$first_loop" == true ]]; then
+                frontmatter+="      - $line\n"
+            else
+                frontmatter+="        $line\n"
+            fi
+            first_loop=false
+        done
+    done
+
+    frontmatter+="---\n\n"
+    echo "$frontmatter"
+}
+
+_confirm_init_ran() {
+    for folder in html src templates tmp; do
+
+        if [[ ! -d "$LUPO_DIRECTORY/$folder" ]]; then
+            echo "Missing directories. Please initialize your project with lupo init" && exit 1
+        fi
+    done
+}
+
+_create_tag_src_pages() {
+    while IFS="" read -r filename; do
+        tag_name=$(_get_tag_name_from_tag_source_file_path "$filename")
+        frontmatter=$(_build_frontmatter "$filename" "$tag_name")
+        _refresh_file "${filename/".yml"/".md"}" "$frontmatter"
+    done < <(find "$TMP_DIRECTORY/tags/" -iname "*.yml" -type f)
+}
+
+_create_archive_page() {
+    filename="$TMP_DIRECTORY/all/index.yml"
+    frontmatter=$(_build_frontmatter "$filename"  "Archive")
+    _refresh_file "${filename/".yml"/".md"}" "$frontmatter"
+}
+
+_determine_template() {
+  end_of_path="${1##"$HTML_DIRECTORY"/}"
+  [[ "${end_of_path:0:4}" == "tags" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
+  [[ "${end_of_path:0:3}" == "all" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
+
+  echo "$TEMPLATES_DIRECTORY/default.template.html"
+}
+
+_convert_file() {
+  if [[ ${1: -3} == "yml" ]]; then
+    return
+  fi
+
+  if [[ ${1: -4} == "bash" ]]; then
+    return
+  fi
+
+  target_file_path=$(_get_target_file_path_from_src_file_path "$1" "${2:-"$SRC_DIRECTORY"}")
+
+  _create_dir_if_not_exists "$(dirname "$target_file_path")"
+
+  template=$(_determine_template "$target_file_path")
+
+  if [[ ${1##*.} == "md" ]]; then
+    pandoc -s "$1" \
+      -t 'html' \
+      -o "$target_file_path" \
+      --template="$template" 2> /dev/null
+
+    return
+  fi
+
+  cp -r "$1" "$target_file_path"
+}
+
+_init() {
+    _create_dir_if_not_exists "$SRC_DIRECTORY"
+    _create_dir_if_not_exists "$HTML_DIRECTORY"
+    _create_dir_if_not_exists "$TEMPLATES_DIRECTORY"
+    _create_dir_if_not_exists "$TMP_DIRECTORY"
+    _create_file_if_not_exists "$CONFIG_FILE"
+    if [[ -e "$HOME/.local/share/lupo/templates"  ]]; then
+        cp -r "$HOME/.local/share/lupo/templates" "$LUPO_DIRECTORY"
+    fi
+
+    if [[ -f "$HOME/.local/share/lupo/style.css" ]]; then
+        cp "$HOME/.local/share/lupo/style.css" "$SRC_DIRECTORY"
+    fi
+}
+
+_index() {
+    clear
+    echo -e "Indexing website now\n"
+    sleep 0.5
+
+    _refresh_dir "$TMP_DIRECTORY"
+    _refresh_dir "$TMP_DIRECTORY/tags/"
+    _refresh_vars_template_file
+
+    count=0
+
+    while IFS="" read -r src_file; do
+
+        count=$(($count + 1))
+        uri=$(_get_uri_from_src_file "$src_file")
+
+        pandoc -s "$src_file" -o "$TMP_DIRECTORY/.vars.bash" --template="$TMP_DIRECTORY/.vars.template.bash" 2> /dev/null
+
+        [[ ! -e $TMP_DIRECTORY/.vars.bash ]] && exit 1
+
+        source "$TMP_DIRECTORY/.vars.bash"
+
+        all_yml_file_path="$TMP_DIRECTORY/all/index.yml"
+        _create_dir_if_not_exists "$(dirname "$all_yml_file_path")"
+        _create_file_if_not_exists "$all_yml_file_path"
+
+        for field in title uri date; do
+            if [[ -n "${!field}" ]]; then
+                echo -e "$field: \"${!field}\"\n" >> "$all_yml_file_path"
+            else
+              echo -e "$field: \"\"\n" >> "$all_yml_file_path"
+            fi
+        done
+        echo -e ";\n" >> "$all_yml_file_path"
+
+        IFS=',' read -r -a tags <<< "$tags"
+
+        for tag in "${tags[@]}"; do
+            tag_yml_filepath="$TMP_DIRECTORY/tags/$tag/index.yml"
+            _create_dir_if_not_exists "$(dirname "$tag_yml_filepath")"
+            _create_file_if_not_exists "$tag_yml_filepath"
+
+            for field in title uri date; do
+                if [[ -n "${!field}" ]]; then
+                    echo -e "$field: \"${!field}\"\n" >> "$tag_yml_filepath"
+                else
+                    echo -e "$field: \"\"\n" >> "$tag_yml_filepath"
+                fi
+            done
+            echo -e ";\n" >> "$tag_yml_filepath"
+        done
+        tags=()
+        printf "  "
+        if (( $count % 20 == 0 )); then
+          printf " - $count\n"
+        fi
+    done < <(find "$SRC_DIRECTORY" -iname "*.md" -type f)
+
+    echo -e "Creating markdown pages.\n\n"
+    _create_tag_src_pages
+    _create_archive_page
+
+    echo -e "\n\nFinished indexing"
+    sleep 0.5
+    echo -e "\n\nMoving src files to tmp folder"
+
+}
+
+_watch() {
+    inotifywait -r -m "$SRC_DIRECTORY" -e modify -e delete -e create |
+        while read dir action file; do
+            case "$action" in
+                CREATE)
+                    _convert_file "$dir$file"
+                    ;;
+                MODIFY)
+                    _convert_file "$dir$file"
+                    ;;
+                DELETE) 
+                    filepath=$dir$file
+                    filepath=${filepath/#$SRC_DIRECTORY/$HTML_DIRECTORY}
+                    filepath="${filepath/%md/html}"
+                    rm "$filepath"
+                    ;;
+            esac
+            if [[ $1 == 'live' ]]; then
+                _push
+            fi
+        done
+}
+
+_live() {
+    _watch "live"
+}
+
+_build() {
+
+    cp -r "$SRC_DIRECTORY/"* "$TMP_DIRECTORY"/
+
+    echo -e "\n\nBuilding website"
+
+    count=0
+
+    while IFS="" read -r src_file; do
+        count=$((count + 1))
+        _convert_file "$src_file" "$TMP_DIRECTORY"
+        printf "  "
+        if (( $count % 20 == 0 )); then
+          printf " - $count\n"
+        fi
+    done <  <(find "$TMP_DIRECTORY" -iname "*" -type f)
+
+    echo -e "\nBuild complete"
+}
+
+_post() {
+  now=$(date "+%Y/%m")
+  printf "Please enter the post title: "
+  read post_title
+
+  post_directory="${post_title,,}"
+  post_directory="$SRC_DIRECTORY/$now/${post_directory// /-}"
+
+  mkdir -p "$post_directory"
+  touch "$post_directory/index.md"
+  echo -e  "---\ntitle: $post_title\n---\n" > "$post_directory/index.md"
+
+  "$EDITOR" "$post_directory/index.md"
+}
+
+_edit() {
+  if [[ ! -x "$(command -v fzf)" ]]; then
+    echo "Please install fzf and add to your PATH to use the edit helper function"
+    exit 1
+  fi
+
+  find "$SRC_DIRECTORY" -type f | fzf | xargs -o "$EDITOR"
+}
+
+# ====================================================
+# Deploy the `html` folder contents to a remote server.
+# The variables of these should be set 
+# in the project's `.config` file.
+# ----------------------------------------------------
+_push() {
+    rsync -Paz --delete -e "ssh -l $remote_user -i $ssh_identity_key" "$HTML_DIRECTORY/" "$remote_user"@"$domain_name":"$remote_directory"
+}
+
+# ====================================================
+# This area delegates functions to their implementation.
+# It uses the $commands variable from the top
+# to know which commands are allowed.
+#
+# It then passes a "function" to a "_function" partner.
+# ----------------------------------------------------
+declare CMD="$1"; shift
+for c in "${commands[@]}"; do
+
+    if [[ $c != 'init' ]]; then
+        _confirm_init_ran
+        _parse_configuration
+    fi
+
+    [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
+done
+
