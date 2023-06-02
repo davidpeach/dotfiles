@@ -5,24 +5,44 @@ INSTALL_PACKAGES=false
 if [[ "$INSTALL_PACKAGES" == true ]]; then
 sudo pacman -S \
     alsa-utils \
-    btop \
+    ansible \
+    bashtop \
+    dmidecode \
+    docker \
+    docker-compose \
+    doctl \
+    dunst \
+    feh \
     firefox \
     fzf \
+    github-cli \
     go \
-    i3 \
+    i3-wm \
+    inotify-tools \
+    jq \
     kitty \
+    kubectl \
     libva-utils \
     make \
+    mpv \
     neovim \
     nitrogen \
+    pandoc-cli \
     picom \
-    signal-desktop \
+    ranger \
+    ripgrep \
+    rsync \
+    scrot \
     stow \
+    task \
+    terraform \
     tree \
     wget \
-    xorg \
+    wireguard-tools \
+    xorg-server \
     xorg-xinit
 fi
+
 # install nvim-dap requirements for:
 # - php
 # - go
@@ -31,10 +51,14 @@ fi
 # - gofumpt
 # - go delve
 # YAY
+# google-chrome
+# google-cloud-cli
+# google-cloud-sdk-gke-gcloud-auth-plugin
+# signal-desktop
 # slack-desktop
 
-if [[ ! -e $HOME/.local/bin ]]; then
-	mkdir -p $HOME/.local/bin
+if [[ -e $HOME/.local/bin ]]; then
+	rm -rf $HOME/.local/bin
 fi
 
 if [[ ! -e $HOME/.config ]]; then
@@ -43,7 +67,9 @@ fi
 
 
 declare stow_directories=(
+    bashtop 
 	bin
+    dunst
 	home
 	i3
 	kitty
@@ -52,9 +78,14 @@ declare stow_directories=(
 	picom
 	pictures
 	ranger
+    rofi
+    ssh
+    task
 	tmux
 )
 
 for folder in "${stow_directories[@]}"; do
 	stow "$folder" --dotfiles
 done
+
+# add the include into ssh config
