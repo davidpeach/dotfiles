@@ -4,6 +4,7 @@ lsp.preset("recommended")
 
 lsp.ensure_installed({
 	'bashls',
+	'cssls',
 	'tsserver',
 	'eslint',
 	'lua_ls',

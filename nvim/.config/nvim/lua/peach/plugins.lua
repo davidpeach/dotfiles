@@ -79,16 +79,12 @@ return require('packer').startup(function(use)
     use ({ 'sheerun/vim-polyglot' })
     use ({ 'lewis6991/gitsigns.nvim' })
     use ({ 'norcalli/nvim-colorizer.lua' })
-  use 'Mofiqul/dracula.nvim'
-  use {
+  use ({ 'Mofiqul/dracula.nvim'})
+  use ({
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    setup = {
-        options = {
-            theme ='dracula.nvim'
-        }
-    }
-  }
+  })
 
   use ({ 'diepm/vim-rest-console' })
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 end)
