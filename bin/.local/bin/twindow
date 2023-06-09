@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+if [[ -n "$TMUX" ]]
+then
+    session_name=$(tmux display-message -p "#S")
+    window_name="${1##*/}"
+    tmux select-window -t "$window_name" &> /dev/null || tmux new-window -t "$session_name" -n "$window_name" -c "$1"
+fi
+
+# $1 should equal new branch name
+
+# Check if is git project and is using worktrees
+
+# Check if in tmux
+# create new tmux window with name of "$1" rooted to the correct worktree folder
+# # tmux new-window -c "/full/path/to/worktree"
+#

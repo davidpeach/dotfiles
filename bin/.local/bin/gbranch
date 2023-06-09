@@ -1,0 +1,46 @@
+#!/usr/bin/bash
+
+if ! command -v git &> /dev/null
+then
+    echo "Git could not be found."
+    exit
+fi
+
+if ! command -v fzf &> /dev/null
+then
+    echo "Fzf could not be found."
+    exit
+fi
+
+# Check if its a git repository
+git rev-parse --show-toplevel &> /dev/null
+if [[ $? == 0 ]]
+then
+    pushd "$(git rev-parse --show-toplevel)/.." &> /dev/null
+fi
+
+if [[ $(git rev-parse --is-bare-repository) ]]
+then
+    existing_branches=$(git for-each-ref --format='%(refname:short)' refs/heads/)
+    new_branch_option="NEW"
+    all_options=$(printf '%s\n%s' "$existing_branches", "$new_branch_option")
+
+    chosen=$(echo "$all_options" | fzf)
+
+    if [[ "$chosen" == "NEW" ]]
+    then
+        read -p "New branch name: " chosen
+        chosen="${chosen// /-}"
+    fi
+
+    worktrees_folder="${chosen##*/}"
+
+    if [[ ! -d "$PWD/worktrees/$worktrees_folder" ]]
+    then
+        git worktree add "$chosen" &> /dev/null
+    fi
+
+    pushd "$PWD/worktrees/$worktrees_folder" &> /dev/null
+    new_branch_directory=$(cat ./gitdir)
+    echo "${new_branch_directory%%'/.git'}"
+fi
