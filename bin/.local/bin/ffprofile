@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+BROWSER_CMD="firefox -P"
+
+declare -a profiles=(
+    "Facebook - facebook"
+    "Google - google"
+    "Pinterest - pinterest"
+    "Proton - proton"
+    "Reddit - reddit"
+)
+
+chosen=$(printf '%s\n' "${profiles[@]}" | dmenu -i -l 10 -p 'Firefox Profile: ')
+
+if [[ -z "$chosen" ]]
+then
+    dunstify "Firefox profile not opened"
+    exit 1
+fi
+
+chosen_profile=$(printf '%s\n' "$chosen" | awk '{print $3}')
+$BROWSER_CMD "$chosen_profile"
