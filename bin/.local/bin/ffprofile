@@ -5,9 +5,11 @@ BROWSER_CMD="firefox -P"
 declare -a profiles=(
     "Facebook - facebook"
     "Google - google"
+    "LinkedIn - linkedin"
     "Pinterest - pinterest"
     "Proton - proton"
     "Reddit - reddit"
+    "Twitter - twitter"
 )
 
 chosen=$(printf '%s\n' "${profiles[@]}" | dmenu -i -l 10 -p 'Firefox Profile: ')
