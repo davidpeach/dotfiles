@@ -35,3 +35,6 @@ vim.o.swapfile = "off"
 vim.o.dir = "~/tmp"
 vim.o.backup = false
 vim.o.writebackup = false
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true

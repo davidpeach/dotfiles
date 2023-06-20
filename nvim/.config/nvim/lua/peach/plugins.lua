@@ -7,7 +7,6 @@ return require('packer').startup(function(use)
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
 
-
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		-- or                            , branch = '0.1.x',
@@ -15,7 +14,6 @@ return require('packer').startup(function(use)
 	}
 
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
---    use({ 'theprimeagen/harpoon' })
     use({ 'mbbill/undotree' })
     use({ 'tpope/vim-fugitive' })
     use ({
@@ -43,12 +41,8 @@ return require('packer').startup(function(use)
     use ({ 'jose-elias-alvarez/null-ls.nvim' })
 
     use ({ 'mfussenegger/nvim-dap' })
---    use ({
---        'leoluz/nvim-dap-go',
---    })
     use({ 'rcarriga/nvim-dap-ui' })
     use ({ 'theHamsta/nvim-dap-virtual-text' })
---    use ({ 'nvim-telescope/telescope-dap.nvim' })
 
     use({ 'lervag/wiki.vim' })
 
