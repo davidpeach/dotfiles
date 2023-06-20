@@ -3,7 +3,10 @@
 BROWSER_CMD="firefox -P"
 
 declare -a profiles=(
+    "Amazon - amazon"
+    "DuckDuckGo - duckduckgo"
     "Facebook - facebook"
+    "Github - github"
     "Google - google"
     "LinkedIn - linkedin"
     "Pinterest - pinterest"

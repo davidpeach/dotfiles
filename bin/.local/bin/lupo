@@ -20,7 +20,7 @@ if [[ -n $COMP_LINE ]]; then
 fi
 
 declare LUPO_DIRECTORY="$PWD"
-declare CONFIG_FILE=$LUPO_DIRECTORY/.config
+declare CONFIG_FILE="$LUPO_DIRECTORY/.config"
 declare SRC_DIRECTORY="$LUPO_DIRECTORY/src"
 declare HTML_DIRECTORY="$LUPO_DIRECTORY/html"
 declare TMP_DIRECTORY="$LUPO_DIRECTORY/tmp"
@@ -119,10 +119,6 @@ _get_uri_from_src_file() {
     echo "${filepath%%index.md}"
 }
 
-# ====================================================
-# Create the frontmatter metadata from the
-# contents of the yaml filepath given.
-# ----------------------------------------------------
 _build_frontmatter() {
     readarray -d ";" -t posts < "$1"
 
@@ -155,7 +151,7 @@ _build_frontmatter() {
 _confirm_init_ran() {
     for folder in html src templates tmp; do
 
-        if [[ ! -d "$LUPO_DIRECTORY/$folder" ]]; then
+        if [[ ! -d "$LUPO_DIRECTORY/$folder" || ! -e "$LUPO_DIRECTORY/.config" ]]; then
             echo "Missing directories. Please initialize your project with lupo init" && exit 1
         fi
     done
@@ -227,7 +223,9 @@ _init() {
 
 _index() {
     clear
+
     echo -e "Indexing website now\n"
+
     sleep 0.5
 
     _refresh_dir "$TMP_DIRECTORY"
@@ -284,13 +282,12 @@ _index() {
     done < <(find "$SRC_DIRECTORY" -iname "*.md" -type f)
 
     echo -e "Creating markdown pages.\n\n"
+
     _create_tag_src_pages
+
     _create_archive_page
 
     echo -e "\n\nFinished indexing"
-    sleep 0.5
-    echo -e "\n\nMoving src files to tmp folder"
-
 }
 
 _watch() {
@@ -303,7 +300,7 @@ _watch() {
                 MODIFY)
                     _convert_file "$dir$file"
                     ;;
-                DELETE) 
+                DELETE)
                     filepath=$dir$file
                     filepath=${filepath/#$SRC_DIRECTORY/$HTML_DIRECTORY}
                     filepath="${filepath/%md/html}"
@@ -322,9 +319,15 @@ _live() {
 
 _build() {
 
+    echo -e "\n\nMoving src files to tmp folder"
+
+    sleep 0.5
+
     cp -r "$SRC_DIRECTORY/"* "$TMP_DIRECTORY"/
 
     echo -e "\n\nBuilding website"
+
+    sleep 0.5
 
     count=0
 
@@ -364,22 +367,10 @@ _edit() {
   find "$SRC_DIRECTORY" -type f | fzf | xargs -o "$EDITOR"
 }
 
-# ====================================================
-# Deploy the `html` folder contents to a remote server.
-# The variables of these should be set 
-# in the project's `.config` file.
-# ----------------------------------------------------
 _push() {
     rsync -Paz --delete -e "ssh -l $remote_user -i $ssh_identity_key" "$HTML_DIRECTORY/" "$remote_user"@"$domain_name":"$remote_directory"
 }
 
-# ====================================================
-# This area delegates functions to their implementation.
-# It uses the $commands variable from the top
-# to know which commands are allowed.
-#
-# It then passes a "function" to a "_function" partner.
-# ----------------------------------------------------
 declare CMD="$1"; shift
 for c in "${commands[@]}"; do
 
