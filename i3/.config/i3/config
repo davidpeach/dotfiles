@@ -110,7 +110,7 @@ bindsym $mod+s focus child
 bindsym $mod+F3 exec --no-startup-id ~/.local/bin/wgstatus
 bindsym $mod+slash exec --no-startup-id dunstctl close-all
 
-bindsym $mod+b exec --no-startup-id ~/.local/bin/batstatus
+bindsym $mod+F12 exec --no-startup-id ~/.local/bin/batstatus
 bindsym $mod+t exec --no-startup-id ~/.local/bin/whatsthetimemrwolf
 
 # ===========
@@ -237,6 +237,28 @@ client.background       #F8F8F2
 #         # -p datetime.locale=en_GB.UTF-8 spacer.text=" " \
 #         # -t dracula-powerline
 #     }
+
+for_window [instance="task"] floating enable
+for_window [instance="task"] resize set 1000 600
+for_window [instance="task"] move scratchpad
+for_window [instance="task"] border pixel 5
+exec --no-startup-id kitty --name task 
+
+for_window [instance="pulse"] floating enable
+for_window [instance="pulse"] resize set 1000 600
+for_window [instance="pulse"] move scratchpad
+exec --no-startup-id kitty --name pulse -e pulsemixer
+
+for_window [instance="lynx"] floating enable
+for_window [instance="lynx"] resize set 1000 600
+for_window [instance="lynx"] move scratchpad
+exec --no-startup-id kitty --name lynx
+
+bindsym $mod+F2 [instance="lynx"] scratchpad show; [instance="lynx"] move position center
+bindsym $mod+F5 [instance="pulse"] scratchpad show; [instance="pulse"] move position center
+bindsym $mod+F7 [instance="task"] scratchpad show; [instance="task"] move position center
+
+bindsym $mod+b exec --no-startup-id ffprofile
 
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
