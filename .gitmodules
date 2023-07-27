@@ -1,0 +1,3 @@
+[submodule "secret-dots"]
+	path = secret-dots
+	url = git@github.com:davidpeach/secret-dots.git
