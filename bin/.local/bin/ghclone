@@ -1,6 +1,3 @@
 #!/usr/bin/bash
 
-command -v gh  || exit 1
-command -v fzf  || exit 1
-
 gh repo list | fzf | awk '{print $1}' | xargs -I % gh repo clone % -- --bare

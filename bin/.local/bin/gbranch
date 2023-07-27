@@ -34,7 +34,7 @@ if [[ $(git rev-parse --is-bare-repository) == true ]]
 then
     existing_branches=$(git for-each-ref --format='%(refname:short)' refs/heads/)
     new_branch_option="NEW"
-    all_options=$(printf '%s\n%s' "$existing_branches", "$new_branch_option")
+    all_options=$(printf '%s\n%s' "$existing_branches" "$new_branch_option")
     chosen=$(echo "$all_options" | fzf)
 
     if [[ -z "$chosen" ]]

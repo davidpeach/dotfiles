@@ -1,0 +1,3 @@
+#!/bin/bash
+
+composer search $1 | fzf | awk '{print $1}' | xargs composer install --dev
