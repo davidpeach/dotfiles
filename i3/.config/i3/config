@@ -11,7 +11,7 @@ set $mod Mod4
 # ===========================
 # Set the font and font size.
 # ===========================
-font pango:Hack Nerd Font 14
+font pango:VictorMono Nerd Font 14
 
 # ============================================================
 # Hook up the screenlocking functionality to "i3lock" program.
@@ -36,8 +36,8 @@ bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /compon
 # ===========================================================
 floating_modifier $mod
 
-gaps inner 20px
-smart_gaps on
+gaps inner 10px
+# smart_gaps on
 # =====================================
 # Set the border width for all windows.
 # =====================================
@@ -116,14 +116,14 @@ bindsym $mod+t exec --no-startup-id ~/.local/bin/whatsthetimemrwolf
 # ===========
 # Workspaces.
 # ===========
-set $ws1 "1: " 
-set $ws2 "2: "
-set $ws3 "3: "
-set $ws4 "4: "
-set $ws5 "5: "
-set $ws6 "6: "
+set $ws1 "1" 
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
 set $ws7 "7"
-set $ws8 "8:󱋊 "
+set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
@@ -238,6 +238,8 @@ client.background       #F8F8F2
 #         # -t dracula-powerline
 #     }
 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 for_window [instance="task"] floating enable
 for_window [instance="task"] resize set 1000 600
 for_window [instance="task"] move scratchpad
@@ -263,4 +265,4 @@ bindsym $mod+b exec --no-startup-id ffprofile
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
-exec_always --no-startup-id feh --bg-scale ~/.config/wallpapers/hzd3.jpg
+exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/The Last of Us™ Part II_20200716182454.jpg"
