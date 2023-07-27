@@ -17,3 +17,17 @@ vim.keymap.set("n", "<leader>Y", "\"+Y")
 
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
+
+vim.keymap.set("n", "<Bslash>c", ":PhpactorContextMenu<cr>")
+vim.keymap.set("n", "<Bslash>t", ":PhpactorTransform<cr>")
+vim.keymap.set("n", "<Bslash>i", ":PhpactorImportClass<cr>")
+vim.keymap.set("n", "<Bslash>e", ":PhpactorExtractExpression<cr>")
+vim.keymap.set("v", "<Bslash>e", ":PhpactorExtractExpression<cr>")
+--     au FileType php nmap <buffer> ,pc :PhpactorContextMenu<CR>
+--     au FileType php nmap <buffer> ,pt :PhpactorTransform<CR>
+--     au FileType php nmap <buffer> ,pi :PhpactorImportClass<CR>
+
+--     au FileType php xmap <buffer> ,px :PhpactorExtractExpression<CR>
+
+vim.keymap.set("n", "<Left>", ":bp<cr>")
+vim.keymap.set("n", "<Right>", ":bn<cr>")

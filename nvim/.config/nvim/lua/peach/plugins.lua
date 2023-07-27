@@ -4,14 +4,14 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
-	-- Packer can manage itself
-	use 'wbthomason/packer.nvim'
+    -- Packer can manage itself
+    use 'wbthomason/packer.nvim'
 
-	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.1',
-		-- or                            , branch = '0.1.x',
-		requires = { {'nvim-lua/plenary.nvim'} }
-	}
+    use {
+        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        -- or                            , branch = '0.1.x',
+        requires = { {'nvim-lua/plenary.nvim'} }
+    }
 
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
     use({ 'mbbill/undotree' })
@@ -53,7 +53,8 @@ return require('packer').startup(function(use)
     use ({ 'christoomey/vim-tmux-navigator' })
 
     use ({ 'christoomey/vim-tmux-runner' })
-
+    use ({ 'tpope/vim-dispatch' })
+    use ({ 'tpope/vim-projectionist' })
     use ({ 'vim-test/vim-test' })
     use ({ 'tpope/vim-commentary' })
     use ({ 'tpope/vim-dadbod' })
@@ -73,12 +74,20 @@ return require('packer').startup(function(use)
     use ({ 'sheerun/vim-polyglot' })
     use ({ 'lewis6991/gitsigns.nvim' })
     use ({ 'norcalli/nvim-colorizer.lua' })
-  use ({ 'Mofiqul/dracula.nvim'})
-  use ({
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-  })
+    use ({ 'Mofiqul/dracula.nvim'})
+    use ({'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'})
+    use ({
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    })
 
-  use ({ 'diepm/vim-rest-console' })
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+    use ({ 'diepm/vim-rest-console' })
+    use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
+    use ({
+        'phpactor/phpactor',
+        branch = 'master',
+        ft = 'php',
+        run = 'composer install --no-dev -o',
+    })
 end)
