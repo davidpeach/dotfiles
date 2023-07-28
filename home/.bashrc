@@ -160,6 +160,11 @@ export VISUAL="nvim"
 export SHELL=/usr/bin/bash
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# Stow the ~/dots/secret-dots/ directory 
+# and import gpg keys before sourcing the following file.
+# The environment variables within get their contents from password store.
+#source ~/.secretrc
+
 # Node Version Manager
 # ----------------------------------------------------------------
 export NVM_DIR="$HOME/.nvm"
