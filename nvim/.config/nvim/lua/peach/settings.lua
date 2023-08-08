@@ -38,3 +38,4 @@ vim.o.writebackup = false
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
