@@ -23,5 +23,3 @@ vim.cmd([[
     autocmd ColorScheme * highlight NvimTreeIndentMarker guifg=#30323E
   augroup end
 ]])
-
-vim.keymap.set('n', '<Bslash>o', ':NvimTreeFindFileToggle<CR>')

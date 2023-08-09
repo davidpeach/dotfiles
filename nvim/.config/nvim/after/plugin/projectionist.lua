@@ -33,9 +33,4 @@ vim.g.projectionist_heuristics = {
       alternate = 'app/{}.php',
     },
   },
-  geomiq = {
-    ['*'] = {
-      reload = 'geomiq reload',
-    },
-  },
 }
