@@ -1,4 +1,4 @@
-Host workgitlab
-    HostName gitlab.com
+Host yunohost
+    HostName home.of.davidpeach.co.uk
     IdentitiesOnly yes
-    IdentityFile ~/work/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_rsa_yunohost
