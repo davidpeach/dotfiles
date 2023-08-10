@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ prototype.namespace }};
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+{% for class in prototype.classes %}
+class {{ class.name }} extends TestCase
+{
+    use RefreshDatabase;
+    
+    /** @test */
+    public function it_()
+    {
+        //
+    }
+}
+
+{% endfor %}
