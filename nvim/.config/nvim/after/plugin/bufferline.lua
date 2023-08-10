@@ -37,10 +37,16 @@ bufferline.setup {
             bg = '#282A36',
         },
         modified = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+            fg = '#FFB86C',
+            bg = '#282A36',
         },
         modified_visible = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+            fg = '#FFB86C',
+            bg = '#282A36',
+        },
+        modified_selected = {
+            fg = '#FFB86C',
+            bg = '#282A36',
         },
         duplicate = {
             bg = { attribute = 'bg', highlight = 'StatusLine' },
