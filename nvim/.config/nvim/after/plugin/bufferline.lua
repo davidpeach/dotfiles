@@ -1,6 +1,7 @@
-require("bufferline").setup {
+local bufferline = require("bufferline")
+bufferline.setup {
     options = {
-        numbers = "buffer_id",
+        numbers = "none",
         offsets = {
             {
                 filetype = 'NvimTree',
@@ -9,36 +10,31 @@ require("bufferline").setup {
                 text_align = 'left',
             },
         },
+        show_buffer_close_icons = false,
     },
     highlights = {
         fill = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+            bg = '#282A36',
         },
         background = {
             bg = '#282A36',
         },
-        tab = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        numbers = {
+            bg = '#282A36',
         },
-        tab_close = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        offset_separator = {
+            bg = "#bada55",
         },
         tab_selected = {
             bg = '#50fa7b',
+            fg = '#222222',
         },
         close_button = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
-            fg = { attribute = 'fg', highlight = 'StatusLineNonText' },
-        },
-        close_button_visible = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
-            fg = { attribute = 'fg', highlight = 'StatusLineNonText' },
-        },
-        close_button_selected = {
+            bg = '#282A36',
             fg = { attribute = 'fg', highlight = 'StatusLineNonText' },
         },
         buffer_visible = {
-            bg = { attribute = 'bg', highlight = 'StatusLine' },
+            bg = '#282A36',
         },
         modified = {
             bg = { attribute = 'bg', highlight = 'StatusLine' },

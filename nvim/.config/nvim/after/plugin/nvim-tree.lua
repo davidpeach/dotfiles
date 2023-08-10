@@ -16,10 +16,3 @@ require('nvim-tree').setup({
     },
   },
 })
-
-vim.cmd([[
-  highlight NvimTreeIndentMarker guifg=#30323E
-  augroup NvimTreeHighlights
-    autocmd ColorScheme * highlight NvimTreeIndentMarker guifg=#30323E
-  augroup end
-]])

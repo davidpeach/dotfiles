@@ -98,7 +98,6 @@ require('packer').startup(function(use)
     use({ 'Mofiqul/dracula.nvim' })               -- Color Scheme.
     use({ 'akinsho/bufferline.nvim', tag = "*" }) -- Show buffers and tabs as tabs along top of window.
     use({ 'nvim-lualine/lualine.nvim' })          -- Show buffer information in footer area.
-
     use({ 'diepm/vim-rest-console' })             -- Minimal rest endpoint tester like postman.
 
     use({
@@ -165,6 +164,7 @@ vim.keymap.set("n", "<F12>", ":bn<cr>") -- Cycle to next Buffer.
 
 
 -- General Bindings with <Space> leader.
+vim.keymap.set("n", "<leader><leader>", [[ :DBUIToggle<cr> ]], { desc = "Toggle Database Viewer" })
 vim.keymap.set('n', '<leader>o', ':NvimTreeFindFileToggle<CR>') -- Toggle project tree view.
 vim.keymap.set("x", "<leader>p", "\"_dP")                       -- When pasting, do not change default register to newly deleted text.
 vim.keymap.set("n", "<leader>y", "\"+y")                        -- Yank to system clipboard.
@@ -172,7 +172,6 @@ vim.keymap.set("v", "<leader>y", "\"+y")                        -- Yank to syste
 vim.keymap.set("n", "<leader>Y", "\"+Y")                        -- Yank line to system clipboard.
 vim.keymap.set("n", "<leader>d", "\"_d")                        -- Delete without saving deleted text to register.
 vim.keymap.set("v", "<leader>d", "\"_d")                        -- Delete without saving deleted text to register.
-vim.keymap.set("n", "<leader><leader>", [[ :DBUIToggle<cr> ]], { desc = "Toggle Database Viewer" })
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle Undo Tree" })
 
 vim.keymap.set("n", "<leader>go", vim.cmd.Git, { desc = "Open Git UI" })
