@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-projects_dir="$HOME/Projects"
+projects_dir="$HOME/scratchpad/laravel/"
 
 starters=(Laravel Symfony)
 

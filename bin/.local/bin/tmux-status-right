@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+printf '%s' "Never Stop Learning "
