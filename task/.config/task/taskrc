@@ -43,6 +43,6 @@ context.workflow.read=+workflow
 context.workflow.write=+workflow
 context.finances.read=+finances
 context.finances.write=+finances
-context=work
+context=workflow
 context.work.read=+work
 context.work.write=+work
