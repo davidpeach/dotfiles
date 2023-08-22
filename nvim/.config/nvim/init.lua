@@ -1,6 +1,4 @@
 -- SETTINGS
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.opt.guicursor =
 "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 vim.opt.number = true                               -- Show line numbers.
@@ -34,7 +32,7 @@ vim.g.vrc_trigger = '<C-c>' -- Not sure how this is effecting things right now :
 -- PLUGINS
 require('packer').startup(function(use)
     use({ 'wbthomason/packer.nvim' })                                 -- Plugin Manager.
-    use({ 'nvim-lua/plenary' })                                       -- Library used by other plugins.
+    use({ 'nvim-lua/plenary.nvim' })                                       -- Library used by other plugins.
     use({ 'kyazdani42/nvim-web-devicons' })                           -- Icons used by some other plugins.
     use({ 'farmergreg/vim-lastplace' })                               -- Remember the last place in a file you were at.
     use({ 'nvim-telescope/telescope.nvim', tag = '0.1.1' })           -- Incredible fuzzy search.
@@ -84,7 +82,6 @@ require('packer').startup(function(use)
     use({ 'tpope/vim-commentary' })         -- Easy commenting
     use({ 'tpope/vim-dadbod' })             -- Database Client
     use({ 'kristijanhusak/vim-dadbod-ui' }) -- UI for Database Client
-    use({ 'kyazdani42/nvim-tree.lua' })     -- A File tree sidebar
     use({
         "folke/which-key.nvim",             -- Show keybindings when beginning a key combination.
         config = function()
@@ -96,11 +93,9 @@ require('packer').startup(function(use)
     })
     use({ 'sheerun/vim-polyglot' })
     use({ 'lewis6991/gitsigns.nvim' })            -- Git helpers.
-    use({ 'norcalli/nvim-colorizer.lua' })        -- May not be working.
     use({ 'Mofiqul/dracula.nvim' })               -- Color Scheme.
     use({ 'akinsho/bufferline.nvim', tag = "*" }) -- Show buffers and tabs as tabs along top of window.
     use({ 'nvim-lualine/lualine.nvim' })          -- Show buffer information in footer area.
-    use({ 'diepm/vim-rest-console' })             -- Minimal rest endpoint tester like postman.
 
     use({
         'phpactor/phpactor', -- PHP code actions and refactor tools.
@@ -108,33 +103,431 @@ require('packer').startup(function(use)
         ft = 'php',
         run = 'composer install --no-dev -o',
     })
-
-    use({
-        "nvim-neorg/neorg", -- Wiki / Notes / Zettelkasten
-        config = function()
-            require('neorg').setup {
-                load = {
-                    ["core.defaults"] = {},  -- Loads default behaviour
-                    ["core.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.dirman"] = {      -- Manages Neorg workspaces
-                        config = {
-                            workspaces = {
-                                notes = "~/notes",
-                            },
-                            default_workspace = "notes"
-                        },
-                    },
-                },
-            }
-        end,
-        run = ":Neorg sync-parsers",
-    })
 end)
 
 vim.cmd.colorscheme('dracula')
 
--- KEYMAPS
+-- Telescope config
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+vim.keymap.set('n', '<leader>ps', function()
+	builtin.grep_string({ search = vim.fn.input("Grep > ") })
+end)
 
+-- Treesitter
+require 'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "javascript", "typescript", "c", "lua", "vim", "vimdoc", "query", "markdown", "php" },
+  sync_install = false,
+  auto_install = true,
+  indent = { enable = true },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  disable = function(lang, buf)
+    local max_filesize = 100 * 1024 -- 100 KB
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+    if ok and stats and stats.size > max_filesize then
+      return true
+    end
+  end,
+}
+
+-- Bufferline
+local bufferline = require("bufferline")
+bufferline.setup {
+    options = {
+        numbers = "none",
+        offsets = {
+            {
+                filetype = 'NvimTree',
+                text = '  Files',
+                highlight = 'StatusLine',
+                text_align = 'left',
+            },
+        },
+        show_buffer_close_icons = false,
+    },
+    highlights = {
+        fill = {
+            bg = '#282A36',
+        },
+        background = {
+            bg = '#282A36',
+        },
+        numbers = {
+            bg = '#282A36',
+        },
+        offset_separator = {
+            bg = "#bada55",
+        },
+        tab_selected = {
+            bg = '#50fa7b',
+            fg = '#222222',
+        },
+        close_button = {
+            bg = '#282A36',
+            fg = { attribute = 'fg', highlight = 'StatusLineNonText' },
+        },
+        buffer_visible = {
+            bg = '#282A36',
+        },
+        modified = {
+            fg = '#FFB86C',
+            bg = '#282A36',
+        },
+        modified_visible = {
+            fg = '#FFB86C',
+            bg = '#282A36',
+        },
+        modified_selected = {
+            fg = '#FFB86C',
+            bg = '#282A36',
+        },
+        duplicate = {
+            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        },
+        duplicate_visible = {
+            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        },
+        separator = {
+            fg = { attribute = 'bg', highlight = 'StatusLine' },
+            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        },
+        separator_selected = {
+            fg = { attribute = 'bg', highlight = 'StatusLine' },
+            bg = { attribute = 'bg', highlight = 'Normal' }
+        },
+        separator_visible = {
+            fg = { attribute = 'bg', highlight = 'StatusLine' },
+            bg = { attribute = 'bg', highlight = 'StatusLine' },
+        },
+    },
+}
+
+-- Autopairs
+require("nvim-autopairs").setup{}
+
+-- Vim Test
+vim.cmd([[
+  let test#php#phpunit#options = '--colors=always'
+  let g:test#strategy = 'vtr'
+  let test#vtr#orientation = "h"
+  let g:test#echo_command = 0
+]])
+
+-- DAP
+local dap = require('dap')
+dap.adapters.php = {
+  type = 'executable',
+  command = 'node',
+  args = { os.getenv("HOME") .. "/vscode-php-debug/out/phpDebug.js" }
+}
+
+dap.configurations.php = {
+  {
+    type = 'php',
+    request = 'launch',
+    name = 'Listen for Xdebug',
+    port = 9003,
+    pathMappings = {
+      ["/var/www/html"] = "${workspaceFolder}"
+    }
+  }
+}
+
+-- Keybindings
+vim.keymap.set("n", ",b", ":lua require'dap'.toggle_breakpoint()<CR>")
+vim.keymap.set("n", ",c", ":lua require'dap'.continue()<CR>")
+vim.keymap.set("n", ",v", ":lua require'dap'.step_over()<CR>")
+vim.keymap.set("n", ",i", ":lua require'dap'.step_into()<CR>")
+vim.keymap.set("n", ",o", ":lua require'dap'.step_out()<CR>")
+vim.keymap.set("n", ",t", ":lua require'dapui'.toggle()<CR>")
+
+require('nvim-dap-virtual-text').setup {
+    enabled = true
+}
+require("dapui").setup({
+  icons = { expanded = "", collapsed = "", current_frame = "" },
+  mappings = {
+    expand = { "<CR>", "<2-LeftMouse>" },
+    open = "o",
+    remove = "d",
+    edit = "e",
+    repl = "r",
+    toggle = "t",
+  },
+  element_mappings = {
+  },
+  expand_lines = vim.fn.has("nvim-0.7") == 1,
+  layouts = {
+    {
+      elements = {
+        { id = "scopes", size = 0.25 },
+        "breakpoints",
+        "stacks",
+        "watches",
+      },
+      size = 80, -- 40 columns
+      position = "left",
+    },
+    {
+      elements = {
+        "repl",
+        "console",
+      },
+      size = 0.25, -- 25% of total lines
+      position = "bottom",
+    },
+  },
+  controls = {
+    enabled = true,
+    element = "repl",
+    icons = {
+      pause = "",
+      play = "",
+      step_into = "",
+      step_over = "",
+      step_out = "",
+      step_back = "",
+      run_last = "",
+      terminate = "",
+    },
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil, -- Floats will be treated as percentage of your screen.
+    border = "single", -- Border style. Can be "single", "double" or "rounded"
+    mappings = {
+      close = { "q", "<Esc>" },
+    },
+  },
+  windows = { indent = 1 },
+  render = {
+    max_type_length = nil, -- Can be integer or nil.
+    max_value_lines = 100, -- Can be integer or nil.
+  }
+})
+
+-- Git Signs
+require('gitsigns').setup {
+    signs                        = {
+        add          = { text = '│' },
+        change       = { text = '│' },
+        delete       = { text = '_' },
+        topdelete    = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked    = { text = '┆' },
+    },
+    signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
+    numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+    word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+    watch_gitdir                 = {
+        follow_files = true
+    },
+    attach_to_untracked          = true,
+    current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    current_line_blame_opts      = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+        ignore_whitespace = false,
+    },
+    current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+    sign_priority                = 6,
+    update_debounce              = 100,
+    status_formatter             = nil,   -- Use default
+    max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+    preview_config               = {
+        -- Options passed to nvim_open_win
+        border = 'single',
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1
+    },
+    yadm                         = {
+        enable = false
+    },
+    on_attach                    = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+            if vim.wo.diff then return ']c' end
+            vim.schedule(function() gs.next_hunk() end)
+            return '<Ignore>'
+        end, { expr = true, desc = "Gitsigns Next Hunk" })
+
+        map('n', '[c', function()
+            if vim.wo.diff then return '[c' end
+            vim.schedule(function() gs.prev_hunk() end)
+            return '<Ignore>'
+        end, { expr = true, desc = "Gitsigns Prev Hunk" })
+    end
+}
+
+-- Null LS
+local null_ls = require("null-ls")
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.pint.with({
+            condition = function(utils)
+                local hasArtisan = utils.root_has_file({ 'artisan' })
+                local hasWork = utils.root_has_file({ '.work' })
+                if (hasWork)
+                then
+                    return nil
+                end
+
+                return utils.root_has_file({ 'artisan' })
+            end,
+        }),
+    }
+})
+
+-- Lualine
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'dracula',
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = true,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch' },
+    lualine_c = { 'filetype', { 'filename', path = 1 } },
+    lualine_x = { 'encoding', 'diff', 'diagnostics' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' }
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = { 'filename' },
+    lualine_x = { 'location' },
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+-- Dracula color scheme
+local dracula = require("dracula")
+dracula.setup({
+  colors = {
+    bg = "#282A36",
+    fg = "#F8F8F2",
+    selection = "#44475A",
+    comment = "#6272A4",
+    red = "#FF5555",
+    orange = "#FFB86C",
+    yellow = "#F1FA8C",
+    green = "#50fa7b",
+    purple = "#BD93F9",
+    cyan = "#8BE9FD",
+    pink = "#FF79C6",
+    bright_red = "#FF6E6E",
+    bright_green = "#69FF94",
+    bright_yellow = "#FFFFA5",
+    bright_blue = "#D6ACFF",
+    bright_magenta = "#FF92DF",
+    bright_cyan = "#A4FFFF",
+    bright_white = "#FFFFFF",
+    menu = "#21222C",
+    visual = "#3E4452",
+    gutter_fg = "#4B5263",
+    nontext = "#3B4048",
+  },
+  show_end_of_buffer = true,    -- default false
+  transparent_bg = true,        -- default false
+  lualine_bg_color = "#44475a", -- default nil
+  italic_comment = true,        -- default false
+  overrides = {
+  },
+})
+
+-- LSP
+local lsp = require('lsp-zero')
+lsp.preset("recommended")
+lsp.ensure_installed({
+	'ansiblels',
+	'bashls',
+	'cssls',
+	'dockerls',
+	'emmet_ls',
+	'eslint',
+	'gopls',
+	'lua_ls',
+	'intelephense',
+	'tailwindcss',
+	'terraformls',
+	'tsserver',
+})
+
+local cmp = require("cmp")
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+local cmp_mappings = lsp.defaults.cmp_mappings({
+	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+	['<C-y>'] = cmp.mapping.confirm({ select = true }),
+	['<C-Space>'] = cmp.mapping.complete(),
+})
+
+lsp.setup_nvim_cmp({
+	mapping = cmp_mappings
+})
+
+lsp.on_attach(function(client, bufnr)
+	local opts = { buffer = bufnr, remap = false }
+	vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+	vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+	vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+	vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+	vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+	vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+	vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+	vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+	vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+	vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+
+	vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
+	vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts)
+	vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
+end)
+
+-- (Optional) Configure lua language server for neovim
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+require('lspconfig').terraformls.setup({})
+require('lspconfig').bashls.setup({})
+lsp.setup()
+
+-- KEYMAPS
 -- Remaps for common actions.
 vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv") -- Visual mode move block of code up together.
 vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv") -- Visual mode move block of code down together.
@@ -167,7 +560,7 @@ vim.keymap.set("n", "<F12>", ":bn<cr>") -- Cycle to next Buffer.
 
 -- General Bindings with <Space> leader.
 vim.keymap.set("n", "<leader><leader>", [[ :DBUIToggle<cr> ]], { desc = "Toggle Database Viewer" })
-vim.keymap.set('n', '<leader>o', ':NvimTreeFindFileToggle<CR>') -- Toggle project tree view.
+vim.keymap.set('n', '<leader>o', ':Explore<CR>') -- Toggle project tree view.
 vim.keymap.set("x", "<leader>p", "\"_dP")                       -- When pasting, do not change default register to newly deleted text.
 vim.keymap.set("n", "<leader>y", "\"+y")                        -- Yank to system clipboard.
 vim.keymap.set("v", "<leader>y", "\"+y")                        -- Yank to system clipboard.
