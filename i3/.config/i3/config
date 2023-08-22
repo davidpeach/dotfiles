@@ -36,17 +36,23 @@ bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /compon
 # ===========================================================
 floating_modifier $mod
 
-gaps inner 10px
+gaps inner 40px
+
+# =====================================
+# Only have a gap around the windows when more than
+# one window is on screen.
+# =====================================
 # smart_gaps on
+
 # =====================================
 # Set the border width for all windows.
 # =====================================
-for_window [class=".*"] border pixel 3
+for_window [class=".*"] border pixel 10
 
 # =======================================================
 # Hide the window border when it is the only one visible.
 # =======================================================
-hide_edge_borders smart
+# hide_edge_borders smart
 
 # =============================================
 # Set the default border width for new windows.
@@ -80,10 +86,10 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # ============================================================
-# Create a new container with it's split in a given direction.
+# Toggle the direction that the next container will created at.
+# Toggling between right and below.
 # ============================================================
-bindsym $mod+backslash split h
-bindsym $mod+minus split v
+bindsym $mod+minus split toggle
 
 # ===============================
 # Toggle fullscreen for a window.
@@ -212,11 +218,11 @@ focus_follows_mouse no
 # Current Theme : "Dracula".
 # ==============================
 # class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
-client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
-client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
-client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
-client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+client.focused          #6272A4 #6272A4 #F8F8F2 #ff6e6   #50fa7b
+client.focused_inactive #44475A #44475A #F8F8F2 #ff6e6e   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #ff6e6e   #44475A
+client.urgent           #44475A #FF5555 #F8F8F2 #ff6e6e   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #ff6e6e   #282A36
 
 client.background       #F8F8F2
 
@@ -277,4 +283,4 @@ bindsym $mod+b exec --no-startup-id ffprofile
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
-exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/dracula.png"
+exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/Horizon Zero Dawn™_ Complete Edition_20201019072342.jpg"
