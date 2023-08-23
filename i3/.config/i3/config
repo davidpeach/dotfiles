@@ -36,7 +36,7 @@ bindsym XF86AudioMicMute exec --no-startup-id qdbus org.kde.kglobalaccel /compon
 # ===========================================================
 floating_modifier $mod
 
-gaps inner 40px
+gaps inner 20px
 
 # =====================================
 # Only have a gap around the windows when more than
