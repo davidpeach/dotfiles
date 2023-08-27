@@ -63,32 +63,37 @@ fi
 # --------------------------------
 # Install Yay - AUR package helper
 # --------------------------------
-pushd $HOME
+echo "Installing :: Yay AUR helper."
+pushd "$HOME" || exit
 git clone https://aur.archlinux.org/yay-git.git ./yay
-pushd $HOME/yay 
+pushd "$HOME"/yay || exit
 makepkg -si --noconfirm
-popd
+popd || exit
 rm -rf ./yay
-popd
-
+popd || exit
+echo "Complete :: Yay AUR helper installed."
 # ------------------------------
 # Required packages from the AUR
 # ------------------------------
+echo "Installing :: Required Yay packages."
 yay -S --noconfirm google-chrome google-cloud-cli google-cloud-sdk-gke-gcloud-auth-plugin signal-desktop slack-desktop
+echo "Complete :: Required Yay packages."
 
 # -------------------------------------
 # Remove default ~/.local/bin as I have 
 # my dotfiles version.
 # -------------------------------------
 if [[ -e $HOME/.local/bin ]]; then
-	rm -rf $HOME/.local/bin
+	rm -rf "$HOME"/.local/bin
+    echo "Removed :: Old local bin folder."
 fi
 
 # --------------------------------
 # Ensure a ~/.config folder exists
 # --------------------------------
 if [[ ! -e $HOME/.config ]]; then
-	mkdir -p $HOME/.config 
+	mkdir -p "$HOME"/.config 
+    echo "Created :: .config folder."
 fi
 
 # ------------------------
@@ -113,11 +118,12 @@ declare stow_directories=(
 )
 
 for folder in "${stow_directories[@]}"; do
-	stow "$folder" --dotfiles
+	stow "$folder"
+    echo "Stowed :: $folder folder"
 done
 
 # SSH Key Generation
-ssh-keygen -t rsa -f $HOME/.ssh/marnie -C "Marnie" -b 4096
+ssh-keygen -t rsa -f "$HOME"/.ssh/marnie -C "Marnie" -b 4096
 
 # GPG key setup
 # Might use a YubiKey
