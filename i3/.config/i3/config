@@ -259,7 +259,7 @@ client.background       #F8F8F2
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 for_window [instance="task"] floating enable
-for_window [instance="task"] resize set 1000 600
+for_window [instance="task"] resize set 1000 1000
 for_window [instance="task"] move scratchpad
 for_window [instance="task"] border pixel 5
 exec --no-startup-id kitty --name task 
