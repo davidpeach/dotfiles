@@ -76,7 +76,12 @@ echo "Complete :: Yay AUR helper installed."
 # Required packages from the AUR
 # ------------------------------
 echo "Installing :: Required Yay packages."
-yay -S --noconfirm google-chrome google-cloud-cli google-cloud-sdk-gke-gcloud-auth-plugin signal-desktop slack-desktop
+yay -S --noconfirm \
+	google-chrome \
+	mycli \
+	python-sqlglot \
+	signal-desktop \
+	slack-desktop
 echo "Complete :: Required Yay packages."
 
 # -------------------------------------
