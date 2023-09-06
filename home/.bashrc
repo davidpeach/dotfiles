@@ -61,15 +61,16 @@ unset color_prompt force_color_prompt
 
 # Directories
 # ======================
-export DOTFILES=$HOME/.dotfiles/
-export WORKCODE=$HOME/Geomiq/code/
-export PROJECTS=$HOME/Projects/
+export DOTFILES=$HOME/dots/
+export PROJECTS=$HOME/projects/
 
 # Aliases
 # ============
 alias v="nvim"
 
 alias t="tmux attach || tmux"
+
+alias r="ranger"
 
 # Quick config editing
 # --------------------------------------------
@@ -129,14 +130,10 @@ fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-
-
-
 # ===========
 # Completions
 # ===========
 complete -C zet zet
-complete -C geomiq geomiq
 complete -C lupo lupo
 
 # ================
@@ -149,36 +146,18 @@ complete -C lupo lupo
 export CDPATH=\
 ./:\
 $DOTFILES:\
-$WORKCODE:\
 $PROJECTS:\
 $HOME
 
 
-export PATH=$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
+export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
 export EDITOR="nvim"
 export VISUAL="nvim"
 export SHELL=/usr/bin/bash
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# Stow the ~/dots/secret-dots/ directory 
-# and import gpg keys before sourcing the following file.
-# The environment variables within get their contents from password store.
-#source ~/.secretrc
 
 # Node Version Manager
 # ----------------------------------------------------------------
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# Work stuff
-# ----------------------------------------------------------
-export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-test"
-export GEOMIQ_PROJECT_ROOT="$HOME/Geomiq/code/site-app-wt"
-#export GEOMIQ_PROJECT_PATH="$HOME/Geomiq/code/site-app-wt"
-export GEOMIQ_GIT_HOST="workgitlab"
-export USE_GKE_GCLOUD_AUTH_PLUGIN="True"
-
-if [[ -f /home/david/.secrets ]]; then
-    source /home/david/.secrets
-fi
