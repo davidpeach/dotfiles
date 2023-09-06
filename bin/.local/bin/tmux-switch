@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
 
-declare -A map
-map['david']='HOME'
-map['davidpeach_me']='WEBSITE'
-map['site-app']='GEO_PLATFORM'
-map['_dotfiles']='DOTFILES'
-map['bin']='BIN'
-map['Projects']='PROJECTS'
-map['wiki']='WIKI'
-
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Projects ~/Geomiq/code/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~/ ~/projects -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -20,10 +11,6 @@ if [[ -z $selected ]]; then
 fi
 
 selected_name=$(basename "$selected" | tr . _)
-
-if [[ -v "map[$selected_name]" ]]; then
-    selected_name=${map[$selected_name]}
-fi
 
 tmux_running=$(pgrep tmux)
 
@@ -37,4 +24,3 @@ if ! tmux has-session -t="$selected_name" 2> /dev/null; then
 fi
 
 tmux switch-client -t "$selected_name"
-
