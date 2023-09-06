@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 
-declare -a commands=(date new latest)
+declare -a commands=(date new find latest)
+
+export LUPO_DIRECTORY="$HOME/Zet"
 
 if [[ -n $COMP_LINE ]]; then
     for c in "${commands[@]}"; do
@@ -18,36 +20,37 @@ _date() {
 }
 
 _new() {
-    path_to_zet="$HOME/Zet"
-    now=$(date +%Y%m%d%H%M%S)
-    zetfilepath="$path_to_zet/$now"
+    exec lupo new
+}
 
-    if [[ -d $zetfilepath ]]; then
-        echo "Zet entry exists for this moment"
-        exit 1
-    fi
-
-    mkdir -p "$zetfilepath"
-    touch "$zetfilepath/README.md"
-
-    echo "# $* ($now)" | tee "$zetfilepath/README.md"
-
-    $EDITOR "$zetfilepath/README.md"
+_find() {
+    exec lupo find "Zet" "" "switch_after_open"
 }
 
 _latest() {
-    found=$(find "$HOME/Zet" -maxdepth 1 -regex "$HOME/Zet/[0-9]*" | tail -n 1)
-    $EDITOR "$found/README.md"
-    # read -rp "Commit changes? " answer
-    # - ask to Commit
-    # - if yes ask for commit message
-    # - pass message to git add and commit
-    # - gh repo sync
-    # - message committed success
-    echo "End of latest"
+    exec lupo latest "Zet" "" "switch_after_open"
+}
+
+_grab() {
+    declare -a lines=()
+    while IFS= read -r line; do
+        lines+=("${line/$/\\$}")
+    done
+    exec lupo new "${lines[@]}"
 }
 
 declare CMD="$1"; shift
+
+if [[ -z "$CMD" ]]; then
+    if [[ -z "$VIMRUNTIME" ]]; then
+        echo -e "  Did you mean \"zet new\"?\n  Running \"zet\" alone triggers its 'grab' function.\n  This is intended to be used after visually selecting lines in vim."
+        exit 1
+    fi
+
+    _grab
+    exit $?
+fi
+
 for c in "${commands[@]}"; do
     [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
 done
