@@ -3,13 +3,14 @@
 declare -a commands=(
 build 
 clean
+deploy
 find
 index 
 init 
-launch
 live
 new 
 push 
+serve
 watch
 )
 
@@ -75,6 +76,12 @@ _clean() {
         rm -r "$html_path" 2> /dev/null
         echo "$html_path removed"
     done <  <(find "$HTML_DIRECTORY" -iname "*" -type d)
+}
+
+_deploy() {
+    _index
+    _build
+    _push
 }
 
 _find() {
@@ -181,7 +188,7 @@ _init() {
     fi
 }
 
-_launch() {
+_serve() {
     exists=$(which docker 2> /dev/null)
     if [[ -z "$exists" ]]
     then
@@ -193,6 +200,7 @@ _launch() {
 }
 
 _live() {
+    _deploy
     _watch "live"
 }
 
