@@ -1,17 +1,16 @@
 #!/usr/bin/bash
 
 declare -a commands=(
-init 
-index 
-convert_file 
 build 
-push 
-new 
+clean
 find
-watch
-live
+index 
+init 
 launch
-latest
+live
+new 
+push 
+watch
 )
 
 if [[ -n $COMP_LINE ]]; then
@@ -34,6 +33,228 @@ declare ssh_identity_key=""
 declare domain_name=""
 declare remote_directory=""
 
+_build() {
+    echo -e "Merging src files into tmp folder"
+    cp -r "$SRC_DIRECTORY/"* "$TMP_DIRECTORY"/
+
+    echo -e "Building website"
+
+    count=0
+    while IFS="" read -r src_file; do
+        count=$((count + 1))
+        _convert_file "$src_file" "$TMP_DIRECTORY"
+        printf "  "
+        if (( count % 20 == 0 )); then
+            printf " - %s\n" $count
+        fi
+    done <  <(find "$TMP_DIRECTORY" -iname "*" -type f)
+
+    echo -e "\nBuild complete"
+}
+
+_clean() {
+
+    _index
+
+    echo "Cleaning up any HTML paths that are not in either ./tmp or ./src"
+
+    find "$SRC_DIRECTORY" -type d -empty -delete
+
+    while IFS="" read -r html_path; do
+        src_path=${html_path/$HTML_DIRECTORY/$SRC_DIRECTORY}
+        tmp_path=${html_path/$HTML_DIRECTORY/$TMP_DIRECTORY}
+
+        if [[ -d $tmp_path ]]; then
+            continue
+        fi
+
+        if [[ -d $src_path ]]; then
+            continue
+        fi
+
+        rm -r "$html_path" 2> /dev/null
+        echo "$html_path removed"
+    done <  <(find "$HTML_DIRECTORY" -iname "*" -type d)
+}
+
+_find() {
+    if [[ ! -x "$(command -v fzf)" ]]; then
+        echo "Please install fzf and add to your PATH to use the find helper function"
+        exit 1
+    fi
+
+    full_path=$(find "$SRC_DIRECTORY" -type f | fzf)
+
+    twindow "$full_path" "${1:-""}" "${2:-"$EDITOR README.md"}" "${3:-""}"
+}
+
+_index() {
+    clear
+    echo -e "Indexing website now"
+
+    _refresh_dir "$TMP_DIRECTORY"
+    _refresh_dir "$TMP_DIRECTORY/tags/"
+    _refresh_vars_template_file
+
+    count=0
+
+    while IFS="" read -r src_file; do
+
+        if [[ 
+            $src_file == "${src_file::-9}style.css" ||
+                $src_file == "${src_file::-9}script.js"
+                            ]]
+                        then
+                            continue
+        fi
+
+        count=$((count + 1))
+        uri=$(_get_uri_from_src_file "$src_file")
+
+        pandoc -s "$src_file" -o "$TMP_DIRECTORY/.vars.bash" --template="$TMP_DIRECTORY/.vars.template.bash" 2> /dev/null
+
+        [[ ! -e $TMP_DIRECTORY/.vars.bash ]] && exit 1
+
+        source "$TMP_DIRECTORY/.vars.bash"
+
+        all_yml_file_path="$TMP_DIRECTORY/index/index.yml"
+        _create_dir_if_not_exists "$(dirname "$all_yml_file_path")"
+        _create_file_if_not_exists "$all_yml_file_path"
+
+        for field in title uri date timestamp; do
+            if [[ -n "${!field}" ]]; then
+                echo -e "$field: \"${!field}\"\n" >> "$all_yml_file_path"
+            else
+                echo -e "$field: \"\"\n" >> "$all_yml_file_path"
+            fi
+        done
+        echo -e ";\n" >> "$all_yml_file_path"
+
+        IFS=',' read -r -a tags <<< "$tags"
+
+        for tag in "${tags[@]}"; do
+            tag_yml_filepath="$TMP_DIRECTORY/tags/$tag/index.yml"
+            _create_dir_if_not_exists "$(dirname "$tag_yml_filepath")"
+            _create_file_if_not_exists "$tag_yml_filepath"
+
+            for field in title uri date; do
+                if [[ -n "${!field}" ]]; then
+                    echo -e "$field: \"${!field}\"\n" >> "$tag_yml_filepath"
+                else
+                    echo -e "$field: \"\"\n" >> "$tag_yml_filepath"
+                fi
+            done
+            echo -e ";\n" >> "$tag_yml_filepath"
+        done
+        tags=()
+        printf "  "
+        if (( count % 20 == 0 )); then
+            printf " - %s\n" $count
+        fi
+    done < <(find "$SRC_DIRECTORY" -type f -printf '%h\0%d\0%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $3}')
+
+    echo -e "\nCreating the markdown pages for the main index and the tag pages."
+
+    _create_tag_src_pages
+    _create_index_page
+
+    echo -e "Finished indexing"
+}
+
+_init() {
+    _create_dir_if_not_exists "$SRC_DIRECTORY"
+    _create_dir_if_not_exists "$HTML_DIRECTORY"
+    _create_dir_if_not_exists "$TEMPLATES_DIRECTORY"
+    _create_dir_if_not_exists "$TMP_DIRECTORY"
+    _create_dir_if_not_exists "$(dirname "$CONFIG_FILE")"
+    _create_file_if_not_exists "$CONFIG_FILE"
+    _create_file_if_not_exists "$GITIGNORE_FILE"
+
+    printf "html\ntmp" > "$GITIGNORE_FILE"
+
+    if [[ -e "$HOME/.local/share/lupo/templates"  ]]; then
+        cp -r "$HOME/.local/share/lupo/templates" "$LUPO_DIRECTORY"
+    fi
+
+    if [[ -f "$HOME/.local/share/lupo/style.css" ]]; then
+        cp "$HOME/.local/share/lupo/style.css" "$SRC_DIRECTORY"
+    fi
+}
+
+_launch() {
+    exists=$(which docker 2> /dev/null)
+    if [[ -z "$exists" ]]
+    then
+        echo "You need to have docker installed and available in order to use the launch command."
+        exit 1
+    fi
+
+    exec docker run -it --rm -d -p "${1:-7777}":80 --name "${3:-lupo}" -v "${2:-./html}":/usr/share/nginx/html nginx
+}
+
+_live() {
+    _watch "live"
+}
+
+_new() {
+    now=$(date --rfc-3339=ns)
+    uri_date=$(date -d "$now" "+%Y/%m/%d")
+    post_date=$(date -d "$now" "+%F %T")
+    timestamp=$(date -d "$now" +%s)
+
+    if [ -z "$VIMRUNTIME" ]; then
+        printf "Please enter the post title: "
+        read -r post_title
+    fi
+
+    post_title=${post_title:-"$timestamp"}
+
+    uri_title="${post_title,,}"
+    uri_title="${uri_title// /-}"
+
+    post_directory="$SRC_DIRECTORY/$uri_date/$timestamp/$uri_title"
+    mkdir -p "$post_directory"
+    full_path="$post_directory/README.md"
+    touch "$full_path"
+
+    echo -e  "---\ntitle: $post_title\ndate: $post_date\ntimestamp: $timestamp\n---\n" > "$full_path"
+
+    twindow "$full_path" "${1:-""}" "${2:-"$EDITOR README.md"}" "${3:-""}"
+
+    echo "$full_path"
+}
+
+_push() {
+    rsync -Paz --delete -e "ssh -l $remote_user -i $ssh_identity_key" "$HTML_DIRECTORY/" "$remote_user"@"$domain_name":"$remote_directory"
+}
+
+_watch() {
+    inotifywait -r -m "$SRC_DIRECTORY" -e modify -e delete -e create |
+    while read -r dir action file; do
+        case "$action" in
+            CREATE)
+                _convert_file "$dir$file"
+                _index
+                _convert_file "$TMP_DIRECTORY/index/index.md" "$TMP_DIRECTORY"
+                ;;
+            MODIFY)
+                _convert_file "$dir$file"
+                ;;
+            DELETE)
+                filepath=$dir$file
+                filepath=${filepath/#$SRC_DIRECTORY/$HTML_DIRECTORY}
+                filepath="${filepath/%md/html}"
+                rm "$filepath"
+                _index
+                _convert_file "$TMP_DIRECTORY/index/index.md" "$TMP_DIRECTORY"
+                ;;
+        esac
+        if [[ $1 == 'live' ]]; then
+            _push
+        fi
+    done
+}
+
 _parse_configuration() {
     readarray -t lines < "$CONFIG_FILE"
     for line in "${lines[@]}"; do
@@ -51,7 +272,6 @@ _parse_configuration() {
             domain_name) domain_name="$value";;
             remote_directory) remote_directory="$value";;
         esac
-
     done
 }
 
@@ -95,10 +315,6 @@ _create_file_if_not_exists() {
     fi
 }
 
-# ====================================================
-# Work out the tag name from the full
-# path to the tag markdown file.
-# ----------------------------------------------------
 _get_tag_name_from_tag_source_file_path() {
     tag=${1##"$TMP_DIRECTORY"/tags/}
     readarray -d "/" tagarray <<< "$tag"
@@ -111,15 +327,24 @@ _get_target_file_path_from_src_file_path() {
     full_src_path="$(realpath "$1")"
     target_file_path="${full_src_path##"$2"}"
     if [[ ${1: -2} == "md" ]]; then
-        target_file_path="${target_file_path%%md}"
-        target_file_path="$target_file_path"html
+        if [[ "$full_src_path" == *README.md ]]; then
+            target_file_path="${target_file_path%%README.md}"
+            target_file_path="$target_file_path"index.html
+        else
+            target_file_path="${target_file_path%%md}"
+            target_file_path="$target_file_path"html
+        fi
     fi
     echo "$HTML_DIRECTORY$target_file_path"
 }
 
 _get_uri_from_src_file() {
     filepath=${1##"$SRC_DIRECTORY"}
-    echo "${filepath%%index.md}"
+    if [[ "$filepath" == *README.md ]]; then
+        echo "${filepath%%README.md}"
+    else
+        echo "${filepath%%index.md}"
+    fi
 }
 
 _build_frontmatter() {
@@ -208,223 +433,13 @@ _convert_file() {
     cp -r "$1" "$target_file_path"
 }
 
-_init() {
-    _create_dir_if_not_exists "$SRC_DIRECTORY"
-    _create_dir_if_not_exists "$HTML_DIRECTORY"
-    _create_dir_if_not_exists "$TEMPLATES_DIRECTORY"
-    _create_dir_if_not_exists "$TMP_DIRECTORY"
-    _create_dir_if_not_exists "$(dirname "$CONFIG_FILE")"
-    _create_file_if_not_exists "$CONFIG_FILE"
-    _create_file_if_not_exists "$GITIGNORE_FILE"
+declare CMD="$1"; shift
+for c in "${commands[@]}"; do
 
-    printf "html\ntmp" > "$GITIGNORE_FILE"
-
-    if [[ -e "$HOME/.local/share/lupo/templates"  ]]; then
-        cp -r "$HOME/.local/share/lupo/templates" "$LUPO_DIRECTORY"
+    if [[ $c != 'init' ]]; then
+        _confirm_init_ran
+        _parse_configuration
     fi
 
-    if [[ -f "$HOME/.local/share/lupo/style.css" ]]; then
-        cp "$HOME/.local/share/lupo/style.css" "$SRC_DIRECTORY"
-    fi
-}
-
-_index() {
-    clear
-    echo -e "Indexing website now"
-
-    _refresh_dir "$TMP_DIRECTORY"
-    _refresh_dir "$TMP_DIRECTORY/tags/"
-    _refresh_vars_template_file
-
-    count=0
-
-    while IFS="" read -r src_file; do
-
-        if [[ 
-            $src_file == "${src_file::-9}style.css" ||
-            $src_file == "${src_file::-9}script.js"
-        ]]
-        then
-            continue
-        fi
-
-        count=$((count + 1))
-        uri=$(_get_uri_from_src_file "$src_file")
-
-        pandoc -s "$src_file" -o "$TMP_DIRECTORY/.vars.bash" --template="$TMP_DIRECTORY/.vars.template.bash" 2> /dev/null
-
-        [[ ! -e $TMP_DIRECTORY/.vars.bash ]] && exit 1
-
-        source "$TMP_DIRECTORY/.vars.bash"
-
-        all_yml_file_path="$TMP_DIRECTORY/index/index.yml"
-        _create_dir_if_not_exists "$(dirname "$all_yml_file_path")"
-        _create_file_if_not_exists "$all_yml_file_path"
-
-        for field in title uri date timestamp; do
-            if [[ -n "${!field}" ]]; then
-                echo -e "$field: \"${!field}\"\n" >> "$all_yml_file_path"
-            else
-                echo -e "$field: \"\"\n" >> "$all_yml_file_path"
-            fi
-        done
-        echo -e ";\n" >> "$all_yml_file_path"
-
-        IFS=',' read -r -a tags <<< "$tags"
-
-        for tag in "${tags[@]}"; do
-            tag_yml_filepath="$TMP_DIRECTORY/tags/$tag/index.yml"
-            _create_dir_if_not_exists "$(dirname "$tag_yml_filepath")"
-            _create_file_if_not_exists "$tag_yml_filepath"
-
-            for field in title uri date; do
-                if [[ -n "${!field}" ]]; then
-                    echo -e "$field: \"${!field}\"\n" >> "$tag_yml_filepath"
-                else
-                    echo -e "$field: \"\"\n" >> "$tag_yml_filepath"
-                fi
-            done
-            echo -e ";\n" >> "$tag_yml_filepath"
-        done
-        tags=()
-        printf "  "
-        if (( count % 20 == 0 )); then
-            printf " - %s\n" $count
-        fi
-    done < <(find "$SRC_DIRECTORY" -type f -printf '%h\0%d\0%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $3}')
-
-    echo -e "\nCreating the markdown pages for the main index and the tag pages."
-
-    _create_tag_src_pages
-    _create_index_page
-
-    echo -e "Finished indexing"
-}
-
-_latest() {
-    full_path=$(find "$SRC_DIRECTORY" -type f -printf '%h\0%d\0%p\n' | sort -r -t '\0' -n | head -n 1 | awk -F '\0' '{print $3}')
-    twindow "$full_path" "${1:-""}" "${2:-"$EDITOR index.md"}" "${3:-""}"
-}
-
-_watch() {
-    inotifywait -r -m "$SRC_DIRECTORY" -e modify -e delete -e create |
-        while read -r dir action file; do
-            case "$action" in
-                CREATE)
-                    _convert_file "$dir$file"
-                    _index
-                    _convert_file "$TMP_DIRECTORY/index/index.md" "$TMP_DIRECTORY"
-                    ;;
-                MODIFY)
-                    _convert_file "$dir$file"
-                    ;;
-                DELETE)
-                    filepath=$dir$file
-                    filepath=${filepath/#$SRC_DIRECTORY/$HTML_DIRECTORY}
-                    filepath="${filepath/%md/html}"
-                    rm "$filepath"
-                    _index
-                    _convert_file "$TMP_DIRECTORY/index/index.md" "$TMP_DIRECTORY"
-                    ;;
-            esac
-            if [[ $1 == 'live' ]]; then
-                _push
-            fi
-        done
-    }
-
-    _live() {
-        _watch "live"
-    }
-
-    _launch() {
-        exists=$(which docker 2> /dev/null)
-        if [[ -z "$exists" ]]
-        then
-            echo "You need to have docker installed and available in order to use the launch command."
-            exit 1
-        fi
-
-        exec docker run -it --rm -d -p "${1:-7777}":80 --name "${3:-lupo}" -v "${2:-./html}":/usr/share/nginx/html nginx
-    }
-
-    _build() {
-        echo -e "Merging src files into tmp folder"
-        cp -r "$SRC_DIRECTORY/"* "$TMP_DIRECTORY"/
-
-        echo -e "Building website"
-
-        count=0
-        while IFS="" read -r src_file; do
-            count=$((count + 1))
-            _convert_file "$src_file" "$TMP_DIRECTORY"
-            printf "  "
-            if (( count % 20 == 0 )); then
-                printf " - %s\n" $count
-            fi
-        done <  <(find "$TMP_DIRECTORY" -iname "*" -type f)
-
-        echo -e "\nBuild complete"
-    }
-
-    _new() {
-        now=$(date --rfc-3339=ns)
-        uri_date=$(date -d "$now" "+%Y/%m/%d")
-        post_date=$(date -d "$now" "+%F %T")
-        timestamp=$(date -d "$now" +%s)
-
-        if [ -z "$VIMRUNTIME" ]; then
-            printf "Please enter the post title: "
-            read -r post_title
-        fi
-
-        post_title=${post_title:-"$timestamp"}
-
-        uri_title="${post_title,,}"
-        uri_title="${uri_title// /-}"
-
-        post_directory="$SRC_DIRECTORY/$uri_date/$timestamp/$uri_title"
-        mkdir -p "$post_directory"
-        full_path="$post_directory/index.md"
-        touch "$full_path"
-
-        echo -e  "---\ntitle: $post_title\ndate: $post_date\ntimestamp: $timestamp\n---\n" > "$full_path"
-
-        if (( $# > 0 )); then
-            echo -e "\`\`\`php" >> "$full_path"
-            for line in "${@}"; do
-                echo -e "${line/\\$/\$}" >> "$full_path"
-                echo -e "${line/\\$/\$}"
-            done
-            echo -e "\`\`\`" >> "$full_path"
-        fi
-
-        twindow "$full_path" "Zet" "nvim index.md"
-    }
-
-    _find() {
-        if [[ ! -x "$(command -v fzf)" ]]; then
-            echo "Please install fzf and add to your PATH to use the find helper function"
-            exit 1
-        fi
-
-        full_path=$(find "$SRC_DIRECTORY" -type f | fzf)
-
-        twindow "$full_path" "${1:-""}" "${2:-"$EDITOR index.md"}" "${3:-""}"
-    }
-
-    _push() {
-        rsync -Paz --delete -e "ssh -l $remote_user -i $ssh_identity_key" "$HTML_DIRECTORY/" "$remote_user"@"$domain_name":"$remote_directory"
-    }
-
-    declare CMD="$1"; shift
-    for c in "${commands[@]}"; do
-
-        if [[ $c != 'init' ]]; then
-            _confirm_init_ran
-            _parse_configuration
-        fi
-
-        [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
-    done
-
+    [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
+done
