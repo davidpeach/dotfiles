@@ -287,6 +287,8 @@ lsp.setup()
 
 -- KEYMAPS
 -- Remaps for common actions.
+vim.keymap.set("v", ">", ">gv") -- Visual mode move block of code up together.
+vim.keymap.set("v", "<", "<gv") -- Visual mode move block of code up together.
 vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv") -- Visual mode move block of code up together.
 vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv") -- Visual mode move block of code down together.
 vim.keymap.set("n", "<C-u>", "<C-u>zz")      -- Keep cursor in centre of screen when jumping upwards.
