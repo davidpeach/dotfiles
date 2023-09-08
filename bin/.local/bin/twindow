@@ -19,9 +19,9 @@ then
     fi
 
     if [[ -n $3 ]]; then
-        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%index.md}" "$3"
+        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}" "$3"
     else
-        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%index.md}"
+        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}"
     fi
 
     if [[ -n $4 ]]; then
