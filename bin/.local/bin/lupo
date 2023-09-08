@@ -22,7 +22,12 @@ if [[ -n $COMP_LINE ]]; then
 fi
 
 declare LUPO_DIRECTORY="${LUPO_DIRECTORY:-$PWD}"
-declare CONFIG_FILE="$HOME/.config/lupo/config"
+
+config_file="${LUPO_DIRECTORY##*/}"
+config_file="${config_file// /-}"
+config_file="${config_file,,}"
+
+declare CONFIG_FILE="$HOME/.config/lupo/config/$config_file"
 declare GITIGNORE_FILE="$LUPO_DIRECTORY/.gitignore"
 declare SRC_DIRECTORY="$LUPO_DIRECTORY/src"
 declare HTML_DIRECTORY="$LUPO_DIRECTORY/html"
@@ -180,11 +185,11 @@ _init() {
     printf "html\ntmp" > "$GITIGNORE_FILE"
 
     if [[ -e "$HOME/.local/share/lupo/templates"  ]]; then
-        cp -r "$HOME/.local/share/lupo/templates" "$LUPO_DIRECTORY"
+        cp -rn "$HOME/.local/share/lupo/templates" "$LUPO_DIRECTORY"
     fi
 
     if [[ -f "$HOME/.local/share/lupo/style.css" ]]; then
-        cp "$HOME/.local/share/lupo/style.css" "$SRC_DIRECTORY"
+        cp -n "$HOME/.local/share/lupo/style.css" "$SRC_DIRECTORY"
     fi
 }
 
@@ -444,7 +449,7 @@ _convert_file() {
 declare CMD="$1"; shift
 for c in "${commands[@]}"; do
 
-    if [[ $c != 'init' ]]; then
+    if [[ $CMD != 'init' ]]; then
         _confirm_init_ran
         _parse_configuration
     fi
