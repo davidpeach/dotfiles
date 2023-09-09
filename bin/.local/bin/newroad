@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-projects_dir="$HOME/scratchpad/laravel/"
+projects_dir="$HOME/projects"
 
 starters=(Laravel Symfony)
 
-chosen=$(printf "%s\n" "${starters[@]}" | dmenu)
+chosen=$(printf "%s\n" "${starters[@]}" | fzf)
 
 if [[ -z "$chosen" ]]; then
     notify-send "Cancelled" "no project created"
@@ -12,22 +12,27 @@ if [[ -z "$chosen" ]]; then
 fi
 
 _new_laravel() {
-    name=$(printf ""| dmenu -p "Project name: ")
+    read -r -p "Name your project: " name
+
     if [[ -z $name ]]; then
         notify-send "empty name" "aborting new laravel project"
         exit 1
     fi
+
     name="${name// /-}"
     notify-send "New Laravel Project" "$name is being created"
     cd "$projects_dir" && curl -s "https://laravel.build/$name" | bash 
+    twindow "$projects_dir/$name" "$name" "" "switch_after_open"
 }
 
 _new_symfony() {
-    name=$(printf ""| dmenu -p "Project name: ")
+    read -r -p "Name your project: " name
+
     if [[ -z $name ]]; then
         notify-send "empty name" "aborting new symfony project"
         exit 1
     fi
+
     name="${name// /-}"
     notify-send "New Symfony Project" "$name is being created"
     target="$projects_dir/$name"
@@ -40,6 +45,7 @@ _new_symfony() {
     cd "$target" && \
         docker compose build --pull --no-cache && \
         docker compose up -d
+    twindow "$target" "$name" "" "switch_after_open"
 }
 
 "_new_${chosen,,}"
