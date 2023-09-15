@@ -95,7 +95,7 @@ _find() {
         exit 1
     fi
 
-    full_path=$(find "$SRC_DIRECTORY" -type f | fzf)
+    full_path=$(find "$SRC_DIRECTORY" -type f -printf '%h\0%d\0%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $3}'| fzf --preview='less {}')
 
     twindow "$full_path" "${1:-""}" "${2:-"$EDITOR README.md"}" "${3:-""}"
 }
@@ -114,10 +114,10 @@ _index() {
 
         if [[ 
             $src_file == "${src_file::-9}style.css" ||
-                $src_file == "${src_file::-9}script.js"
-                            ]]
-                        then
-                            continue
+            $src_file == "${src_file::-9}script.js"
+           ]]
+        then
+            continue
         fi
 
         count=$((count + 1))
@@ -144,8 +144,17 @@ _index() {
 
         IFS=',' read -r -a tags <<< "$tags"
 
+        tag_index_yml_filepath="$TMP_DIRECTORY/tags/index.yml"
+
         for tag in "${tags[@]}"; do
             tag_yml_filepath="$TMP_DIRECTORY/tags/$tag/index.yml"
+
+            if [[ ! -d $(dirname "$tag_yml_filepath") ]]; then
+                echo -e "title: \"${tag}\"\n" >> "$tag_index_yml_filepath"
+                echo -e "uri: \"/tags/${tag}/\"\n" >> "$tag_index_yml_filepath"
+                echo -e ";\n" >> "$tag_index_yml_filepath"
+            fi
+
             _create_dir_if_not_exists "$(dirname "$tag_yml_filepath")"
             _create_file_if_not_exists "$tag_yml_filepath"
 
@@ -169,6 +178,7 @@ _index() {
 
     _create_tag_src_pages
     _create_index_page
+    _create_tag_index_page
 
     echo -e "Finished indexing"
 }
@@ -361,17 +371,17 @@ _get_uri_from_src_file() {
 }
 
 _build_frontmatter() {
-    readarray -d ";" -t posts < "$1"
+    readarray -d ";" -t items < "$1"
 
     frontmatter="---\n"
     frontmatter+="title: \"$2 \"\n"
-    frontmatter+="posts:\n"
+    frontmatter+="items:\n"
 
-    for post in "${posts[@]}"; do
-        mapfile -t post <<< "$post"
+    for item in "${items[@]}"; do
+        mapfile -t item <<< "$item"
 
         first_loop=true
-        for line in "${post[@]}"; do
+        for line in "${item[@]}"; do
             if [[ -z $line ]]; then
                 continue
             fi
@@ -405,6 +415,12 @@ _create_tag_src_pages() {
     done < <(find "$TMP_DIRECTORY/tags/" -iname "*.yml" -type f)
 }
 
+_create_tag_index_page() {
+    filename="$TMP_DIRECTORY/tags/index.yml"
+    frontmatter=$(_build_frontmatter "$filename"  "Tags")
+    _refresh_file "${filename/".yml"/".md"}" "$frontmatter"
+}
+
 _create_index_page() {
     filename="$TMP_DIRECTORY/index/index.yml"
     frontmatter=$(_build_frontmatter "$filename"  "Archive")
@@ -413,6 +429,7 @@ _create_index_page() {
 
 _determine_template() {
     end_of_path="${1##"$HTML_DIRECTORY"/}"
+    [[ "${end_of_path:0:10}" == "tags/index" ]] && echo "$TEMPLATES_DIRECTORY/tag-index.template.html" && exit 0
     [[ "${end_of_path:0:4}" == "tags" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:11}" == "index/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
 
