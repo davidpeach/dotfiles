@@ -10,6 +10,7 @@ declare -a profiles=(
     "Google - google"
     "LinkedIn - linkedin"
     "Pinterest - pinterest"
+    "Pocketsmith - pocketsmith"
     "Proton - proton"
     "Reddit - reddit"
     "Twitter - twitter"
