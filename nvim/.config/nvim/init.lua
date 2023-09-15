@@ -81,6 +81,9 @@ require('packer').startup(function(use)
         run = 'composer install --no-dev -o',
     })
 
+    -- R Lang
+    use({ 'jamespeapen/Nvim-R' })
+
     -- THEME
     use({ "ellisonleao/gruvbox.nvim" })
 end)
