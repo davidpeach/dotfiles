@@ -59,6 +59,7 @@ require('packer').startup(function(use)
     use({ 'tpope/vim-surround' })       -- Surround a selection with chosen symbols / tags.
     use({ 'tpope/vim-unimpaired' })     -- Handy "[ and ]" mappings. 
     use({ 'tpope/vim-commentary' })     -- Easy commenting
+    use({ 'jose-elias-alvarez/null-ls.nvim' })
 
     -- DATABASE VIEWER
     use({ 'tpope/vim-dadbod' })             -- Database Client
@@ -82,7 +83,7 @@ require('packer').startup(function(use)
     })
 
     -- R Lang
-    use({ 'jamespeapen/Nvim-R' })
+    use({ 'jalvesaq/Nvim-R' })
 
     -- THEME
     use({ "ellisonleao/gruvbox.nvim" })
@@ -109,7 +110,6 @@ require('telescope').setup {
 
 -- Treesitter
 require 'nvim-treesitter.configs'.setup {
-    -- A list of parser names, or "all" (the five listed parsers should always be installed)
     ensure_installed = { "javascript", "typescript", "c", "lua", "vim", "vimdoc", "query", "markdown", "php", "bash" },
     sync_install = false,
     auto_install = true,
@@ -138,6 +138,14 @@ vim.cmd([[
   let test#vtr#orientation = "h"
   let g:test#echo_command = 0
 ]])
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.diagnostics.shellcheck,
+    },
+})
 
 -- DAP
 local dap = require('dap')
@@ -191,7 +199,7 @@ require("dapui").setup({
                 "stacks",
                 "watches",
             },
-            size = 80, -- 40 columns
+            size = 80, -- 80 columns
             position = "left",
         },
         {
@@ -281,11 +289,11 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
 end)
 
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-require('lspconfig').tsserver.setup({})
-require('lspconfig').terraformls.setup({})
 require('lspconfig').bashls.setup({})
+require('lspconfig').intelephense.setup(lsp.nvim_lua_ls())
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+require('lspconfig').terraformls.setup({})
+require('lspconfig').tsserver.setup({})
 lsp.setup()
 
 -- KEYMAPS

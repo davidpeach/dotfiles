@@ -27,7 +27,7 @@ fi
 
 if [[ $in_bare_root == false ]]
 then
-    pushd "$(git rev-parse --show-toplevel)/.." &> /dev/null
+    pushd "$(git rev-parse --show-toplevel)/.." &> /dev/null || exit
 fi
 
 if [[ $(git rev-parse --is-bare-repository) == true ]]
