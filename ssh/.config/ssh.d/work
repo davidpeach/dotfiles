@@ -1,4 +1,4 @@
-Host yunohost
-    HostName home.of.davidpeach.co.uk
+Host bitbucketwork
+    HostName bitbucket.org
     IdentitiesOnly yes
-    IdentityFile ~/.ssh/id_rsa_yunohost
+    IdentityFile ~/work/.ssh/id_rsa
