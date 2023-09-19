@@ -1,5 +1,20 @@
 #!/usr/bin/bash
 
+# Github Gist creator
+# Dependancies: gh (github cli tool)
+# After you are authenticated with the gh tool, you can call this command
+# from within vim / neovim.
+# Visual select the section you want to make a Gist of and then pipe
+# it into this "g" command.
+# Optionally, you can add 2 extra lines to your selection: prefixed with 
+# "gt:" and "gd:" respectively.
+# A line prefixed with "gt:" will take what's after the ":" ad set that 
+# as the Gist's title,
+# A line prefixed with "gd:" will take what's after the ":" and set that
+# as the Gist's description.
+# Both of those extra lines will be removed when running the selection through
+# this command.
+
 temp_file_name=/tmp/gist.txt
 rm "$temp_file_name"
 touch "$temp_file_name"
