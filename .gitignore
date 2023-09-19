@@ -1,3 +1,5 @@
+/bin/.local/share
+/bin/.local/state
 /bin/.local/bin/geomiq
 /bin/.local/bin/toolbox
 /bin/.local/bin/phpstorm
