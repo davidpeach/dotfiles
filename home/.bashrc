@@ -63,6 +63,7 @@ unset color_prompt force_color_prompt
 # ======================
 export DOTFILES=$HOME/dots/
 export PROJECTS=$HOME/projects/
+export WORK=$HOME/work/projects/
 
 # Aliases
 # ============
@@ -147,6 +148,7 @@ export CDPATH=\
 ./:\
 $DOTFILES:\
 $PROJECTS:\
+$WORK:\
 $HOME
 
 
