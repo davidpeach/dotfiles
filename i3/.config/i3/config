@@ -120,9 +120,10 @@ bindsym $mod+slash exec --no-startup-id dunstctl close-all
 bindsym F1 exec --no-startup-id ~/.local/bin/audio-toggle
 bindsym F2 exec --no-startup-id amixer set Master 5%-
 bindsym F3 exec --no-startup-id amixer set Master 5%+
-bindsym F5 exec --no-startup-id brightnessctl set 10%-
-bindsym F6 exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
 bindsym F10 exec --no-startup-id ~/.local/bin/bttoggle
+bindsym XF86Favorites exec --no-startup-id ~/.local/bin/keyboard-light-toggle
 
 bindsym $mod+F12 exec --no-startup-id ~/.local/bin/batstatus
 bindsym $mod+t exec --no-startup-id ~/.local/bin/whatsthetimemrwolf
