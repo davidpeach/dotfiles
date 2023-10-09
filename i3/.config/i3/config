@@ -99,17 +99,6 @@ bindsym $mod+c focus child
 # =========================================
 bindsym $mod+slash exec --no-startup-id dunstctl close-all
 
-# ===========================================================
-# Binding :: F Keys bound to their respective symbolson keys.
-# ===========================================================
-bindsym F1 exec --no-startup-id ~/.local/bin/audio-toggle
-bindsym F2 exec --no-startup-id amixer set Master 5%-
-bindsym F3 exec --no-startup-id amixer set Master 5%+
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
-bindsym F10 exec --no-startup-id ~/.config/polybar/scripts/bluetooth-polybar --toggle &
-bindsym XF86Favorites exec --no-startup-id ~/.local/bin/keyboard-light-toggle
-
 # ===========
 # Workspaces.
 # ===========
@@ -168,11 +157,19 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-mode "work" {
-    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:peachmode
-    bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:peachmode
+mode "switches" {
+    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+    bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+
+    bindsym F1 exec --no-startup-id pactl set-sink-mute 7 toggle
+    bindsym F2 exec --no-startup-id pactl set-sink-volume 7 -5%
+    bindsym F3 exec --no-startup-id pactl set-sink-volume 7 +5%
+    bindsym F5 exec --no-startup-id brightnessctl set 10%-
+    bindsym F6 exec --no-startup-id brightnessctl set +10%
+    bindsym F10 exec --no-startup-id ~/.config/polybar/scripts/bluetooth-polybar --toggle &
+    bindsym F12 exec --no-startup-id ~/.local/bin/keyboard-light-toggle
 }
-bindsym $mod+Right mode "work"; exec dunstify -u critical "Work" "work-related bindings" -h string:x-dunst-stack-tag:peachmode
+bindsym $mod+Right mode "switches"; exec dunstify -u critical "Switches" "switch bindings" -h string:x-dunst-stack-tag:switchmode
 
 # ================================================
 # Opening certain programs in specific workspaces.
