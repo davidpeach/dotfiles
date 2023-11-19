@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+current_directory="$PWD"
+
+read -r -p "Is this the correct directory: $current_directory? " answer
+
+if [[ "$answer" == "yes" ]]
+then
+echo YES
+    rsync --progress -a --ignore-existing "$current_directory" scottie.peach:jellyfin/media/shows
+fi

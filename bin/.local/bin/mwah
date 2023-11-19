@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+printf "MMmmmmmmmmmmmmmwwwwwwwwwwwwwwwaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhh Mmmmmmmmmmmmmmwwwwwwwwwwwwwwwaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhh Mmmmmmmmmmmmmmwwwwwwwwwwwwwwwaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhh mmmmmmmmmmmmmwwwwwwwwwwwwwwwaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhh " | xclip -sel clipboard
+

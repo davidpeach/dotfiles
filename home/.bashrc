@@ -75,9 +75,9 @@ alias r="ranger"
 
 # Quick config editing
 # --------------------------------------------
-alias be="v ~/.dotfiles/bash/.bashrc"
+alias be="v ~/dots/home/.bashrc"
 alias bs="source ~/.bashrc"
-alias i3c="v ~/.dotfiles/i3/.config/i3/config"
+alias i3c="v ~/dots/i3/.config/i3/config"
 
 # Reverse directory nav
 # --------------------------
@@ -128,7 +128,8 @@ fi
 
 # Make GPG and pinentry work nicely.
 # -----------------------------------------------------------------------------
-export GPG_TTY=$(tty)
+GPG_TTY=$(tty)
+export GPG_TTY
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # ===========
@@ -153,8 +154,8 @@ $HOME
 
 
 export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR="vim"
+export VISUAL="vim"
 export SHELL=/usr/bin/bash
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 

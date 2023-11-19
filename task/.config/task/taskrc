@@ -50,4 +50,6 @@ context.posts.write=+post
 news.version=2.6.0
 context.lupo.read=+lupo
 context.lupo.write=+lupo
-context=lupo
+context.glb.read=+glb
+context.glb.write=+glb
+context=glb

@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+xrandr --output HDMI-2 --mode 3840x2160 --rate 30
+# xrandr --output HDMI-2 --mode 2560x1440 --rate 59.95
+ 
+xrandr --output eDP-1 --off
+ 
+setxkbmap gb

@@ -32,6 +32,12 @@ fi
 
 setxkbmap gb
 
+# Set screen timeout to 1 hour.
+xset s 3600 3600
+
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
+
+# @todo set up DPMS timeout
+
 exec i3

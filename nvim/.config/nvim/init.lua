@@ -35,7 +35,7 @@ require('packer').startup(function(use)
     use({ 'wbthomason/packer.nvim' })                                 -- Plugin Manager.
     use({ 'nvim-lua/plenary.nvim' })                                  -- Library used by other plugins.
     use({ 'kyazdani42/nvim-web-devicons' })                           -- Icons used by some other plugins.
-    use({ 'nvim-telescope/telescope.nvim', tag = '0.1.1' })           -- Incredible fuzzy search.
+    use({ 'nvim-telescope/telescope.nvim', tag = '0.1.4' })           -- Incredible fuzzy search.
     use({ 'nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' } }) -- Treesitter for code knowledge.
     use({
         'VonHeikemen/lsp-zero.nvim',                                  -- Helping with LSP setup.
@@ -133,10 +133,12 @@ require("nvim-autopairs").setup{}
 
 -- Vim Test
 vim.cmd([[
-  let test#php#phpunit#options = '--colors=always'
+  let test#php#pest#options = '--colors=always'
+  let g:test#strategy = 'vtr'
   let g:test#strategy = 'vtr'
   let test#vtr#orientation = "h"
   let g:test#echo_command = 0
+  let test#php#pest#executable = 'docker compose exec -T inventory-php-fpm php artisan test'
 ]])
 
 local null_ls = require("null-ls")
@@ -329,7 +331,6 @@ vim.keymap.set("v", "<leader>y", "\"+y")                        -- Yank to syste
 vim.keymap.set("n", "<leader>Y", "\"+Y")                        -- Yank line to system clipboard.
 vim.keymap.set("n", "<leader>d", "\"_d")                        -- Delete without saving deleted text to register.
 vim.keymap.set("v", "<leader>d", "\"_d")                        -- Delete without saving deleted text to register.
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle Undo Tree" })
 
 vim.keymap.set("n", "<leader>go", vim.cmd.Git, { desc = "Open Git UI" })
 

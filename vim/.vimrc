@@ -1,123 +1,118 @@
-" David Peach's Vim configuration.
+set nocompatible    " Don't let VIM be VI-compatible
 
-" Setting VI compatible settings.
-set nocompatible
-set nonumber        "no line numbers. trying to be search-sentric.
+" VI settings.
+" Copy these to ~/.exrc if using `vi`
 set autoindent		"auto-indent new lines.
 set autowrite		"auto-save when switching to other open files.
+set noerrorbells    " Disable error bells when error occurs
+set nonumber        " Trying with no numbers.
+set ignorecase      " Ignore case when doing search
+set shiftwidth=4    " Number of spaces to insert when indenting.
 set showmode		"show current mode in bottom left.
-set ruler
-set tabstop=4
+set tabstop=4       " Number of spaces to insert when pressing <TAB>
 
-set softtabstop=4
-set shiftwidth=4
-set smartindent
-set smarttab
-set termguicolors
-
+" VIM settings
+filetype plugin on
 let mapleader=" "
 
-fun! s:DetectBash()
-    if getline(1) == '#!/usr/bin/bash' || getline(1) == '#!/bin/bash'
-        set ft=bash
-        set shiftwidth=2
-    endif
-endfun
-autocmd BufNewFile,BufRead * call s:DetectBash()
+au FileType php set makeprg=./vendor/bin/phpstan\ analyse\ --memory-limit=2G\ --no-progress\ --error-format=raw\ --configuration=phpstan.neon
+" File: path/to/file.php, line: 12, error: error message
+" au FileType php set efm=File%.\ %f%.\ line%.\ %l%.\ error%.\ %m
+" au FileType php set efm=line%.
+" au FileType php set efm+=%-G " Ignore empty lines
 
-" No code folding.
+set expandtab
 set foldmethod=manual
-set nofoldenable
-
-match IncSearch '\s\+$'
-
-set path+=**            "Search inside folders recursively.
-set wildmenu            "Better tab completion for commands
-set wildignore+=**/node_modules/**
-
-set textwidth=72	    "Max 80 character wide, but accounting for gutter width.
-set expandtab		    "Tabs into spaces.
-set norelativenumber    "No relative numbers.
-set spc=                "No Spellcheck.
-
-set nobackup
-set noswapfile
-set nowritebackup
-set icon
-
-set shortmess=aoOtTI        "Disable many of the 'hit enter' messages.
-set viminfo='20,<1000,s1000 "Remember certain histories to pick up where left off.
-set wrapscan                "Wrap round when searching
-
-
-set hlsearch
+set hidden                  "Allow changing files without having to save.
+set history=100             "Set command history.
+set nohlsearch
 set incsearch
 set linebreak
+set nobackup
+set nofoldenable
+set noswapfile
+set nowrap
+set nowritebackup
+set path+=**            "Search inside folders recursively.
+set ruler           " Show the line and column position in bottom right.
+set scrolloff=8
+set shortmess=aoOtTI        "Disable many of the 'hit enter' messages.
+set signcolumn=no
+set smartindent
+set smarttab
+set softtabstop=4
+set spc=                "No Spellcheck.
+set splitbelow
+set splitright
+set termguicolors
+set textwidth=120	    "Max 120 character wide.
+set undodir=~/.vim/undovim
+set undofile
+set updatetime=250
+set viminfo='20,<1000,s1000 "Remember certain histories to pick up where left off.
+set wildignore+=**/node_modules/**
+set wildmenu            "Better tab completion for commands
+set wrapscan                "Wrap round when searching
 
-set hidden                  "Allow changing files without having to save.
-
-set history=100             "Set command history.
-
+match IncSearch '\s\+$'
 syntax enable
 
-set ttyfast                 "Fast scrolling
+let g:netrw_banner=0
 
-filetype plugin on
+let g:ale_enabled = 0
+let g:ale_completion_enabled = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_keep_list_window_open = 1
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_insert_leave = 0
 
-nnoremap Y y$
+let test#php#pest#options = '--colors=always'
+let g:test#strategy = 'vtr'
+let g:test#strategy = 'vtr'
+let test#vtr#orientation = 'h'
+let g:test#echo_command = 0
+let test#php#pest#executable = 'docker compose exec -T inventory-php-fpm php artisan test'
+let g:VtrOrientation = 'h'  " Which direction to create tmux pane (for vim-test runner).
+let g:VtrClearSequence = '' " The characters that vim tmux test runner will use to clear the pane when running next test.
+let g:VtrPercentage = 35 " Percentage width of the tmux window that opens with running test.
+let g:vrc_trigger = '<C-c>' " Not sure how this is effecting things right now :grimacing:
 
 
-nnoremap <leader>c :nohl<CR>
-
-
-" Lets try and keep plugins to a minimum.
 call plug#begin("~/.local/share/vim/plugins")
-
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sheerun/vim-polyglot' " Code highlighting for many languages/filetypes
-Plug 'junegunn/fzf.vim' " Project search
-Plug 'tpope/vim-dadbod' " The only decent, working terminal db client i have found
-Plug 'kristijanhusak/vim-dadbod-ui' " UI for the db client
-
+Plug 'sheerun/vim-polyglot' " Code highlighting for many languages/filetypes.
+Plug 'tpope/vim-fugitive'   " Excellent tool for working with git-related things.
+Plug 'tpope/vim-commentary' " Easy code commenting. I should probably switch for a shell script.
+Plug 'tpope/vim-dadbod'     " The only decent, working terminal db client i have found.
+Plug 'kristijanhusak/vim-dadbod-ui'     " UI for the db client.
+Plug 'christoomey/vim-tmux-navigator'   " Enable easy movement between vim and Tmux.
+Plug 'dense-analysis/ale'   " Linting and some basic LSP usages.
+Plug 'morhetz/gruvbox'      " Theme.
+Plug 'vim-test/vim-test'           " Running tests with ease.
+Plug 'christoomey/vim-tmux-runner' " Used for running Tests, via vim-test, in a separate tmux pane.
 call plug#end()
 
-set t_Co=256   " This is may or may not needed.
-
+colorscheme gruvbox
 set background=dark
-colorscheme slate
 
-function! s:ag_to_qf(line)
-  let parts = split(a:line, ':')
-  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-        \ 'text': join(parts[3:], ':')}
-endfunction
+" LSP bindings
+nnoremap gd :ALEGoToDefinition<CR>
+nnoremap gr :ALEFindReferences<CR>
+nnoremap gi :ALEGoToImplementation<CR>
+nnoremap <Bslash>i :ALEImport<CR>
+nnoremap <Bslash>l :ALEToggle<CR>
 
-function! s:ag_handler(lines)
-  if len(a:lines) < 2 | return | endif
+" vim-test & vim-tmux-runner bindings.
+nnoremap ,n :TestNearest<CR>
+nnoremap ,f :TestFile<CR>
+nnoremap ,s :TestSuite<CR>
+nnoremap ,l :TestLast<CR>
+nnoremap ,k :VtrKillRunner<CR>
 
-  let cmd = get({'ctrl-x': 'split',
-               \ 'ctrl-v': 'vertical split',
-               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+nnoremap <Leader>go :Git<CR>
 
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
-
-  if len(list) > 1
-    call setqflist(list)
-    copen
-    wincmd p
-  endif
-endfunction
-
-command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --column --color "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
+" Other bindings
+nnoremap <Leader>o :Explore<CR>
+nnoremap <Leader>r :bufdo :bdelete<CR>:Explore<CR>:echo "All buffers closed."<CR>
