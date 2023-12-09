@@ -32,8 +32,9 @@ fi
 
 setxkbmap gb
 
-# Set screen timeout to 1 hour.
-xset s 3600 3600
+# Disable "Display Management Power Signalling".
+# i.e. stop display from turning off after 10 minutes.
+xset s off -dpms
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
