@@ -1,2 +1,5 @@
 #!/bin/sh
+
+# Stolen, with love, off of rwxrob.
+
 exec lynx "https://lite.duckduckgo.com/lite?kd=-1&kp=-1&q=$*" # 🦆

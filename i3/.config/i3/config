@@ -18,6 +18,8 @@ font pango:GoMono Nerd Font 14
 # ============================================================
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
 # ===========================================================
 # Set which button to hold for moving floating windows about.
 # ===========================================================
@@ -27,7 +29,7 @@ floating_modifier $mod
 # Only have a gap around the windows when more than
 # one window is on screen. Otherwise, use gap in px
 # =====================================
-gaps inner 20px
+gaps inner 10px
 smart_gaps on
 
 # =====================================
@@ -210,7 +212,9 @@ bindsym $mod+m exec --no-startup-id "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '
 # ===============================
 # Lock screen keybinding.
 # ===============================
-bindsym $mod+Shift+x exec i3lock.
+# xss-lock grabs a logind suspend inhibit lock and will use 
+# screen before suspend. Use loginctl lock-session to lock your screen.
+bindsym $mod+x exec lockscreen
 
 # ======================================================================
 # Press same workspace key binding to go back to the previous workspace.
