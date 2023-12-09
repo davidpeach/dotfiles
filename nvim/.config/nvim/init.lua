@@ -1,46 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -54,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
+    '--branch=stable',
     lazypath,
   }
 end
@@ -67,14 +24,20 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
-
   -- Git related plugins
-  'tpope/vim-fugitive',
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.keymap.set('n', '<leader>go', ":Git<Return>", { desc = 'Open Git UI' })
+      vim.keymap.set('n', '<leader>gg', ":Git ", { desc = 'Open Git UI' })
+    end,
+  },
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+
+  'tpope/vim-surround',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -154,10 +117,10 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'Mofiqul/dracula.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'dracula'
     end,
   },
 
@@ -167,8 +130,8 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
-        theme = 'onedark',
+        icons_enabled = true,
+        theme = 'dracula-nvim',
         component_separators = '|',
         section_separators = '',
       },
@@ -217,6 +180,44 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    'christoomey/vim-tmux-navigator',
+  },
+
+  {
+    'fatih/vim-go',
+  },
+
+  {
+    'vim-test/vim-test',
+    dependencies = {
+      'christoomey/vim-tmux-runner',
+    },
+    init = function ()
+      vim.cmd([[
+        let test#php#pest#options = '--colors=always'
+        let g:test#strategy = 'vtr'
+        let test#vtr#orientation = 'h'
+        let g:test#echo_command = 0
+        " let test#php#pest#executable = 'docker compose exec -T inventory-php-fpm php artisan test'
+        let test#php#pest#executable = 'docker compose exec -T laravel-website php artisan test'
+        let g:VtrOrientation = 'h'  " Which direction to create tmux pane (for vim-test runner).
+        let g:VtrClearSequence = '' " The characters that vim tmux test runner will use to clear the pane when running next test.
+        let g:VtrPercentage = 35 " Percentage width of the tmux window that opens with running test.
+        let g:vrc_trigger = '<C-c>' " Not sure how this is effecting things right now :grimacing:
+      ]])
+    end,
+    config = function()
+      vim.keymap.set('n', ',n', ':TestNearest<cr>', { desc = 'Test :: Run Nearest Test' })
+      vim.keymap.set('n', ',f', ':TestFile<cr>', { desc = 'Test :: Current File' })
+      vim.keymap.set('n', ',s', ':TestSuite<cr>', { desc = 'Test :: Run Entire Suite' })
+      vim.keymap.set('n', ',l', ':TestLast<cr>', { desc = 'Test :: Run Last Test' })
+      vim.keymap.set('n', ',k', ':VtrKillRunner<cr>', { desc = 'Kill Tmux Runner Pane' })
+    end
+  },
+
+  'vimwiki/vimwiki',
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -240,15 +241,10 @@ require('lazy').setup({
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.number = true
+vim.wo.number = false
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -267,12 +263,20 @@ vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+vim.cmd([[
+  set path+=**
+]])
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.o.scrolloff = 8
+
+vim.o.splitbelow = true
+vim.o.splitright = true
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -288,6 +292,10 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+vim.keymap.set('n', '<leader>o', ':Explore<CR>')
+
+-- vim-fugitive
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -378,7 +386,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'php' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -511,8 +519,11 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
+
+  cssls = {},
+  intelephense = {},
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
