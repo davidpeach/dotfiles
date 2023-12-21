@@ -1,3 +1,50 @@
 #!/usr/bin/bash
 
-gh repo list --limit 300 | fzf | awk '{print $1}' | xargs -I % gh repo clone % -- --bare
+repos_directory="$HOME/repos/github.com"
+owner_me="davidpeach"
+
+params=()
+if [[ -n $1 ]];
+then
+	params+=("$1")
+else
+	echo "Usage: ghclone <search_term> [<owner>]"
+	exit 1
+fi
+
+if [[ $2 == "me" ]];
+then
+	params+=(--owner "$owner_me")
+elif [[ -n $2 ]];
+then
+	params+=(--owner "$2")
+fi
+
+repository_path=$(gh search repos "${params[@]}" --limit 300 | fzf | awk '{print $1}')
+IFS="/" read -r -a path_parts <<< "$repository_path"
+
+owner=${path_parts[0]} 
+repo=${path_parts[1]}
+
+target_directory="$repos_directory/$owner/$repo"
+
+
+if [[ ! -d $repos_directory/$owner ]];
+then
+	mkdir -p "$repos_directory/$owner"
+fi
+
+if [[ ! -d $target_directory ]];
+then
+	gh repo clone "$repository_path" "$target_directory"
+	echo "Cloned $repository_path into $target_directory"
+	exit 0
+fi
+
+if [[ -z "$repository_path" ]];
+then
+	echo "Exited"
+	exit 0
+fi
+
+echo "Folder already exists at $target_directory"
