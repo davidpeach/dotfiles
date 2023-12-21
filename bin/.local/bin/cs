@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+if [[ -z "$1" ]];
+then
+	echo -e "\033[35;1m CLONE SWITCH \o/ \033[0m"
+	echo -e "\033[35;1m ================ \033[0m"
+	echo -e "\033[33;1m CLONE a github repository into a configured location\n then SWITCH to a new tmux session for that repo.\033[0m"
+	echo -e "\033[36;1m Usage: cs <search_term> [<owner>]\033[0m"
+	exit 1
+fi
+
+ghclone "$@" | xargs tmux-switch

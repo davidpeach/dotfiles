@@ -37,14 +37,13 @@ fi
 if [[ ! -d $target_directory ]];
 then
 	gh repo clone "$repository_path" "$target_directory"
-	echo "Cloned $repository_path into $target_directory"
+	echo "$target_directory"
 	exit 0
 fi
 
 if [[ -z "$repository_path" ]];
 then
-	echo "Exited"
-	exit 0
+	exit 1
 fi
 
-echo "Folder already exists at $target_directory"
+echo "$target_directory"
