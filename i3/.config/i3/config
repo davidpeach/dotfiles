@@ -16,7 +16,7 @@ font pango:GoMono Nerd Font 14
 # ============================================================
 # Hook up the screenlocking functionality to "i3lock" program.
 # ============================================================
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -216,11 +216,20 @@ bindsym $mod+m exec --no-startup-id "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '
 # screen before suspend. Use loginctl lock-session to lock your screen.
 bindsym $mod+x exec lockscreen
 
+
+# ============================================================================
+# Print screen. Either whole window in focus or choose an area with the mouse.
+# ============================================================================
+for_window [instance="scrot"] move scratchpad
+bindsym Shift+Print exec --no-startup-id "kitty --name scrot -e scrot -s"
+bindsym Print exec --no-startup-id "kitty --name scrot -e scrot -u"
+
 # ======================================================================
 # Press same workspace key binding to go back to the previous workspace.
 # ======================================================================
 workspace_auto_back_and_forth yes
 focus_follows_mouse no
+
 # ==============================
 # Set the colour scheme colours.
 # ==============================
