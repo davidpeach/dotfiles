@@ -1,11 +1,20 @@
 #!/usr/bin/bash
 
+# Styles imported from ./.local/bin/read_styles
+style_heading="\033[36;1;210m"
+style_subheading="\033[32m"
+style_desc="\033[210;3m"
+style_clear="\033[0m"
+
 if [[ -z "$1" ]];
 then
-	echo -e "\033[35;1m CLONE SWITCH \o/ \033[0m"
-	echo -e "\033[35;1m ================ \033[0m"
-	echo -e "\033[33;1m CLONE a github repository into a configured location\n then SWITCH to a new tmux session for that repo.\033[0m"
-	echo -e "\033[36;1m Usage: cs <search_term> [<owner>]\033[0m"
+	echo -e "${style_heading}Github Clone Switch ${style_clear}"
+	echo -e "${style_subheading}Usage: $0 <search_term> [owner]${style_clear}"
+	echo -e ""
+	echo -e "${style_desc}Clone a Github repository into a configured location then switch to a new tmux session for that repo.${style_clear}"
+	echo -e ""
+	echo -e "${style_subheading}<search_term>${style_clear}        The search term to look for on Github"
+	echo -e "${style_subheading}[owner]${style_clear}              Limit repo search to a given owner. Use 'me' to search own repository."
 	exit 1
 fi
 
