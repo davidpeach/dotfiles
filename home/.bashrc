@@ -1,39 +1,51 @@
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# Environment Variables
+# -- History
+export HISTCONTROL=ignoreboth
+export HISTSIZE=5000
+export HISTFILESIZE=10000
 
-# append to the history file, don't overwrite it
+# -- General Settings
+export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
+export EDITOR="nvim"
+export VISUAL="nvim"
+export SHELL=/usr/bin/bash
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# -- Directories
+export GITUSER="davidpeach"
+export REPOS="$HOME/repos"
+export GHREPOS="$REPOS/github.com/$GITUSER"
+export WORK="$HOME/work/projects"
+export DOTFILES="$GHREPOS/dots"
+export SCRIPTS="$DOTFILES/scripts"
+export PALACE="$HOME/Palace"
+export CDPATH=./:$DOTFILES:$WORK:$HOME
+
+# Options
+# -- append to the history file, don't overwrite it
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=5000
-HISTFILESIZE=10000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
+# -- If set, the pattern "**" used in a pathname expansion context will
+# -- match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-# make less more friendly for non-text input files, see lesspipe(1)
+# -- make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
+# -- set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -42,45 +54,29 @@ esac
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	 # We have color support; assume it's compliant with Ecma-48
-	 # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	 # a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+		# We have color support; assume it's compliant with Ecma-48
+		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+		# a case would tend to support setf rather than setaf.)
+		color_prompt=yes
+	else
+		color_prompt=
+	fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\] \$ '
+	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\] \$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
-# Directories
-# ======================
-export DOTFILES=$HOME/dots/
-export PROJECTS=$HOME/projects/
-export WORK=$HOME/work/projects/
-
 # Aliases
-# ============
 alias v="nvim"
-
 alias t="tmux attach || tmux"
-
 alias r="ranger"
 
-# Quick config editing
-# --------------------------------------------
-alias be="v ~/dots/home/.bashrc"
-alias bs="source ~/.bashrc"
-alias i3c="v ~/dots/i3/.config/i3/config"
-
-# Reverse directory nav
-# --------------------------
+# -- Reverse directory nav
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -89,19 +85,15 @@ alias .....="cd ../../../.."
 alias c="clear"
 alias x="exit"
 
-# Tmux
-# -------------------------
+# -- Tmux
 alias tk="tmux kill-server"
-alias ta="tmux attach"
 
-# Laravel
-# -----------------------------------------------------------
+# -- Laravel
 alias a="php artisan"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 alias stan="./vendor/bin/phpstan analyse"
 
-# Git
-# -------------------------
+# -- Git
 alias g="git"
 alias gs="g status"
 alias ga="g add -p"
@@ -110,57 +102,26 @@ alias gc="git commit -S -m"
 alias gp="git push"
 alias gpl="git pull"
 
-# Browser
-# ----------------------------
+# -- Browser
 alias lynx="~/.local/bin/lynx"
 alias "?"="duck"
 
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
 fi
 
 # Make GPG and pinentry work nicely.
-# -----------------------------------------------------------------------------
 GPG_TTY=$(tty)
 export GPG_TTY
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-# ===========
 # Completions
-# ===========
 complete -C zet zet
 complete -C lupo lupo
-
-# ================
-# Export Variables
-# ================
-
-# CDPATH
-# Tell bash about nested directories that I care about.
-# Then I can `cd folder` and it will look in those nested directories.
-export CDPATH=\
-./:\
-$DOTFILES:\
-$PROJECTS:\
-$WORK:\
-$HOME
-
-
-export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
-export EDITOR="vim"
-export VISUAL="vim"
-export SHELL=/usr/bin/bash
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# Node Version Manager
-# ----------------------------------------------------------------
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"

@@ -1,0 +1,57 @@
+snippet nnew "New Php File"
+	<?php
+
+	declare(strict_types=1);
+
+	${1://}
+
+snippet _ "PHP Constructor"
+	public function __construct($1)
+	{
+		${2://}
+	}
+
+snippet __ "PHP Invokable Method"
+	public function __invoke($1)
+	{
+		${2://}
+	}
+
+snippet pubm "Public Method"
+	public function ${1}(${2})
+	{
+		${3://}
+	}
+
+snippet prom "Protected Method"
+	protected function ${1}(${2})
+	{
+		${3://}
+	}
+
+snippet prim "Private Method"
+	private function ${1}(${2})
+	{
+		${3://}
+	}
+
+snippet t "This"
+	\$this->${1:is}
+
+snippet lcol "Laravel Collection Init"
+	collect(\$${1})${2}
+
+snippet lmap "Laravel Collection Map"
+	->map(function (${1:Type} ${2:\$item}) {
+            return ${3:\$item};
+        })
+
+snippet lfil "Laravel Collection Filter"
+	->filter(function (${1:Type} ${2:\$item}) {
+            return ${3:true};
+        })
+
+snippet lrej "Laravel Collection Reject"
+	->reject(function (${1:Type} ${2:\$item}) {
+            return ${3:false};
+        })

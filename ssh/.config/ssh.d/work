@@ -2,3 +2,8 @@ Host bitbucketwork
     HostName bitbucket.org
     IdentitiesOnly yes
     IdentityFile ~/work/.ssh/id_rsa
+
+Host staging-ih
+    HostName 35.178.177.239
+    User ec2-user
+    IdentityFile ~/work/.ssh/id_rsa

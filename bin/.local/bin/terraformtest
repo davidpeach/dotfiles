@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+terraform "$@" -var "do_token=$(cat ~/terraform-test)"
