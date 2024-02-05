@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [[ ! $(which docker) ]]; then
+    echo "Docker not found."
+    exit 1
+fi
+
+# ----------------------------------
+# Delete all containers and Volumes.
+# ----------------------------------
+docker rm -vf $(docker ps -aq)
+
+# ----------------------------------
+# Delete all Images.
+# ----------------------------------
+docker rmi -f $(docker images -aq)
+
+docker volume prune -a
+
+docker network prune
+
+echo "Its.....all....GONE !"

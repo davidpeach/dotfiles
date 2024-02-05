@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+set -e
+
+branch=$(git branch | fzf)
+
+if [[ -z "$branch" ]]; then
+	echo "Empty"
+	exit 0
+fi
+
+branch="${branch//[[:space:]]/}"
+
+branch="${branch##\*}"
+
+git checkout "$branch"
+
+dunstify "Git branch" "switched to $branch"

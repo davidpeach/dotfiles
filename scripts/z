@@ -1,0 +1,123 @@
+#!/usr/bin/bash
+
+declare -a commands=(new commit index latest edit push build)
+declare directory="$ZETROOT"
+
+if [[ -n $COMP_LINE ]]; then
+	for c in "${commands[@]}"; do
+		[[ ${c:0:${#2}} == "${2,,}" ]] && echo "$c"
+	done
+	exit
+fi
+
+_edit() {
+	latest=$(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -t '\0' -n | awk -F '\0' '{print $1}' | tail -n1)
+	filename="$1"
+	if [[ -z $filename ]]; then
+		filename="$latest"
+	fi
+	filepath="$directory/$filename/README.md"
+
+	twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
+
+	_index
+
+	read -r -p $'\e[32mDo you want to commit this\e[0m? ' answer
+
+	if [[ $answer == "y" ]]; then
+		titleline=$(head -1 "$filepath")
+		title="${titleline//# /}"
+		_commit "$title - updated"
+	fi
+}
+
+_latest() {
+	while read -r filename; do
+		file="$directory/$filename/README.md"
+		titleline=$(head -1 "$file")
+		title="${titleline//# /}"
+		echo -e " \033[31;1;210m$filename\033[0m \033[96;2m$title\033[0m"
+	done < <(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $1}' | head -n 5)
+}
+_new() {
+	latest=$(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -t '\0' -n | awk -F '\0' '{print $1}' | tail -n1)
+	((latest++))
+
+	datestring=$(date "+%A, %d %B %Y. %T%Z")
+
+	read -r -p $'\e[33mZet title\e[0m: ' title
+
+	[[ -z $title ]] && echo -e "\e[31mPlease provide a title for the zet!\e[0,:." && exit 1
+
+	filepath="$directory/$latest/README.md"
+
+	mkdir -p "$(dirname "$filepath")"
+
+	touch "$filepath"
+	{
+		echo "# $title"
+		echo -en "\n"
+		echo "$datestring"
+		echo -en "\n\n"
+	} >>"$filepath"
+
+	twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
+
+	_index
+
+	read -r -p $'\e[32mDo you want to commit this\e[0m? ' answer
+	if [[ $answer == "y" ]]; then
+		_commit "$title"
+	fi
+}
+
+_index() {
+	mkdir -p "$directory/i"
+	touch "$directory/i/README.md"
+	indexfile="$directory/i/README.md"
+	string=""
+	while IFS=" " read -r filename datetime; do
+		file="$directory/$filename/README.md"
+		titleline=$(head -1 "$file")
+		title="${titleline//# /}"
+		tagsline=$(tail -1 "$file")
+		if [[ $tagsline != *"#"* ]]; then
+			tagsline=""
+		else
+			tagsline="($tagsline)"
+		fi
+		string+=" - $datetime [$title](../$filename/) $tagsline\n"
+	done < <(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf "%T@\0%p\0%Tc\0\n" | sort -r -t '\0' -n | awk -F '\0' '{print $2, $3}')
+	template=$(cat "$HOME/.local/bin/template")
+	content="${template/"{{INSERT}}"/$string}"
+	echo -e "$content" >"$indexfile"
+}
+
+_commit() {
+	message="${1:-"fallback"}"
+	git add .
+	git commit -m "$message"
+}
+
+_build() {
+	rm -rf "$directory/html"
+	_index
+	while read -r filepath; do
+		path="${filepath##"$directory"/}"
+		target="$directory/html/${path/README.md/index.html}"
+		mkdir -p "$(dirname "$target")"
+		pandoc -s "$filepath" -t html -o "$target"
+		echo "$target"
+	done < <(find "$directory" -type f -name *.md)
+}
+
+_push() {
+    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$directory/html/" david@zet.davidpeach.me:/var/www/zet.davidpeach.me
+	git push
+}
+
+declare CMD="$1"
+shift
+for c in "${commands[@]}"; do
+	[[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
+done

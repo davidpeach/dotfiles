@@ -1,0 +1,34 @@
+#!/usr/bin/bash
+
+# Opens a new TMUX window and optionally switch to it.
+# ----------------------------------------------------
+# $1 should be the full path to the directory to open.
+# $2 should be the session name to open the window in.
+# -- Default: the current session you are in.
+# $3 should be the command to run upon opening window.
+# $4 Any non-empty string to switch to other session.
+
+if [[ -n "$TMUX" ]]
+then
+    current_session=$(tmux display-message -p "#S")
+    session_name=${2:-$current_session}
+    window_name="${1##*/}"
+
+    if ! tmux has-session -t="$session_name" 2> /dev/null; then
+        tmux new-session -ds "$session_name" -c "$1"
+    fi
+
+    if tmux select-window -t "$window_name" &> /dev/null ; then
+        exit 0
+    fi
+
+    if [[ -n $3 ]]; then
+        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}" "$3"
+    else
+        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}"
+    fi
+
+    if [[ -n $4 ]]; then
+        tmux switch -t "$session_name"
+    fi
+fi

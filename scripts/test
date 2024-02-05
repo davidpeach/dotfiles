@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+curl -X POST \
+	-H "Content-type: application/json;charset=utf-8" \
+	-H "Authorization: Bearer some-token" \
+	-d '{
+    "profile": {
+        "status_text": "Testing",
+        "status_emoji": ":mountain_railway:",
+        "status_expiration": 0
+    }
+}' \
+	https://slack.com/api/users.profile.set

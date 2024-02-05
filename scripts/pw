@@ -1,0 +1,10 @@
+#!/bin/bash
+
+line=1
+
+if [[ -n "$1" ]]
+then
+    line="$1"
+fi
+
+pass | fzf | awk '{print $(NF)}' | xargs -I % pass show --clip="$line" %

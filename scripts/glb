@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+root="$HOME/work"
+dumproot="$root/dumps"
+
+projects=(
+	"statamic"
+	"website"
+	"glb-merge"
+)
+
+for project in "${projects[@]}"; do
+	projectDumpFile="$dumproot/$project.sql"
+	if [[ -e "$projectDumpFile" ]]; then
+		docker exec -i docker-tools-mariadb-1 mysql -uuser -ppassword -e "drop database if exists \`$project\`"
+		docker exec -i docker-tools-mariadb-1 mysql -uuser -ppassword -e "create database \`$project\`"
+		docker exec -i docker-tools-mariadb-1 mysql -uuser -ppassword --database "$project" <"$projectDumpFile"
+	else
+		echo "NOPE"
+	fi
+done

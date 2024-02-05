@@ -1,0 +1,14 @@
+#!/bin/bash
+
+bluetooth_status_file=/tmp/bluetooth_status
+
+rm 
+touch "$bluetooth_status_file"
+bluetoothctl info F8:4E:17:84:06:7B > "$bluetooth_status_file"
+if grep -q "Connected: no" "$bluetooth_status_file"; then
+    dunstify "Connecting to Bluetooth"
+    bluetoothctl -- connect F8:4E:17:84:06:7B
+else 
+    dunstify "Disconnecting from Bluetooth"
+    bluetoothctl -- disconnect F8:4E:17:84:06:7B
+fi

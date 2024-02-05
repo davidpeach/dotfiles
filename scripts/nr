@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+
+project_root="$HOME/repos/github.com/davidpeach"
+
+read -r -p "Project Name: " name
+
+target="$project_root/$name"
+
+if [[ -d "$target" ]];
+then
+	echo "Directory already exists." && exit 1
+fi
+
+mkdir -p "$target"
+
+pushd "$target" > /dev/null || exit
+
+touch README.md
+
+echo "# $name" > README.md
+
+git init .
+git add .
+git commit -m 'Initial Commit.'
+
+gh repo create --public --remote origin --source . --push
+
+exec tmux-switch "$target"
