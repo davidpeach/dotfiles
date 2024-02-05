@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-gcloud auth list | fzf | awk '{print $1}' | xargs -I % gcloud config set account %

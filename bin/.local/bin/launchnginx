@@ -1,3 +1,0 @@
-#!/bin/bash
-# Usage: launchnginx 7000 ./html my-image
-docker run -it --rm -d -p "${1:-80}":80 --name "${3:-nginx}" -v "${2:-./html}":/usr/share/nginx/html nginx

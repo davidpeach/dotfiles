@@ -1,6 +1,0 @@
-#!/usr/bin/bash
-
- xrandr --output eDP-1 --mode 1920x1080 --rate 60
- xrandr --output DP-2-2 --mode 3840x2160 --rate 60 --right-of eDP-1
- exit 0
-

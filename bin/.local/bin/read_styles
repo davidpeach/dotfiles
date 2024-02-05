@@ -1,5 +1,0 @@
-# Styles imported from ./.local/bin/read_styles
-style_heading="\033[36;1;210m"
-style_subheading="\033[32;3;1m"
-style_clear="\033[0m"
-

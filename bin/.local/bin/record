@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# THIS IS A WORK IN PROGRESS
-#
-# ffmpeg -y -framerate 30 -f x11grab -thread_queue_size 256 -i :0.0+0,0 -vcodec libx264 -f pulse -thread_queue_size 256 -i default test.mkv
-ffmpeg -y -probesize 100000000 -f x11grab -thread_queue_size 2048 -i :0.0 -f pulse -thread_queue_size 2048 -i default -async 1 test.mkv

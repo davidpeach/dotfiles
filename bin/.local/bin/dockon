@@ -1,9 +1,0 @@
-#!/usr/bin/bash
-
-xrandr --output DP-2-2 --mode 3840x2160 --rate 60
- 
-xrandr --output eDP-1 --off
- 
-setxkbmap gb
-
-exit 0

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker container ls | fzf | awk '{print $1}' | xargs -o -I % docker exec -it % "$@"

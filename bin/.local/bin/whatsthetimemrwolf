@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-now=$(date "+%T")
-message=$(printf "%s" "$now")
-dunstify "Time" "$message" -h string:x-dunst-stack-tag:peachtime
