@@ -1,18 +1,19 @@
-#--------------------------------------
-# Installation script that I use to setup my
-# Lenovo Thinkpad T470
-#--------------------------------------
+#----------------------------------------
+# Installation script that I use to setup
+# my Lenovo Thinkpad T470 / T490
+#----------------------------------------
 
 INSTALL_PACKAGES=false
 
-# -------------------------------------
-# Installing the packages I use
-# -------------------------------------
+# -------------------------------
+# Installing the packages I need.
+# -------------------------------
 if [[ "$INSTALL_PACKAGES" == true ]]; then
 	sudo pacman -S \
 		alsa-utils \
 		ansible \
 		bashtop \
+		chromium \
 		curl \
 		dmidecode \
 		docker \
@@ -68,7 +69,6 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
 	# ------------------------------
 	echo "Installing :: Required Yay packages."
 	yay -S --noconfirm \
-		google-chrome \
 		mycli \
 		python-sqlglot \
 		signal-desktop \
@@ -107,29 +107,6 @@ ln -sf "$PWD/kitty" "$HOME/.config/kitty" && echo "Symlinked kitty folder."
 ln -sf "$PWD/lynx" "$HOME/.config/lynx" && echo "Symlinked lynx folder."
 ln -sf "$PWD/dunst" "$HOME/.config/dunst" && echo "Symlinked dunst folder."
 ln -sf "$PWD/ssh.d" "$HOME/.config/ssh.d" && echo "Symlinked ssh.d folder."
-
-# declare stow_directories=(
-# 	bashtop
-# 	bin
-# 	dunst
-# 	home
-# 	i3
-# 	kitty
-# 	lynx
-# 	nvim
-# 	picom
-# 	pictures
-# 	ranger
-# 	rofi
-# 	ssh
-# 	task
-# 	tmux
-# )
-#
-# for folder in "${stow_directories[@]}"; do
-# 	stow "$folder"
-# 	echo "Stowed :: $folder folder"
-# done
 
 # SSH Key Generation
 # ssh-keygen -t rsa -f "$HOME"/.ssh/marnie -C "Marnie" -b 4096

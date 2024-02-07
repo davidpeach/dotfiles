@@ -67,6 +67,8 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
 
+let g:mkdp_browser = '/usr/bin/chromium'
+
 call plug#begin("~/.local/share/vim/plugins")
 Plug 'sheerun/vim-polyglot' " Code highlighting for many languages/filetypes.
 Plug 'tpope/vim-fugitive'   " Excellent tool for working with git-related things.
@@ -77,6 +79,7 @@ Plug 'christoomey/vim-tmux-navigator'   " Enable easy movement between vim and T
 Plug 'morhetz/gruvbox'      " Theme.
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 call plug#end()
 
 colorscheme gruvbox
@@ -90,6 +93,8 @@ nnoremap <Leader>gl :Git log
 nnoremap <Leader>gc :Git checkout 
 nnoremap <Leader>gm :Git merge 
 nnoremap <Leader>gd :Git diff x --name-only
+
+nnoremap <Leader>m :MarkdownPreviewToggle<CR>
 
 nnoremap <Leader>o :Explore<CR>
 nnoremap <Leader>r :bufdo :bdelete<CR>:Explore<CR>:echo "All buffers closed."<CR>

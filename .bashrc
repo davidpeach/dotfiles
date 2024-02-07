@@ -12,8 +12,8 @@ export HISTFILESIZE=10000
 
 # -- General Settings
 export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR="vim"
+export VISUAL="vim"
 export SHELL=/usr/bin/bash
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -26,6 +26,8 @@ export DOTFILES="$GHREPOS/dotfiles"
 export SCRIPTS="$DOTFILES/scripts"
 export PALACE="$HOME/Palace"
 export CDPATH=./:$DOTFILES:$WORK:$HOME
+
+export GOBIN="$HOME/.local/bin"
 
 # -- Palace (a.k.a. Second Brain) Paths.
 export ZETROOT="$HOME/Zet"
