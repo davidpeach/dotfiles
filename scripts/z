@@ -106,9 +106,10 @@ _build() {
 		path="${filepath##"$directory"/}"
 		target="$directory/html/${path/README.md/index.html}"
 		mkdir -p "$(dirname "$target")"
-		pandoc -s "$filepath" -t html -o "$target"
+		pandoc -s "$filepath" -t html -o "$target" --template="$directory/page.template" -c "$directory/style.css" -s
 		echo "$target"
 	done < <(find "$directory" -type f -name *.md)
+	cp "$directory/style.css" "./html"
 }
 
 _push() {
