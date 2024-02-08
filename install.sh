@@ -94,8 +94,8 @@ if [[ ! -e $HOME/.config ]]; then
 fi
 
 # Symlink all my dotfiles.
-ln -sf "$PWD/i3" "$HOME/.config/i3" && echo "Symlinked i3 config."
-ln -sf "$PWD/nvim" "$HOME/.config/nvim" && echo "Symlinked nvim config."
+ln -sf "$PWD/i3" "$HOME/.config/" && echo "Symlinked i3 config."
+ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
 ln -sf "$PWD/scripts" "$HOME/.local/bin" && echo "Symlinked scripts folder."
 ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf" && echo "Symlinked tmux config."
 ln -sf "$PWD/.bashrc" "$HOME/.bashrc" && echo "Symlinked bashrc config."
@@ -103,10 +103,10 @@ ln -sf "$PWD/.vimrc" "$HOME/.vimrc" && echo "Symlinked vimrc config."
 ln -sf "$PWD/.inputrc" "$HOME/.inputrc" && echo "Symlinked inputrc config."
 ln -sf "$PWD/.xinitrc" "$HOME/.xinitrc" && echo "Symlinked xinitrc config."
 ln -sf "$PWD/.Xresources" "$HOME/.Xresources" && echo "Symlinked Xresources config."
-ln -sf "$PWD/kitty" "$HOME/.config/kitty" && echo "Symlinked kitty folder."
-ln -sf "$PWD/lynx" "$HOME/.config/lynx" && echo "Symlinked lynx folder."
-ln -sf "$PWD/dunst" "$HOME/.config/dunst" && echo "Symlinked dunst folder."
-ln -sf "$PWD/ssh.d" "$HOME/.config/ssh.d" && echo "Symlinked ssh.d folder."
+ln -sf "$PWD/kitty" "$HOME/.config/" && echo "Symlinked kitty folder."
+ln -sf "$PWD/lynx" "$HOME/.config/" && echo "Symlinked lynx folder."
+ln -sf "$PWD/dunst" "$HOME/.config/" && echo "Symlinked dunst folder."
+ln -sf "$PWD/ssh.d" "$HOME/.config/" && echo "Symlinked ssh.d folder."
 
 # SSH Key Generation
 # ssh-keygen -t rsa -f "$HOME"/.ssh/marnie -C "Marnie" -b 4096
