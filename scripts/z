@@ -72,9 +72,9 @@ _new() {
 }
 
 _index() {
-	mkdir -p "$directory/i"
-	touch "$directory/i/README.md"
-	indexfile="$directory/i/README.md"
+	mkdir -p "$directory/zet"
+	touch "$directory/zet/README.md"
+	indexfile="$directory/zet/README.md"
 	string=""
 	while IFS=" " read -r filename datetime; do
 		file="$directory/$filename/README.md"
