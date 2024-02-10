@@ -113,7 +113,7 @@ _build() {
 }
 
 _push() {
-    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$directory/html/" david@zet.davidpeach.me:/var/www/zet.davidpeach.me
+    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_davidpeachme" "$directory/html/" david@davidpeach.me:/var/www/davidpeach.me
 	git push
 }
 

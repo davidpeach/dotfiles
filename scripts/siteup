@@ -1,0 +1,116 @@
+#!/usr/bin/bash
+
+# This script is just a bit of a play around going from zero to
+# my static webite being deployed in one step.
+# The issue the script has currently is that the ansible script runs 
+# and has a step to setup the ssl using certbot. But the domain hasn't
+# propergated at that point. I may need to add a loop before the ansible step
+# to ping the domain name and ensure it both works and the ip address is correct.
+# In reality I don't need to be able to run it all from one script. Its just for "fun".
+
+if [[ ! -r "$HOME/.keys/digital-ocean" ]];
+then
+	echo "Digital Ocean token file not found at $HOME/.keys/digital-ocean. Please fix and re-run." && exit 1
+fi
+
+if [[ ! -r "$HOME/.local/bin/tf" ]];
+then
+	echo "Terraform wrapper script not found at $HOME/.local/bin/tf. Please fix and re-run." && exit 1
+fi
+
+if [[ -z "$(command -v doctl)" ]];
+then
+	echo "INSTALL DOCTL"
+else
+	echo "doctl is already installed."
+fi
+
+if [[ -z "$(command -v terraform)" ]];
+then
+	echo "INSTALL TERRAFORM"
+else
+	echo "terraform is already installed."
+fi
+
+if [[ -z "$(command -v ansible-playbook)" ]];
+then
+	echo "INSTALL ANSIBLE"
+else
+	echo "ansible-playbook is already installed."
+fi
+
+directory="$HOME/site-deploy"
+
+if [[ -d "$directory" ]];
+then
+	rm -rf "$directory"
+fi
+
+mkdir -p "$directory"
+
+cd "$directory" || exit 1
+
+gh repo clone "davidpeach/davidpeach.me.terraform" "$directory/davidpeach.me.terraform"
+gh repo clone "davidpeach/davidpeach.me.ansible" "$directory/davidpeach.me.ansible"
+
+read -r -p "Create a new ssh key pair? "  want_new_ssh_key
+if [[ "$want_new_ssh_key" == "y" ]];
+then
+	ssh-keygen -t ed25519 -f "$HOME/.ssh/id_davidpeachme" -P "" && cat ~/.ssh/id_davidpeachme.pub
+fi
+
+cd "$directory/davidpeach.me.terraform" || exit 1
+tf_vars_file="$directory/davidpeach.me.terraform/terraform.tfvars"
+
+sed -i 's|<DOMAIN_NAME>|davidpeach.me|' "$tf_vars_file"
+
+droplet_image=$(doctl compute image list-distribution | fzf)
+
+if [[ -z "$droplet_image" ]];
+then
+	echo "Droplet image choice cancelled. Aborting" && exit 1
+fi
+
+droplet_image=$(echo "$droplet_image" | awk '{print $(NF-2)}')
+sed -i "s|<DROPLET_IMAGE>|$droplet_image|" "$tf_vars_file"
+
+
+sed -i "s|<DROPLET_NAME>|davidpeach.me|" "$tf_vars_file"
+sed -i "s|<DROPLET_REGION>|lon1|" "$tf_vars_file"
+sed -i "s|<DROPLET_REGION>|lon1|" "$tf_vars_file"
+
+droplet_size=$(doctl compute size list | fzf)
+
+if [[ -z "$droplet_size" ]];
+then
+	echo "Droplet image sizee cancelled. Aborting" && exit 1
+fi
+
+echo "$droplet_size"
+droplet_size=$(echo "$droplet_size" | awk '{print $1}')
+sed -i "s|<DROPLET_SIZE>|$droplet_size|" "$tf_vars_file"
+
+sed -i "s|<SSH_KEY_NAME>|davidpeach.me.rainbird|" "$tf_vars_file"
+sed -i "s|<SSH_LOCAL_PATH>|$HOME/.ssh/id_davidpeachme.pub|" "$tf_vars_file"
+
+sed -i "s|<A_RECORD_NAME>|@|" "$tf_vars_file"
+
+cd "$directory/davidpeach.me.terraform" || exit 1
+tf init
+tf apply -auto-approve
+
+droplet_id_address=$(terraform output droplet_id_v4_address)
+
+ansible_vars_file="$directory/davidpeach.me.ansible/vars/default.yml"
+ansible_inventory_file="$directory/davidpeach.me.ansible/inventory.yml"
+
+sed -i "s|<CREATE_USER>|david|" "$ansible_vars_file"
+sed -i "s|<COPY_LOCAL_KEY>|$HOME/.ssh/id_davidpeachme.pub|" "$ansible_vars_file"
+sed -i "s|<CERTBOT_EMAIL>|mail@davidpeach.co.uk|" "$ansible_vars_file"
+sed -i "s|<HTTP_HOST>|davidpeach.me|" "$ansible_vars_file"
+
+sed -i "s|<ANSIBLE_SSH_PRIVATE_KEY_FILE>|$HOME/.ssh/id_davidpeachme|" "$ansible_inventory_file"
+sed -i "s|    <HTTP_HOST>|    $droplet_id_address|" "$ansible_inventory_file"
+
+cd "$directory/davidpeach.me.ansible" || exit 1
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook setup.yml -i inventory.yml

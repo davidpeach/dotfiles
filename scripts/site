@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+ssh -i "$HOME/.ssh/id_davidpeachme" david@davidpeach.me
