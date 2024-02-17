@@ -86,7 +86,7 @@ _index() {
 		else
 			tagsline="($tagsline)"
 		fi
-		string+=" - $datetime [$title](../$filename/) $tagsline\n"
+		string+=" - <time>$datetime</time> [$title](../$filename/) <span class='tags-list'>$tagsline</span>\n"
 	done < <(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf "%T@\0%p\0%Tc\0\n" | sort -r -t '\0' -n | awk -F '\0' '{print $2, $3}')
 	template=$(cat "$HOME/.local/bin/template")
 	content="${template/"{{INSERT}}"/$string}"
@@ -103,17 +103,20 @@ _build() {
 	rm -rf "$directory/html"
 	_index
 	while read -r filepath; do
+		titleline=$(head -1 "$filepath")
+		title="${titleline//# /}"
+
 		path="${filepath##"$directory"/}"
 		target="$directory/html/${path/README.md/index.html}"
 		mkdir -p "$(dirname "$target")"
-		pandoc -s "$filepath" -t html -o "$target" --template="$directory/page.template" -c "$directory/style.css" -s
+		pandoc -s "$filepath" -t html -o "$target" --metadata "title=$title" --template="$directory/page.template" -c "$directory/style.css" -s
 		echo "$target"
 	done < <(find "$directory" -type f -name *.md)
 	cp "$directory/style.css" "./html"
 }
 
 _push() {
-    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_davidpeachme" "$directory/html/" david@davidpeach.me:/var/www/davidpeach.me
+    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$directory/html/" david@davidpeach.me:/var/www/davidpeach.me
 	git push
 }
 
