@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+file="$1"
+IFS="/" read -r -a array <<< "$file"
+window_title="${array[-1]}"
+exec tmux new-window -n "$window_title" "kitty +kitten icat $1 && read -p 'Close ? '"
+

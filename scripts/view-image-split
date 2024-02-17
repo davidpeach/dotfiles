@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+dimensions=$(file "$1" | grep  -Eo "[[:digit:]]+ *x *[[:digit:]]+" | tail -n 1)
+IFS=' ' read -r -a array <<< "$dimensions"
+width="${array[0]}"
+height="${array[2]}"
+
+if [[ $height -gt $width ]]
+then
+	exec tmux split-window -h "kitty +kitten icat $1 && read -p 'Close ? '"
+else
+	exec tmux split-window -v "kitty +kitten icat $1 && read -p 'Close ? '"
+fi
+
+
