@@ -92,7 +92,7 @@ fi
 
 # Symlink all my dotfiles.
 ln -sf "$PWD/i3" "$HOME/.config/" && echo "Symlinked i3 config."
-# ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
+ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
 ln -sf "$PWD/scripts" "$HOME/.local/bin" && echo "Symlinked scripts folder."
 ln -sf "$PWD/ranger" "$HOME/.config/" && echo "Symlinked ranger folder."
 ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf" && echo "Symlinked tmux config."
