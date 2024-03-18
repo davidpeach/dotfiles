@@ -106,13 +106,14 @@ alias stan="./vendor/bin/phpstan analyse"
 
 # -- Git
 alias g="git"
-alias gl="g log --oneline"
-alias gs="g status"
 alias ga="g add -p"
 alias gaa="g add ."
+alias gb="g branch"
 alias gc="git commit -S -m"
+alias gl="g log --oneline"
 alias gp="git push"
 alias gpl="git pull"
+alias gs="g status"
 
 # -- Browser
 alias lynx="~/.local/bin/lynx"
