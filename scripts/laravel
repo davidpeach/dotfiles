@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+declare -a artisan=(
+	"make:controller"
+	"make:model"
+	"make:volt"
+)
+
+# chosen=$(printf '%s\n' "${profiles[@]}" | dmenu -i -l 10 -p 'Firefox Profile: ')
+chosen_artisan=$(printf '%s\n' "${artisan[@]}" | fzf)
+if [[ -z "$chosen_artisan" ]]; then
+	echo "NOPE"
+	exit 0
+fi
+
+# echo "$chosen_artisan"
+
+# Decide how to execute "artisan"
+exec ./vendor/bin/sail artisan "$chosen_artisan"
