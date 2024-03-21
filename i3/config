@@ -275,8 +275,8 @@ bindsym $mod+b exec --no-startup-id ffprofile
 
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
-exec_always --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
-exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/Horizon Zero Dawn™_ Complete Edition_20201019072342.jpg"
+exec --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
+exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/hzd3.jpg"
 
 #================
 # Launch Polybar.
