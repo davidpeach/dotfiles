@@ -77,6 +77,12 @@ _index() {
 	indexfile="$directory/zet/README.md"
 	string=""
 	while IFS=" " read -r filename datetime; do
+		test="${filename##"$directory"}"
+		if [[ "$test" == html* ]]
+		then
+			continue
+		fi
+
 		file="$directory/$filename/README.md"
 		titleline=$(head -1 "$file")
 		title="${titleline//# /}"
@@ -100,7 +106,7 @@ _commit() {
 }
 
 _build() {
-	rm -rf "$directory/html"
+	rm -rf "$directory/html/**"
 	_index
 	while read -r filepath; do
 		titleline=$(head -1 "$filepath")
@@ -111,12 +117,12 @@ _build() {
 		mkdir -p "$(dirname "$target")"
 		pandoc -s "$filepath" -t html -o "$target" --metadata "title=$title" --template="$directory/page.template" -c "$directory/style.css" -s
 		echo "$target"
-	done < <(find "$directory" -type f -name *.md)
+	done < <(find "$directory"  -type f -name *.md)
 	cp "$directory/style.css" "./html"
 }
 
 _push() {
-    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$directory/html/" david@davidpeach.me:/var/www/davidpeach.me
+    rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$directory/html/" david@zet.davidpeach.me:/var/www/zet.davidpeach.me
 	git push
 }
 
