@@ -11,7 +11,7 @@ set $mod Mod4
 # ===========================
 # Set the font and font size.
 # ===========================
-font pango:GoMono Nerd Font 14
+font pango:NotoMono NF 14
 
 # ============================================================
 # Hook up the screenlocking functionality to "i3lock" program.
