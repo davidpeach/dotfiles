@@ -50,15 +50,8 @@ return {
     end
     capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
-    --  - cmd (table): Override the default command used to start the server
-    --  - filetypes (table): Override the default list of associated filetypes for the server
-    --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-    --  - settings (table): Override the default settings passed when initializing the server.
     local servers = {
       lua_ls = {
-        -- cmd = {...},
-        -- filetypes { ...},
-        -- capabilities = {},
         settings = {
           Lua = {
             runtime = { version = "LuaJIT" },
@@ -76,6 +69,9 @@ return {
             completion = {
               callSnippet = "Replace",
             },
+            telemetry = {
+              enable = false,
+            },
             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             -- diagnostics = { disable = { 'missing-fields' } },
           },
@@ -87,7 +83,7 @@ return {
       },
       jsonls = {},
       html = {
-        filetypes = { "html" },
+        filetypes = { "html", "quarto" },
         configurationSection = { "html", "css", "javascript", "php" },
         embeddedLanguages = {
           css = true,
@@ -111,7 +107,26 @@ return {
           },
         },
       },
-      pyright = {},
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = false,
+              diagnosticMode = "workspace",
+            },
+          },
+        },
+        root_dir = function(fname)
+          return require("lspconfig").util.root_pattern(
+            ".git",
+            "setup.py",
+            "setup.cfg",
+            "pyproject.toml",
+            "requirements.txt"
+          )(fname) or require("lspconfig").util.path.dirname(fname)
+        end,
+      },
       r_language_server = {
         settings = {
           r = {

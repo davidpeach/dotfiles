@@ -19,6 +19,9 @@ vim.opt.hlsearch = true
 vim.opt.expandtab = true
 
 vim.g.slime_target = "tmux"
+vim.cmd([[
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+]])
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
@@ -53,3 +56,4 @@ vim.cmd([[
 ]])
 
 require("config.keymaps")
+require("config.abbreviations")

@@ -1,7 +1,28 @@
 local wk = require("which-key")
 local telescope = require("telescope.builtin")
 
+local function send_cell()
+  if vim.b["quarto_is_r_mode"] == nil then
+    vim.fn["slime#send_cell"]()
+    return
+  end
+  if vim.b["quarto_is_r_mode"] == true then
+    vim.g.slime_python_ipython = 0
+    local is_python = require("otter.tools.functions").is_otter_language_context("python")
+    if is_python and not vim.b["reticulate_running"] then
+      vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
+      vim.b["reticulate_running"] = true
+    end
+    if not is_python and vim.b["reticulate_running"] then
+      vim.fn["slime#send"]("exit" .. "\r")
+      vim.b["reticulate_running"] = false
+    end
+    vim.fn["slime#send_cell"]()
+  end
+end
+
 wk.register({
+  ["<cr>"] = { send_cell, "run code cell" },
   c = {
     name = "[C]ode",
     c = { "<cmd>SlimeConfig<cr>", "Slime [C]onfig" },
@@ -59,6 +80,11 @@ wk.register({
     --   end,
     --   "[E]xport with overwrite",
     -- },
+  },
+  s = {
+    name = "[S]pellcheck",
+    e = { ":lua vim.opt.spell = true", "[E]nable Spellcheck" },
+    d = { ":lua vim.opt.spell = false", "[D]isable Spellcheck" },
   },
   v = {
     name = "[V]im",

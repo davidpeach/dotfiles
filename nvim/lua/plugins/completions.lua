@@ -16,7 +16,18 @@ return {
     --  into multiple repos for maintenance purposes.
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
+    "hrsh7th/cmp-calc",
+    "hrsh7th/cmp-emoji",
+    "jmbuhr/cmp-pandoc-references",
+    "kdheepak/cmp-latex-symbols",
 
+  --    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+  --    { 'hrsh7th/cmp-buffer' },
+  --    { 'f3fora/cmp-spell' },
+  --    { 'ray-x/cmp-treesitter' },
+  --    { 'kdheepak/cmp-latex-symbols' },
+  --    { 'rafamadriz/friendly-snippets' },
+  --    { 'onsails/lspkind-nvim' },
     -- If you want to add a bunch of pre-configured snippets,
     --    you can use this plugin to help you. It even has snippets
     --    for various frameworks/libraries/etc. but you will have to
@@ -74,9 +85,13 @@ return {
       }),
       sources = {
         { name = "otter" },
+        { name = "pandoc_references" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "path" },
+        { name = "calc" },
+        { name = "emoji" },
+        { name = "latex_symbols" },
       },
     })
   end,

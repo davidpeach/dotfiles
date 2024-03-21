@@ -1,7 +1,11 @@
 {
   "LuaSnip": { "branch": "master", "commit": "a7a4b4682c4b3e2ba82b82a4e6e5f5a0e79dec32" },
   "bamboo.nvim": { "branch": "master", "commit": "5c826c8ad27010ac2fcaf7deb4c36b16d00ef5a1" },
+  "cmp-calc": { "branch": "main", "commit": "ce91d14d2e7a8b3f6ad86d85e34d41c1ae6268d9" },
+  "cmp-emoji": { "branch": "main", "commit": "0acd702358230abeb6576769f7116e766bca28a0" },
+  "cmp-latex-symbols": { "branch": "main", "commit": "165fb66afdbd016eaa1570e41672c4c557b57124" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "5af77f54de1b16c34b23cba810150689a3a90312" },
+  "cmp-pandoc-references": { "branch": "master", "commit": "dd86d3a8acc52a6d0503c3a45ba1bb93f39a3d31" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
   "conform.nvim": { "branch": "master", "commit": "7215c20f54205eb2c0de8ef763baba84d4617873" },
