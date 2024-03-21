@@ -30,7 +30,7 @@
     height = 800
 
     # Position the notification in the top right corner
-    origin = bottom-right
+    origin = right-center
 
     # Offset from the origin
     offset = 10x10
@@ -123,7 +123,7 @@
 
     ### Text ###
 
-    font = GoMono Nerd Font 14
+    font = NotoSans NF 14
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -250,7 +250,7 @@
     # corners.
     # The radius will be automatically lowered if it exceeds half of the
     # notification height to avoid clipping text and/or icons.
-    corner_radius = 15
+    corner_radius = 5
 
     # Ignore the dbus closeNotification message.
     # Useful to enforce the timeout set by dunst configuration. Without this
