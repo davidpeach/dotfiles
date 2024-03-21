@@ -1,11 +1,11 @@
-adjust_line_height  250%
+adjust_line_height  220%
 allow_remote_control yes
 cursor_blink_interval 0
 draw_minimal_borders yes
 enable_audio_bell no
 enabled_layouts horizontal, stack
-font_family GoMono Nerd Font
-font_size 14.0
+font_family NotoMono NFM
+font_size 18.0
 hide_window_decorations yes
 placement_strategy top-left
 tab_bar_edge bottom
@@ -16,6 +16,6 @@ window_padding_width 0
 
 
 # BEGIN_KITTY_THEME
-# Dracula
+# Gruvbox Material Dark Medium
 include current-theme.conf
 # END_KITTY_THEME
