@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$REPOS/github.com/davidpeach/davidpeach.me/public/" david@davidpeach.me:/var/www/davidpeach.me
+
