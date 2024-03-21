@@ -12,6 +12,7 @@ declare -a profiles=(
     "Pinterest - pinterest"
     "Pocketsmith - pocketsmith"
     "Proton - proton"
+    "Quarto - quarto"
     "Reddit - reddit"
     "Twitter - twitter"
     "Work - work"

@@ -83,7 +83,7 @@ return {
       },
       jsonls = {},
       html = {
-        filetypes = { "html", "quarto" },
+        filetypes = { "html" },
         configurationSection = { "html", "css", "javascript", "php" },
         embeddedLanguages = {
           css = true,
@@ -128,6 +128,7 @@ return {
         end,
       },
       r_language_server = {
+        -- filetypes = { "r", "quarto" },
         settings = {
           r = {
             lsp = {

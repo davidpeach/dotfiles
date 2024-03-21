@@ -10,11 +10,10 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.wo.signcolumn = "yes:2"
-vim.opt.colorcolumn = "118"
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.inccommand = "split"
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.hlsearch = true
 vim.opt.expandtab = true
 
@@ -55,5 +54,8 @@ vim.cmd([[
   au FileType php set makeprg=./vendor/bin/phpstan\ analyse\ --memory-limit=2G\ --no-progress\ --error-format=raw\ --configuration=phpstan.neon
 ]])
 
+vim.cmd([[
+  autocmd FileType lua setlocal shiftwidth=2 tabstop=2 
+]])
 require("config.keymaps")
 require("config.abbreviations")

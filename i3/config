@@ -183,11 +183,18 @@ bindsym $mod+Right mode "switches"; exec dunstify -u critical "Switches" "switch
 
 mode "snippets" {
     bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
-    bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+    bindsym $mod+Left mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
 
     bindsym F1 exec --no-startup-id ~/.local/bin/mwah
 }
 bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet bindings" -h string:x-dunst-stack-tag:switchmode
+
+mode "UI" {
+    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+    bindsym $mod+Down mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+    bindsym q exec firefox -P quarto --class FFQuarto
+}
+bindsym $mod+Down mode "UI"; exec dunstify -u critical "UI" "ui bindings" -h string:x-dunst-stack-tag:switchmode
 
 # OTHER MODE IDEAS:
 # $mod+up info shortcuts i.e. whats my ip; whats my internet speed; htop; 
@@ -197,6 +204,7 @@ bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet 
 # Opening certain programs in specific workspaces.
 # ================================================
 assign [class="kitty" instance="main"]  $ws1 
+assign [class="FFQuarto"] $ws1
 assign [class="firefox"] $ws2
 assign [title="Google Chrome"] $ws3 
 assign [class="Slack"] $ws6
