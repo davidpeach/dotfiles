@@ -6,3 +6,4 @@
 /nvim/.config/nvim/plugin
 /ranger/.config/ranger/colorschemes/__pycache__
 /bashtop/.config/bashtop/error.log
+/ssh.d/work
