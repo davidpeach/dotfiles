@@ -1,0 +1,46 @@
+#!/usr/bin/bash
+
+wanted_branch_name="$1"
+
+if [[ -z ${wanted_branch_name} ]]; then
+        git branch --list
+        exit
+fi
+
+exists_in_local=$(git branch --list "${wanted_branch_name}")
+if [[ -n ${exists_in_local} ]]; then
+
+        if [[ $exists_in_local == \** ]]; then
+                dunstify \
+                -h string:x-dunst-stack-tag:gb \
+                "Branching" \
+                "$wanted_branch_name is already checked out"
+                exit
+        fi
+
+        dunstify \
+        -h string:x-dunst-stack-tag:gb \
+        "Branching" \
+        "Already exists locally -- switching to $wanted_branch_name"
+        git checkout "$wanted_branch_name"
+        exit
+fi
+
+exists_in_remote=$(git ls-remote --heads origin "${wanted_branch_name}")
+
+if [[ -n ${exists_in_remote} ]]; then
+        dunstify \
+                -h string:x-dunst-stack-tag:gb \
+                "Branching" \
+                "exists at origin -- fetching"
+        git fetch
+        git checkout "$wanted_branch_name"
+        exit
+fi
+
+git checkout -b "$wanted_branch_name"
+dunstify \
+        -h string:x-dunst-stack-tag:gb \
+        "Branching" \
+        "Created new branch $wanted_branch_name"
+exit
