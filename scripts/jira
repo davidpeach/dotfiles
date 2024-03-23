@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+declare JIRA_API_TOKEN
+JIRA_API_TOKEN="$(cat ~/.keys/jira-work)"
+
+export JIRA_API_TOKEN && /usr/bin/jira "$@"
