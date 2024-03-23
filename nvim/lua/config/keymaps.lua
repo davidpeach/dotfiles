@@ -57,6 +57,46 @@ wk.register({
     },
     e = { vim.diagnostic.open_float, "Show diagnostic [E]rror messages" },
   },
+  n = {
+    name = "[N]ote taking with [N]eorg",
+    i = {
+      name = "[I]nsert",
+      d = { "Insert [D]ate" },
+    },
+    j = {
+      name = "[J]ournal",
+      c = { "<cmd>Neorg journal custom<cr>", "[C]ustom journal date" },
+      t = { "<cmd>Neorg journal today<cr>", "Journal for [T]oday" },
+    },
+    m = {
+      name = "[M]odes",
+      n = "[N]eorg mode",
+      h = "[H]eadings mode",
+      l = "[L]inks mode",
+    },
+    n = {
+      name = "[N]otes",
+      n = { "[N]ew note" },
+    },
+    r = { "<cmd>Neorg return<cr>", "[R]eturn from whence you came" },
+    t = {
+      name = "[T]asks",
+      a = { "Mark as [A]mbiguous" },
+      c = { "Mark as [C]ancelled" },
+      d = { "Mark as [D]one" },
+      h = { "Mark as on [H]old" },
+      i = { "Mark as [I]mportant" },
+      p = { "Mark as [P]ending" },
+      r = { "Mark as [R]ecurring" },
+      u = { "Mark as [U]ndone" },
+    },
+    x = { "<cmd>Neorg index<cr>", "Inde[X]" },
+    w = {
+      name = "[W]orkspaces",
+      n = { "<cmd>Neorg workspace notes<cr>", "[N]otes workspace" },
+      w = { "<cmd>Neorg workspace work<cr>", "[W]ork workspace" },
+    },
+  },
   o = {
     name = "[O]tter",
     a = { require("otter").dev_setup, "otter [a]ctivate" },
