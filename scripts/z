@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-declare -a commands=(new latest edit)
+declare -a commands=(new latest edit view find)
 declare directory="$ZETROOT"
 
 if [[ -n $COMP_LINE ]]; then
@@ -29,6 +29,7 @@ _latest() {
     echo -e " \033[31;1;210m$filename\033[0m \033[96;2m$title\033[0m"
   done < <(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $1}' | head -n 5)
 }
+
 _new() {
   latest=$(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -t '\0' -n | awk -F '\0' '{print $1}' | tail -n1)
   ((latest++))
@@ -37,21 +38,41 @@ _new() {
 
   read -r -p $'\e[33mZet title\e[0m: ' title
 
-  [[ -z $title ]] && echo -e "\e[31mPlease provide a title for the zet!\e[0,:." && exit 1
-
   filepath="$directory/$latest/README.md"
 
   mkdir -p "$(dirname "$filepath")"
 
   touch "$filepath"
+
+  if [[ -n "$title" ]]; then
+    {
+      echo "# $title"
+      echo -en "\n"
+    } >>"$filepath"
+  fi
+
   {
-    echo "# $title"
-    echo -en "\n"
     echo "$datestring"
-    echo -en "\n\n"
+    echo -en "----"
   } >>"$filepath"
 
   twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
+}
+
+_view() {
+  filepath="$directory/$1/README.md"
+  _get_body "$filepath"
+  # twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
+}
+
+_find() {
+  while read -r filename; do
+    _get_body "$filename"
+  done < <(rg -l "$1")
+}
+
+_get_body() {
+  sed -n '/^----$/,/^----$/p' < "$1" | sed '1d;$d'
 }
 
 declare CMD="$1"
