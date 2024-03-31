@@ -56,6 +56,7 @@ wk.register({
       s = { telescope.diagnostics, "[S]earch in diagnostics" },
     },
     e = { vim.diagnostic.open_float, "Show diagnostic [E]rror messages" },
+    o = { "<cmd>Outline<cr>", "[O]utline code structure" },
   },
   n = {
     name = "[N]ote taking with [N]eorg",
@@ -131,7 +132,41 @@ wk.register({
     l = { "<cmd>Lazy<cr>", "[L]azy" },
     m = { "<cmd>Mason<cr>", "[M]ason" },
   },
+  w = {
+    name = "[W]indows",
+    e = { "<cmd>wincmd =<cr>", "[E]qual sizes" },
+    m = { "<cmd>wincmd |<cr>", "[M]aximize window" },
+  },
 }, { mode = "n", prefix = "<leader>" })
+
+vim.cmd("autocmd FileType php lua WhichKeyPhp()")
+function WhichKeyPhp()
+  wk.register({
+    p = {
+      name = "[P]hp",
+      c = {
+        "<cmd>:PhpactorContextMenu<cr>",
+        "[C]ontext menu",
+      },
+      i = {
+        "<cmd>silent !phpactor class:transform --transform=implement_contracts %:p<cr>",
+        "[I]mplement contracts",
+      },
+      n = {
+        "<cmd>silent !phpactor class:transform --transform=fix_namespace_class_name %:p<cr>",
+        "Fix [N]amespace and class name",
+      },
+      p = {
+        "<cmd>silent !phpactor class:transform --transform=add_missing_properties %:p<cr>",
+        "Add missing [P]roperty declarations",
+      },
+      r = {
+        "<cmd>silent !phpactor class:transform --transform=add_missing_return_types %:p<cr>",
+        "Add missing [R]eturn types",
+      },
+    },
+  }, { prefix = "<localleader>" })
+end
 
 vim.keymap.set("n", "<leader>sn", function()
   telescope.find_files({ cwd = vim.fn.stdpath("config") })
@@ -155,4 +190,35 @@ wk.register({
     o = { "<cmd>copen<cr>", "[O]pen the Quickfix list." },
     m = { "<cmd>make<cr>", "Run [M]ake" },
   },
+})
+
+wk.register({
+  b = { ":lua require'dap'.toggle_breakpoint()<CR>", "Toggle [B]reakpoint" },
+  c = { ":lua require'dap'.continue()<CR>", "[C]ontinue debugging" },
+  v = { ":lua require'dap'.step_over()<CR>", "Step O[v]er" },
+  i = { ":lua require'dap'.step_into()<CR>", "Step [I]nto" },
+  o = { ":lua require'dap'.step_out()<CR>", "Step [O]out" },
+  d = {
+    name = "[D]ebug",
+    t = { ":lua require'dapui'.toggle()<CR>", "[T]oggle debugger UI" },
+  },
+  t = {
+    name = "[T]est",
+    a = {
+      '<cmd>silent !tmux split-window -hd<cr><cmd>silent VtrAttachToPane 2<cr><cmd>silent !dunstify "Test mode activated"<cr>',
+      "[T]est mode [A]ctivated",
+    },
+    d = {
+      '<cmd>silent :VtrKillRunner<cr><cmd>silent !dunstify "Test mode deactivated"<cr>',
+      "[T]est mode [D]eactivated",
+    },
+  },
+  f = { "<cmd>TestFile<cr>", "Run current test [F]le" },
+  l = { "<cmd>TestLast<cr>", "Re-run the [L]ast test" },
+  n = { "<cmd>TestNearest<cr>", "Run the [N]earest test" },
+  s = { "<cmd>TestSuite<cr>", "Run the whole test [S]uite" },
+  p = { "<cmd>TestVisit<cr>", "[P]revious test file that was ran" },
+}, {
+  mode = "n",
+  prefix = ",",
 })

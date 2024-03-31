@@ -4,6 +4,14 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    {
+      "hedyhli/outline.nvim",
+      lazy = true,
+      cmd = { "Outline", "OutlineOpen" },
+      opts = {
+        -- Your setup opts here
+      },
+    },
   },
   config = function()
     -- Use LspAttach autocommand to only map the following keys
@@ -16,6 +24,12 @@ return {
         end
 
         map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gs", function()
+          vim.cmd([[
+            vsplit
+          ]])
+          vim.lsp.buf.definition()
+        end, "[G]oto definition in [S]plit")
         map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
         map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplentations")
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
