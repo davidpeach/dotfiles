@@ -136,6 +136,7 @@ wk.register({
     name = "[W]indows",
     e = { "<cmd>wincmd =<cr>", "[E]qual sizes" },
     m = { "<cmd>wincmd |<cr>", "[M]aximize window" },
+    z = { "<cmd>ZenMode<cr>", "[Z]en mode" },
   },
 }, { mode = "n", prefix = "<leader>" })
 
@@ -184,7 +185,7 @@ wk.register({
     d = { vim.diagnostic.goto_next, "Go to next [D]iagnostic message" },
     q = { "<cmd>cnext<cr>", "Next [Q]uickfix Item" },
   },
-  [","] = {
+  ["\\"] = {
     name = "Quickly ...",
     c = { "<cmd>cclose<cr>", "[C]lose the Quickfix list." },
     o = { "<cmd>copen<cr>", "[O]pen the Quickfix list." },
@@ -200,7 +201,9 @@ wk.register({
   o = { ":lua require'dap'.step_out()<CR>", "Step [O]out" },
   d = {
     name = "[D]ebug",
-    t = { ":lua require'dapui'.toggle()<CR>", "[T]oggle debugger UI" },
+    t = { ":lua require'dapui'.toggle({reset = true})<CR>", "[T]oggle Debugger UI" },
+    r = { ":lua require'dapui'.open({reset = true})<CR>", "[R]eset Debugger UI Layout" },
+    k = { "<cmd>DapTerminate<cr>", "[K]ill Debugger" },
   },
   t = {
     name = "[T]est",

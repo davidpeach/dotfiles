@@ -151,6 +151,11 @@ return {
           },
         },
       },
+      tailwindcss = {
+        filetypes = {
+          "blade",
+        },
+      },
     }
 
     require("mason").setup()
