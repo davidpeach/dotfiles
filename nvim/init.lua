@@ -18,6 +18,9 @@ vim.opt.hlsearch = true
 vim.opt.expandtab = true
 vim.o.exrc = true
 vim.opt.laststatus = 3
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.writebackup = false
 
 vim.g.slime_target = "tmux"
 
@@ -72,6 +75,9 @@ vim.cmd([[
 vim.cmd([[
   autocmd FileType lua setlocal shiftwidth=2 tabstop=2 
   autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  set laststatus=3
+  :highlight WinSeparator guibg=None
+  :highlight WinSeparator guifg=gold
 ]])
 
 require("config.keymaps")
