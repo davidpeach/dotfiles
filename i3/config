@@ -164,7 +164,7 @@ mode "switches" {
     bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
     bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
 
-    set $audioSink bluez_sink.F8_4E_17_84_06_7B.a2dp_sink
+    set $audioSink @DEFAULT_SINK@
     bindsym F1 exec --no-startup-id pactl set-sink-mute $audioSink toggle
     bindsym F2 exec --no-startup-id pactl set-sink-volume $audioSink -5%
     bindsym F3 exec --no-startup-id pactl set-sink-volume $audioSink +5%
@@ -173,8 +173,10 @@ mode "switches" {
     bindsym F10 exec --no-startup-id ~/.config/polybar/scripts/bluetooth-polybar --toggle &
     bindsym F12 exec --no-startup-id ~/.local/bin/keyboard-light-toggle
 
-    bindsym o exec --no-startup-id pactl suspend-sink $audioSink 1
-    bindsym p exec --no-startup-id pactl suspend-sink $audioSink 0
+    bindsym o exec --no-startup-id playerctl pause
+    bindsym p exec --no-startup-id playerctl play
+    bindsym bracketleft exec --no-startup-id playerctl previous
+    bindsym bracketright exec --no-startup-id playerctl next
 
     bindsym $mod+d exec dockon
     bindsym $mod+Shift+d exec dockoff
@@ -276,7 +278,7 @@ bindsym $mod+b exec --no-startup-id ffprofile
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
-exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/hzd3.jpg"
+exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/ellie.jpg"
 
 #================
 # Launch Polybar.
