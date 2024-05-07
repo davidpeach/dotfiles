@@ -155,6 +155,24 @@ bindsym $mod+Shift+z move container to workspace number $ws10
 bindsym $mod+Down exec --no-startup-id $HOME/.local/bin/dockon
 bindsym $mod+Up exec --no-startup-id $HOME/.local/bin/dockoff
 
+# Audio controls
+set $audioSink @DEFAULT_SINK@
+bindsym F1 exec --no-startup-id pactl set-sink-mute $audioSink toggle
+bindsym F2 exec --no-startup-id pactl set-sink-volume $audioSink -5%
+bindsym F3 exec --no-startup-id pactl set-sink-volume $audioSink +5%
+bindsym $mod+i exec --no-startup-id playerctl play-pause
+bindsym $mod+bracketleft exec --no-startup-id playerctl previous
+bindsym $mod+bracketright exec --no-startup-id playerctl next
+
+# Bluetooth
+bindsym F10 exec --no-startup-id ~/.local/bin/btconnect
+bindsym Shift+F10 exec --no-startup-id ~/.local/bin/btdc
+
+bindsym F5 exec --no-startup-id brightnessctl set 10%-
+bindsym F6 exec --no-startup-id brightnessctl set +10%
+
+bindsym Shift+F12 exec --no-startup-id ~/.local/bin/keyboard-light-toggle
+
 mode "resize" {
   bindsym h resize shrink width 10 px or 10 ppt
     bindsym k resize grow height 10 px or 10 ppt
@@ -165,34 +183,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-mode "switches" {
-    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
-    bindsym $mod+Right mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
-
-    set $audioSink @DEFAULT_SINK@
-
-    # Audio controls
-    bindsym o exec --no-startup-id playerctl pause
-    bindsym p exec --no-startup-id playerctl play
-    bindsym bracketleft exec --no-startup-id playerctl previous
-    bindsym bracketright exec --no-startup-id playerctl next
-    bindsym F1 exec --no-startup-id pactl set-sink-mute $audioSink toggle
-    bindsym F2 exec --no-startup-id pactl set-sink-volume $audioSink -5%
-    bindsym F3 exec --no-startup-id pactl set-sink-volume $audioSink +5%
-
-    # Bluetooth
-    bindsym F10 exec --no-startup-id ~/.local/bin/btconnect
-    bindsym b exec --no-startup-id ~/.local/bin/btdc
-
-    # Screen controls
-    bindsym F5 exec --no-startup-id brightnessctl set 10%-
-    bindsym F6 exec --no-startup-id brightnessctl set +10%
-
-    bindsym F12 exec --no-startup-id ~/.local/bin/keyboard-light-toggle
-
-}
-bindsym $mod+Right mode "switches"; exec dunstify -u critical "Switches" "switch bindings" -h string:x-dunst-stack-tag:switchmode
-
 mode "snippets" {
     bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
     bindsym $mod+Left mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
@@ -200,10 +190,6 @@ mode "snippets" {
     bindsym F1 exec --no-startup-id ~/.local/bin/mwah
 }
 bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet bindings" -h string:x-dunst-stack-tag:switchmode
-
-# OTHER MODE IDEAS:
-# $mod+up info shortcuts i.e. whats my ip; whats my internet speed; htop; 
-# $mod+down
 
 # ================================================
 # Opening certain programs in specific workspaces.
