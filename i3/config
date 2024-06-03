@@ -13,10 +13,9 @@ set $mod Mod4
 # ===========================
 font pango:NotoMono NF 14
 
-# ============================================================
-# Hook up the screenlocking functionality to "i3lock" program.
-# ============================================================
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# ===========
+# Exiting i3.
+# ===========
 
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -29,13 +28,13 @@ floating_modifier $mod
 # Only have a gap around the windows when more than
 # one window is on screen. Otherwise, use gap in px
 # =====================================
-gaps inner 10px
+gaps inner 40px
 smart_gaps on
 
 # =====================================
 # Set the border width for all windows.
 # =====================================
-for_window [class=".*"] border pixel 1
+for_window [class=".*"] border pixel 5
 
 # =============================================
 # Set the default border width for new windows.
@@ -233,7 +232,7 @@ focus_follows_mouse no
 # Set the colour scheme colours.
 # ==============================
 # class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #ff6e6   #282A36
+client.focused          #6272A4 #6272A4 #F8F8F2 #ff6e6   #BADA55
 client.focused_inactive #44475A #44475A #F8F8F2 #ff6e6e   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #ff6e6e   #44475A
 client.urgent           #44475A #FF5555 #F8F8F2 #ff6e6e   #FF5555
@@ -273,3 +272,8 @@ exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/ellie
 # Launch Polybar.
 #================
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+#========================
+# Re-load previous theme.
+#========================
+# exec_always --no-startup-id wal -R &
