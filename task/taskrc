@@ -1,4 +1,4 @@
-# [Created by task 2.6.2 5/27/2023 11:54:08]
+# [Created by task 3.0.2 5/10/2024 10:44:28]
 # Taskwarrior program configuration file.
 # For more documentation, see https://taskwarrior.org or try 'man task', 'man task-color',
 # 'man task-sync' or 'man taskrc'
@@ -20,8 +20,8 @@ data.location=/home/david/.task
 # To use the default location of the XDG directories,
 # move this configuration file from ~/.taskrc to ~/.config/task/taskrc and uncomment below
 
-data.location=~/.local/share/task
-hooks.location=~/.config/task/hooks
+#data.location=~/.local/share/task
+#hooks.location=~/.config/task/hooks
 
 # Color theme (uncomment one to use)
 #include light-16.theme
@@ -39,17 +39,3 @@ hooks.location=~/.config/task/hooks
 #include solarized-light-256.theme
 #include no-color.theme
 
-context.workflow.read=+workflow
-context.workflow.write=+workflow
-context.finances.read=+finances
-context.finances.write=+finances
-context.work.read=+work
-context.work.write=+work
-context.posts.read=+post
-context.posts.write=+post
-news.version=2.6.0
-context.lupo.read=+lupo
-context.lupo.write=+lupo
-context.glb.read=+glb
-context.glb.write=+glb
-context=glb
