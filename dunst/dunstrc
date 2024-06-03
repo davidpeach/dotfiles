@@ -27,10 +27,10 @@
     width = (0, 600)
 
     # The maximum height of a single notification, excluding the frame.
-    height = 800
+    height = 200
 
     # Position the notification in the top right corner
-    origin = right-center
+    origin = bottom-right
 
     # Offset from the origin
     offset = 10x10
@@ -39,7 +39,7 @@
     scale = 0
 
     # Maximum number of notification (0 means no limit)
-    notification_limit = 20
+    notification_limit = 1
 
     ### Progress bar ###
 
@@ -92,10 +92,10 @@
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 3
+    frame_width = 1
 
     # Defines color of the frame around the notification window.
-    frame_color = "#1E66F5"
+    frame_color = "#bada55"
 
     # Size of gap to display between notifications - requires a compositor.
     # If value is greater than 0, separator_height will be ignored and a border
@@ -123,7 +123,7 @@
 
     ### Text ###
 
-    font = NotoSans NF 14
+    font = NotoSans NF 10
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
