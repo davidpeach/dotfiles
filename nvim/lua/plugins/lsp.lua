@@ -142,7 +142,8 @@ return {
         end,
       },
       r_language_server = {
-        -- filetypes = { "r", "quarto" },
+        cmd = { "R", "--slave", "-e", "languageserver::run()" },
+        filetypes = { "r", "rmd" },
         settings = {
           r = {
             lsp = {
@@ -154,6 +155,11 @@ return {
       tailwindcss = {
         filetypes = {
           "blade",
+        },
+      },
+      tsserver = {
+        filetypes = {
+          "javascript",
         },
       },
     }

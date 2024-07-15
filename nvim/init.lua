@@ -21,6 +21,8 @@ vim.opt.laststatus = 3
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
+vim.opt.termguicolors = false
+vim.opt.shiftwidth = 2
 
 vim.g.slime_target = "tmux"
 
@@ -37,7 +39,7 @@ vim.cmd([[
 ]])
 
 vim.cmd([[
-let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+  let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
 ]])
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -77,7 +79,7 @@ vim.cmd([[
   autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
   set laststatus=3
   :highlight WinSeparator guibg=None
-  :highlight WinSeparator guifg=gold
+  :highlight WinSeparator guifg=lightgrey
 ]])
 
 require("config.keymaps")

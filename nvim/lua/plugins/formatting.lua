@@ -10,7 +10,7 @@ return {
       },
       formatters_by_ft = {
         lua = { "mystylua" },
-        php = { "pint" },
+        -- php = { "pint" },
         python = { "isort", "black" },
       },
       formatters = {

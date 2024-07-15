@@ -34,6 +34,7 @@ wk.register({
       end,
       "new [R] terminal",
     },
+    y = { "<cmd>silent !tmux split-window -dh ipython<cr>", "New P[y]thon Terminal" },
   },
   e = { "<cmd>Explore<cr>", "Open File [E]xplorer" },
   f = {
@@ -53,6 +54,7 @@ wk.register({
       e = { vim.diagnostic.enable, "[e]nable" },
       d = { vim.diagnostic.disable, "[d]isable" },
       q = { vim.diagnostic.setloclist, "Open diagnostic [Q]uickfix list" }, -- check
+      r = { "<cmd>LspRestart", "[R]estart LSP" },
       s = { telescope.diagnostics, "[S]earch in diagnostics" },
     },
     e = { vim.diagnostic.open_float, "Show diagnostic [E]rror messages" },
@@ -101,6 +103,7 @@ wk.register({
   o = {
     name = "[O]tter",
     a = { require("otter").dev_setup, "otter [a]ctivate" },
+    e = { require("otter").export, "[e]xport" },
   },
   q = {
     name = "[q]uarto",
@@ -114,7 +117,6 @@ wk.register({
       --   a = { ":QuartoSendAll<cr>", "run [a]ll" },
       --   b = { ":QuartoSendBelow<cr>", "run [b]elow" },
     },
-    -- e = { require("otter").export, "[e]xport" },
     -- E = {
     --   function()
     --     require("otter").export(true)
@@ -136,8 +138,9 @@ wk.register({
     name = "[W]indows",
     e = { "<cmd>wincmd =<cr>", "[E]qual sizes" },
     m = { "<cmd>wincmd |<cr>", "[M]aximize window" },
-    z = { "<cmd>ZenMode<cr>", "[Z]en mode" },
+    o = { "<cmd>only<cr>", "[O]nly window" },
   },
+  z = { "<cmd>ZenMode<cr>", "[Z]en mode" },
 }, { mode = "n", prefix = "<leader>" })
 
 vim.cmd("autocmd FileType php lua WhichKeyPhp()")
@@ -150,6 +153,10 @@ function WhichKeyPhp()
         "[C]ontext menu",
       },
       i = {
+        "<cmd>:PhpactorImportClass<cr>",
+        "[I]mport class",
+      },
+      I = {
         "<cmd>silent !phpactor class:transform --transform=implement_contracts %:p<cr>",
         "[I]mplement contracts",
       },
@@ -188,8 +195,10 @@ wk.register({
   ["\\"] = {
     name = "Quickly ...",
     c = { "<cmd>cclose<cr>", "[C]lose the Quickfix list." },
-    o = { "<cmd>copen<cr>", "[O]pen the Quickfix list." },
     m = { "<cmd>make<cr>", "Run [M]ake" },
+    n = { "<cmd>cnext<cr>", "[N]ext Quickfix item." },
+    o = { "<cmd>copen<cr>", "[O]pen the Quickfix list." },
+    p = { "<cmd>cprev<cr>", "[P]revious Quickfix item." },
   },
 })
 
@@ -214,6 +223,10 @@ wk.register({
     d = {
       '<cmd>silent :VtrKillRunner<cr><cmd>silent !dunstify "Test mode deactivated"<cr>',
       "[T]est mode [D]eactivated",
+    },
+    r = {
+      '<cmd>silent :VtrAttachToPane<cr><cmd>silent !dunstify "Reattached to pane"<cr>',
+      "[R]eattach to pane",
     },
   },
   f = { "<cmd>TestFile<cr>", "Run current test [F]le" },
