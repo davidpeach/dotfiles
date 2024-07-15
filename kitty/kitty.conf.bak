@@ -1,11 +1,11 @@
-adjust_line_height  220%
+adjust_line_height  210%
 allow_remote_control yes
 cursor_blink_interval 0
 draw_minimal_borders yes
 enable_audio_bell no
 enabled_layouts horizontal, stack
 font_family NotoMono NFM
-font_size 18.0
+font_size 12.0
 hide_window_decorations yes
 placement_strategy top-left
 tab_bar_edge bottom
@@ -16,6 +16,6 @@ window_padding_width 0
 
 
 # BEGIN_KITTY_THEME
-# Gruvbox Material Dark Medium
+# Gruvbox Material Dark Soft
 include current-theme.conf
 # END_KITTY_THEME

@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+
+# Follow the logs of the chosen Docker container.
+if [[ $1 == "l" ]]; then
+  shift
+  tmux split-window -h
+  tmux send-keys -t .2 "docker compose ps --services | fzf | xargs -o -I % docker compose logs % --follow && tmux kill-pane" Enter
+  exit 0
+fi
+
+# Exec into shell in the chosen Docker container.
+tmux split-window -h
+tmux send-keys -t .2 "docker compose ps --services | fzf | xargs -o -I % docker compose exec -it % sh && tmux kill-pane" Enter

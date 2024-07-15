@@ -1,6 +1,10 @@
-#!/bin/bash
+#!/usr/bin/bash
 
-# THIS IS A WORK IN PROGRESS
-#
-# ffmpeg -y -framerate 30 -f x11grab -thread_queue_size 256 -i :0.0+0,0 -vcodec libx264 -f pulse -thread_queue_size 256 -i default test.mkv
-ffmpeg -y -probesize 100000000 -f x11grab -thread_queue_size 2048 -i :0.0 -f pulse -thread_queue_size 2048 -i default -async 1 test.mkv
+date=$(date +"%Y-%m-%d-%T")
+filename="$HOME/Videos/recordings/$date.mkv"
+
+#ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DISPLAY -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac screen.mp4
+#-vaapi_device /dev/dri/renderD128 -vcodec h264_vaapi -vf format='nv12|vaapi,hwupload' output.mp4
+dunstify "Recording" "started recording to $filename"
+ffmpeg -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0 -f pulse -i default "$filename"
+dunstify "Recording" "finished and saved to $filename"

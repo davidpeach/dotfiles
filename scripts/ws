@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin "$(cat ~/work/.keys/aws-login-endpoint)" || (dunstify "Failed AWS Login" && exit 1)
+
+dunstify "AWS Login succeeded"
+
+~/work/bin/start

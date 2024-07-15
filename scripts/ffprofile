@@ -9,6 +9,7 @@ declare -a profiles=(
     "Github - github"
     "Google - google"
     "LinkedIn - linkedin"
+    "Music - music"
     "Pinterest - pinterest"
     "Pocketsmith - pocketsmith"
     "Proton - proton"

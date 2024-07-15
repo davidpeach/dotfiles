@@ -1,4 +1,9 @@
 #!/usr/bin/bash
 
-rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$REPOS/github.com/davidpeach/davidpeach.me/public/" david@davidpeach.me:/var/www/davidpeach.me
+declare CONNECTION_IDENTITY="$1"
+declare LOCAL_PATH="$2"
+declare REMOTE_PATH="$3"
+
+#rsync -Paz --delete -e "$CONNECTION_IDENTITY" "$LOCAL_PATH" "$REMOTE_PATH"
+rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519_zet" "$REPOS/github.com/davidpeach/davidpeach.me/_site/" david@davidpeach.me:/var/www/davidpeach.me
 

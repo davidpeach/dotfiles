@@ -3,44 +3,78 @@
 # my Lenovo Thinkpad T470 / T490
 #----------------------------------------
 
-INSTALL_PACKAGES=false
+INSTALL_OFFICIAL_PACKAGES=false
+INSTALL_AUR_PACKAGES=false
 
 # -------------------------------
 # Installing the packages I need.
 # -------------------------------
-if [[ "$INSTALL_PACKAGES" == true ]]; then
-	sudo pacman -S \
+if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
+	sudo pacman -S --noconfirm \
+		acpid \
 		alsa-utils \
 		ansible \
+		aws-cli \
+		base \
+		base-devel \
+		bc \
+		bluez \
+		bluez-utils \
+		brightnessctl \
+		ccls \
 		chromium \
 		curl \
 		dmidecode \
 		docker \
 		doctl \
 		dunst \
+		entr \
+		fd \
 		feh \
 		firefox \
 		fontconfig \
+		fwupd \
 		fzf \
 		github-cli \
 		go \
+		gopls \
+		grub \
+		haskell-language-server \
+		htop \
 		i3-wm \
 		inotify-tools \
 		jq \
+		keychain \
 		kitty \
 		kubectl \
 		libva-utils \
+		linux-firmware-qlogic \
+		linux-lts \
+		luarocks \
 		make \
+		man-db \
+		marksman \
 		mpv \
+		neovim \
 		nitrogen \
+		noto-fonts-emoji \
+		obs-studio \
+		obsidian \
 		pandoc-cli \
+		pavucontrol \
 		picom \
+		playerctl \
+		polybar \
 		ranger \
 		ripgrep \
 		rsync \
+		s3cmd \
 		scrot \
+		shellcheck \
+		sxiv \
 		task \
 		terraform \
+		tlp \
 		tree \
 		unzip \
 		wget \
@@ -48,28 +82,30 @@ if [[ "$INSTALL_PACKAGES" == true ]]; then
 		xclip \
 		xsel \
 		xorg-server \
-		xorg-xinit
+		xorg-xinit \
+		xorg-xrandr
+fi
 
-	# Install Yay - AUR package helper
-	echo "Installing :: Yay AUR helper."
-	pushd "$HOME" || exit
-	git clone https://aur.archlinux.org/yay-git.git ./yay
-	pushd "$HOME"/yay || exit
-	makepkg -si --noconfirm
-	popd || exit
-	rm -rf ./yay
-	popd || exit
-	echo "Complete :: Yay AUR helper installed."
-	# ------------------------------
-	# Required packages from the AUR
-	# ------------------------------
-	echo "Installing :: Required Yay packages."
+if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
+
+	if [[ ! -x $(command -v yay)  ]]; then
+		echo "Stopping :: Please install the yay package"
+		exit
+	fi
+
 	yay -S --noconfirm \
+		aic94xx-firmware \
+		ast-firmware \
+		jira-cli \
 		mycli \
-		neovim-git \
+		phpactor \
 		python-sqlglot \
+		quarto-cli-bin \
+		r-styler \
 		signal-desktop \
-		slack-desktop
+		slack-desktop \
+		upd72020x-fw \
+		wd719x-firmware
 	echo "Complete :: Required Yay packages."
 fi
 
@@ -108,6 +144,7 @@ ln -sf "$PWD/kitty" "$HOME/.config/" && echo "Symlinked kitty folder."
 ln -sf "$PWD/lynx" "$HOME/.config/" && echo "Symlinked lynx folder."
 ln -sf "$PWD/dunst" "$HOME/.config/" && echo "Symlinked dunst folder."
 ln -sf "$PWD/ssh.d" "$HOME/.config/" && echo "Symlinked ssh.d folder."
+ln -sf "$PWD/task" "$HOME/.config/" && echo "Symlinked task folder."
 
 # SSH Key Generation
 # ssh-keygen -t rsa -f "$HOME"/.ssh/marnie -C "Marnie" -b 4096

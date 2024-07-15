@@ -6,6 +6,8 @@ declare paths=(
   "$HOME/Zet"
   "$HOME/.keys"
   "$HOME/.task"
+  "$HOME/Desktop/Charlies Angels"
+  "$HOME/Desktop/Cradle of Filth"
 )
 
 for path in "${paths[@]}"
