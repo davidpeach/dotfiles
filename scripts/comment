@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+declare prefix
+declare value
+value="$1"
+
+prefix="${value:=}"
+
+while IFS= read -r line;do
+  echo "$prefix $line"
+done

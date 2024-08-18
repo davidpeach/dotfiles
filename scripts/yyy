@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+rm ~/.clipboard
+touch ~/.clipboard
+
+while IFS= read -r line; do
+    echo "$line" >> ~/.clipboard
+    echo "$line"
+done
