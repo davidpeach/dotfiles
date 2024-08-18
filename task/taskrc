@@ -39,3 +39,8 @@ data.location=/home/david/.task
 #include solarized-light-256.theme
 #include no-color.theme
 
+context.site.read=+site
+context.site.write=+site
+context=teaching
+context.teaching.read=+teaching
+context.teaching.write=+teaching
