@@ -5,38 +5,64 @@ case $- in
 esac
 
 # Environment Variables
+
 # -- History
 export HISTCONTROL=ignoreboth
 export HISTSIZE=5000
 export HISTFILESIZE=10000
 
 # -- General Settings
-export PATH=$HOME/go/bin:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$PATH
 export EDITOR="nvim"
 export VISUAL="nvim"
 export SHELL=/usr/bin/bash
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # -- Directories
-export GITUSER="davidpeach"
 export REPOS="$HOME/repos"
+export GITUSER="davidpeach"
 export GHREPOS="$REPOS/github.com/$GITUSER"
-export WORK="$HOME/work/projects"
 export DOTFILES="$GHREPOS/dotfiles"
-export SCRIPTS="$DOTFILES/scripts"
-export PALACE="$HOME/Palace"
-export CDPATH=./:$DOTFILES:$WORK:$HOME
+export WORK="$HOME/work/projects"
 
+export SCRIPTS="$HOME/.local/bin"
 export GOBIN="$HOME/.local/bin"
 
-# -- Palace (a.k.a. Second Brain) Paths.
 export ZETROOT="$HOME/Zet"
-export INBOX="$PALACE/00-inbox"
-export ZET="$PALACE/10-zet"
-export PROJECTS="$PALACE/20-projects"
-export AREAS="$PALACE/30-areas"
-export RESOURCES="$PALACE/40-resources"
-export ARCHIVES="$PALACE/50-archives"
+
+
+# -- CD Path
+# -- For CD Path tab autocompletion, install bash-completion
+export CDPATH=./:$DOTFILES:$WORK:$HOME
+
+# Path Additions
+# -- Thanks to rwxrob.
+pathappend() {
+	declare arg
+	for arg in "$@"; do
+		test -d "$arg" || continue
+		PATH=${PATH//":$arg:"/:}
+		PATH=${PATH/#"$arg:"/}
+		PATH=${PATH/%":$arg"/}
+		export PATH="${PATH:+"$PATH:"}$arg"
+	done
+} && export -f pathappend
+
+pathprepend() {
+	for arg in "$@"; do
+		test -d "$arg" || continue
+		PATH=${PATH//:"$arg:"/:}
+		PATH=${PATH/#"$arg:"/}
+		PATH=${PATH/%":$arg"/}
+		export PATH="$arg${PATH:+":${PATH}"}"
+	done
+} && export -f pathprepend
+
+# Remember, the last arg will be first in path
+pathprepend \
+	"$HOME/.local/bin" \
+	"$HOME/.local/go/bin" \
+	/usr/local/bin \
+	"$SCRIPTS"
 
 # Options
 # -- append to the history file, don't overwrite it
@@ -59,32 +85,48 @@ case "$TERM" in
 xterm-color | *-256color) color_prompt=yes ;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
+# --------------------------- smart prompt ---------------------------
+#                 (keeping in bashrc for portability)
+# -- Again, thanks to rwxrob.
 
-if [ -n "$force_color_prompt" ]; then
-	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-		# We have color support; assume it's compliant with Ecma-48
-		# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-		# a case would tend to support setf rather than setaf.)
-		color_prompt=yes
+PROMPT_LONG=20
+PROMPT_MAX=95
+PROMPT_AT=@
+
+__ps1() {
+	local P='$' dir="${PWD##*/}" B countme short long double \
+		r='\[\e[31m\]' g='\[\e[30m\]' h='\[\e[34m\]' \
+		u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
+		b='\[\e[36m\]' x='\[\e[0m\]'
+
+	[[ $EUID == 0 ]] && P='#' && u=$r && p=$u # root
+	[[ $PWD = / ]] && dir=/
+	[[ $PWD = "$HOME" ]] && dir='~'
+
+	B=$(git branch --show-current 2>/dev/null)
+	[[ $dir = "$B" ]] && B=.
+	countme="$USER$PROMPT_AT$(uname -n):$dir($B)\$ "
+
+	[[ $B == master || $B == main ]] && b="$r"
+	[[ -n "$B" ]] && B="$g($b$B$g)"
+
+	short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
+	long="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$g $p$P$x "
+	double="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir\n$g $B\n$g $p$P$x "
+
+	if ((${#countme} > PROMPT_MAX)); then
+		PS1="$double"
+	elif ((${#countme} > PROMPT_LONG)); then
+		PS1="$long"
 	else
-		color_prompt=
+		PS1="$short"
 	fi
-fi
+}
 
-if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\] \$ '
-else
-	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+PROMPT_COMMAND="__ps1"
 
 # Aliases
 alias v="nvim ."
-alias t="tmux attach || tmux"
 alias r="ranger"
 
 # -- Navigation
@@ -100,6 +142,7 @@ alias x="exit"
 alias tk="tmux kill-server"
 
 # -- Laravel
+# -- might move these to a script
 alias a="php artisan"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 alias stan="./vendor/bin/phpstan analyse"
@@ -137,8 +180,3 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Completions
 complete -C z z
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-

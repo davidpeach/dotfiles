@@ -1,4 +1,4 @@
-! tch-----------------------------------------------------------------------------
+! -----------------------------------------------------------------------------
 ! File: gruvbox-dark.xresources
 ! Description: Retro groove colorscheme generalized
 ! Author: morhetz <morhetz@gmail.com>
@@ -7,7 +7,7 @@
 ! -----------------------------------------------------------------------------
 
 ! hard contrast: *background: #1d2021
-*background: #1d2021
+*background: #282828
 ! soft contrast: *background: #32302f
 *foreground: #ebdbb2
 ! Black + DarkGrey
@@ -34,3 +34,4 @@
 ! LightGrey + White
 *color7:  #a89984
 *color15: #ebdbb2
+
