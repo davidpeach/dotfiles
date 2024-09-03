@@ -96,6 +96,7 @@ autocmd FileType sh command! -range Comment <line1>,<line2>!comment \\#
 autocmd FileType md command! -range Comment <line1>,<line2>!comment --
 
 :nnoremap <Leader>/ :grep <c-r>=expand("<cword>")<CR><CR><CR><CR>:cope<CR>
+:nnoremap <Leader>s :grep 
 :nnoremap <Leader>f :find 
 
 " --- Yanking and Pasting Commands `:Yy` and `:Pp`

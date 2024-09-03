@@ -6,5 +6,7 @@ filename="$HOME/Videos/recordings/$date.mkv"
 #ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DISPLAY -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac screen.mp4
 #-vaapi_device /dev/dri/renderD128 -vcodec h264_vaapi -vf format='nv12|vaapi,hwupload' output.mp4
 dunstify "Recording" "started recording to $filename"
-ffmpeg -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0 -f pulse -i default "$filename"
+ffmpeg -f x11grab -framerate 60 -video_size 1920x1080 -i :0.0 -f pulse -i default -c:a aac "$filename"
+
+# ffmpeg -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0 -f pulse -i default "$filename"
 dunstify "Recording" "finished and saved to $filename"

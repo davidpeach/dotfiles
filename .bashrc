@@ -80,50 +80,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-xterm-color | *-256color) color_prompt=yes ;;
-esac
-
-# --------------------------- smart prompt ---------------------------
-#                 (keeping in bashrc for portability)
-# -- Again, thanks to rwxrob.
-
-PROMPT_LONG=20
-PROMPT_MAX=95
-PROMPT_AT=@
-
-__ps1() {
-	local P='$' dir="${PWD##*/}" B countme short long double \
-		r='\[\e[31m\]' g='\[\e[30m\]' h='\[\e[34m\]' \
-		u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
-		b='\[\e[36m\]' x='\[\e[0m\]'
-
-	[[ $EUID == 0 ]] && P='#' && u=$r && p=$u # root
-	[[ $PWD = / ]] && dir=/
-	[[ $PWD = "$HOME" ]] && dir='~'
-
-	B=$(git branch --show-current 2>/dev/null)
-	[[ $dir = "$B" ]] && B=.
-	countme="$USER$PROMPT_AT$(uname -n):$dir($B)\$ "
-
-	[[ $B == master || $B == main ]] && b="$r"
-	[[ -n "$B" ]] && B="$g($b$B$g)"
-
-	short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
-	long="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$g $p$P$x "
-	double="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir\n$g $B\n$g $p$P$x "
-
-	if ((${#countme} > PROMPT_MAX)); then
-		PS1="$double"
-	elif ((${#countme} > PROMPT_LONG)); then
-		PS1="$long"
-	else
-		PS1="$short"
-	fi
-}
-
-PROMPT_COMMAND="__ps1"
+PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h\[\033[0m\] 🍑 "
 
 # Aliases
 alias v="nvim ."
@@ -180,3 +137,4 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Completions
 complete -C z z
+complete -C zet zet

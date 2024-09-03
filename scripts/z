@@ -26,20 +26,12 @@ _new() {
 	if [[ -n "$title" ]]; then
 	{
 		echo "# $title"
-		echo -en "\n\n\n"
+		echo -en "\n\n"
 	} >>"$filepath"
 	fi
 
-	{
-		echo "# References"
-		echo -en "\n\n\n"
-		echo "# Links"
-		echo -en "\n\n\n"
-		echo "# Tags"
-		echo -en "\n\n\n"
-	} >>"$filepath"
 
-	twindow "$filepath" "" "$EDITOR -c 'normal! 5Gmn9Gmr13Gml17Gmt5G' $filepath" "open"
+	twindow "$filepath" "" "$EDITOR -c 'normal! Gi' $filepath" "open"
 }
 
 _new

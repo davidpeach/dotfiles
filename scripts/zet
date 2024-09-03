@@ -1,8 +1,13 @@
 #!/usr/bin/bash
 
-declare -a commands=(date new find latest)
-
-export LUPO_DIRECTORY="$HOME/Zet"
+declare -a commands=(new commit index latest edit push build test)
+declare directory="$GHREPOS/zet"
+declare zet_index_folder_name="zet"
+declare markdown_index_filename="README.md"
+declare remote_user="david"
+declare ssh_private_key_path="$HOME/.ssh/id_ed25519_zet"
+declare remote_domain="zet.davidpeach.me"
+declare remote_path="/var/www/zet.davidpeach.me"
 
 if [[ -n $COMP_LINE ]]; then
 	for c in "${commands[@]}"; do
@@ -11,57 +16,98 @@ if [[ -n $COMP_LINE ]]; then
 	exit
 fi
 
-_date() {
-	while read -r line; do
-		now=$(date +%Y%m%d%H%M%S)
-		line="${line} ($now)"
-		echo "$line"
-	done
-}
-
 _new() {
-	exec lupo new "Zet" "" "switch_after_open"
+
+	timestamp=$(date +%s)
+	datestring=$(date "+%A, %d %B %Y. %T%Z")
+	read -r -p $'\e[33mZet title\e[0m: ' title
+	title=${title:-"$timestamp"}
+	uri_title="${title,,}"
+	uri_title="${uri_title// /-}"
+	filepath="$directory/$zet_index_folder_name/$uri_title.md"
+	mkdir -p "$(dirname "$filepath")"
+
+	touch "$filepath"
+	{
+		echo "# $title"
+		echo -en "\n"
+		echo "$datestring"
+		echo -en "\n\n"
+	} >>"$filepath"
+
+	exec twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
 }
 
-_find() {
-	exec lupo find "Zet" "" "switch_after_open"
+_index() {
+	mkdir -p "$directory/$zet_index_folder_name"
+	indexfile="$directory/$zet_index_folder_name/$markdown_index_filename"
+	touch "$indexfile"
+	string=""
+	while IFS=" " read -r filename datetime; do
+		echo "$filename"
+		file="$directory/$filename/$markdown_index_filename"
+		titleline=$(head -1 "$file")
+		title="${titleline//# /}"
+
+		created_date=$(sed -n '3 p' < "$file")
+
+		tagsline=$(tail -1 "$file")
+		if [[ $tagsline != *"#"* ]]; then
+			tagsline=""
+		else
+			tagsline="($tagsline)"
+		fi
+		string+=" <li x-show='show_item(\$el)'>$created_date [$title](../$filename/) $tagsline</li>"
+	done < <(find . -maxdepth 1 ! -name '*[!0-9]*' -type d -printf "%T@\0%p\0%Tc\0\n" | sort -r -t '\0' -n | awk -F '\0' '{print $2, $3}')
+	template=$(cat "$HOME/.local/bin/template")
+	content="${template/"{{INSERT}}"/$string}"
+	echo -e "$content" >"$indexfile"
 }
 
-_latest() {
-	exec lupo latest "Zet" "" "switch_after_open"
+_commit() {
+	message="${1:-"updated files."}"
+	git add .
+	git commit -m "$message"
 }
 
-_grab() {
-	full_path=$(lupo new "Zet" "" "switch_after_open")
+_test() {
+	# Just playing with the find command
+	while read -r filepath; do
+		path="${filepath##"$directory"/}"
+		target="$directory/html/${path/$markdown_index_filename/index.html}"
+		echo "$path"
+	done < <(find . -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%CY%Cm%Cd%CH%CM%CS\n' | sort -r -t '\0' -n | awk -F '\0' '{print $1}' | head -n 5)
+	# done < <(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -r -t '\0' -n | awk -F '\0' '{print $1}' | head -n 5)
 
-	declare -a lines=()
-	while IFS= read -r line; do
-		lines+=("${line/$/\\$}")
-	done
+}
 
-	if ((${#lines[@]} > 0)); then
-		echo -e "\`\`\`php" >>"$full_path"
-		for line in "${lines[@]}"; do
-			echo -e "${line/\\$/\$}" >>"$full_path"
-			echo -e "${line/\\$/\$}"
-		done
-		echo -e "\`\`\`" >>"$full_path"
-	fi
+_build() {
+	rm -rf "$directory/html"
+	_index
+	while read -r filepath; do
+		path="${filepath##"$directory"/}"
+		title=$(sed -n '1 p' < "$path")
+		if [[ $title =~ ^#.* ]]; then
+			title="${title#\#}"
+		else
+			title=""
+		fi
+		target="$directory/html/${path/$markdown_index_filename/index.html}"
+		mkdir -p "$(dirname "$target")"
+		pandoc -s "$filepath" -t html -o "$target" --template="$directory/page.template" -c "$directory/style.css" --metadata title="$title" -s
+		echo "$target"
+	done < <(find "$directory" -type f -name *.md)
+	cp "$directory/style.css" "./html"
+	cp "$directory/alpine.js" "./html"
+}
+
+_push() {
+	rsync -Paz --delete -e "ssh -l $remote_user -i $ssh_private_key_path" "$directory/html/" "$remote_user"@"$remote_domain":"$remote_path"
+	git push
 }
 
 declare CMD="$1"
 shift
-
-if [[ -z "$CMD" ]]; then
-	if [[ -z "$VIMRUNTIME" ]]; then
-		echo -e "  Did you mean \"zet new\"?\n  Running \"zet\" alone triggers its 'grab' function.\n  This is intended to be used after visually selecting lines in vim."
-		exit 1
-	fi
-
-	_grab
-	exit $?
-fi
-
 for c in "${commands[@]}"; do
 	[[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
 done

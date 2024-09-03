@@ -41,6 +41,5 @@ data.location=/home/david/.task
 
 context.site.read=+site
 context.site.write=+site
-context=teaching
 context.teaching.read=+teaching
 context.teaching.write=+teaching

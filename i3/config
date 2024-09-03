@@ -1,7 +1,7 @@
 # =============================
 # Set the terminal to be kitty.
 # =============================
-set $terminal "kitty"
+set $terminal "alacritty"
 
 # ================================
 # Set my MOD key to the Super Key.
