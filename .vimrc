@@ -1,6 +1,4 @@
-set nocompatible    " Don't let VIM be VI-compatible
-
-" VI settings. Copy these to ~/.exrc if using `vi`
+set nocompatible
 set autoindent
 set autowrite
 set noerrorbells
@@ -9,11 +7,6 @@ set ignorecase
 set shiftwidth=4
 set showmode
 set tabstop=4
-
-" VIM settings
-filetype plugin on
-let mapleader=" "
-
 set exrc
 set expandtab
 set foldmethod=manual
@@ -53,6 +46,10 @@ set spell
 set spelllang=en_gb
 set grepprg=git\ grep\ -n
 
+filetype plugin on
+
+let mapleader=" "
+
 match IncSearch '\s\+$'
 syntax enable
 
@@ -71,15 +68,26 @@ augroup END
 " --- I'm trying to keep plugins to a minimum
 " --- I try to lean more on external bash scripts.
 call plug#begin("~/.local/share/vim/plugins")
+"== TODO: Could just use git
 Plug 'tpope/vim-fugitive'   " ------------------ Git UI.
+
+"== TODO: Could use toggle comment bash filter
 Plug 'tpope/vim-commentary' " ------------------ Code commenting.
+
+"== TODO: Investigate options.
+"== Just use cli database queries?
 Plug 'tpope/vim-dadbod'     " ------------------ Database client
 Plug 'kristijanhusak/vim-dadbod-ui'     " ------ UI for the Database client.
+
+"== TODO: Just copy paste keybindings in?
 Plug 'christoomey/vim-tmux-navigator'   " ------ Easy movement between Vim and Tmux.
 Plug 'morhetz/gruvbox'        " ---------------- Theme.
 Plug 'TysonAndre/php-vim-syntax' " ------------- Better PHP Syntax Highlighting.
 Plug 'prabirshrestha/vim-lsp' " ---------------- LSP Client.
 Plug 'mattn/vim-lsp-settings' " ---------------- LSP Settings.
+
+"== TODO could i use a bash script for this?
+"== Or even just vim's make command?
 Plug 'vim-test/vim-test' " --------------------- Test runner.
 Plug 'christoomey/vim-tmux-runner' " ----------- Enable running tests in separate Tmux pane.
 call plug#end()
@@ -94,6 +102,9 @@ hi SpellBad cterm=underline guifg=#ff0000
 " --- External bash script filtering.
 autocmd FileType sh command! -range Comment <line1>,<line2>!comment \\#
 autocmd FileType md command! -range Comment <line1>,<line2>!comment --
+
+" == TODO: make commenting toggleable
+:nnoremap <Leader>h :Comment<cr>
 
 :nnoremap <Leader>/ :grep <c-r>=expand("<cword>")<CR><CR><CR><CR>:cope<CR>
 :nnoremap <Leader>s :grep 
@@ -125,7 +136,7 @@ nnoremap <Leader>gc :Git checkout
 nnoremap <Leader>gm :Git merge 
 " nnoremap <Leader>gd :Git diff x --name-only
 
-nnoremap <Leader>o :Explore<CR>
+nnoremap <Leader>e :Explore<CR>
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
