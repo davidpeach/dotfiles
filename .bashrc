@@ -80,7 +80,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h\[\033[0m\] 🍑 "
+PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h \[\033[92;1m\]\W\[\033[0m\] 🍑 "
 
 # Aliases
 alias v="nvim ."
