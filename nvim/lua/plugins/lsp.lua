@@ -160,6 +160,7 @@ return {
       tsserver = {
         filetypes = {
           "javascript",
+          "typescript",
         },
       },
     }
