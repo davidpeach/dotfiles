@@ -80,7 +80,17 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h \[\033[92;1m\]\W\[\033[0m\] 🍑 "
+_PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h \[\033[92;1m\]\w \[\033[0m\]"
+_PS1_length=${#_PS1}
+if [[ $_PS1_length -gt 40 ]]; then
+    _PS1="$_PS1\n"
+fi;
+
+_PS1="$_PS1 🍑 "
+
+PS1="$_PS1"
+
+
 
 # Aliases
 alias v="nvim ."
