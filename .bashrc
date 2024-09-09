@@ -87,8 +87,8 @@ if [[ $_PS1_length -gt 40 ]]; then
 fi;
 
 _PS1="$_PS1 🍑 "
-
 PS1="$_PS1"
+
 # Aliases
 alias v="nvim ."
 alias r="ranger"

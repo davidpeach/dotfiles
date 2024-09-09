@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+
+if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then
+echo "Internal: $(cat /sys/class/power_supply/BAT0/capacity)%"
+fi
+
+if [[ -f /sys/class/power_supply/BAT1/capacity ]]; then
+echo "Removable: $(cat /sys/class/power_supply/BAT1/capacity)%"
+fi
