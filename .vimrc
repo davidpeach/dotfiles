@@ -24,7 +24,6 @@ set path+=**
 set ruler
 set scrolloff=8
 set shortmess=aoOtTI
-set signcolumn="yes:2"
 set smartcase
 set smartindent
 set smarttab
@@ -34,7 +33,6 @@ set splitbelow
 set splitright
 set termguicolors
 set textwidth=120
-set undodir=~/.vim/undovim
 set undofile
 set updatetime=250
 set viminfo='20,<1000,s1000
@@ -47,6 +45,14 @@ set spell
 set spelllang=en_gb
 set grepprg=git\ grep\ -n
 set laststatus=0
+set signcolumn=yes
+
+if has('nvim')
+    set undodir=~/.nvim/undovim
+elseif has('vim')
+    set undodir=~/.vim/undovim
+endif
+
 
 filetype plugin on
 
@@ -59,7 +65,7 @@ syntax enable
 let g:netrw_banner=0
 let g:mkdp_browser = '/usr/bin/firefox'
 
-let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_diagnostics_virtual_text_enabled = 1
 
 augroup transparent_signcolumn
   au!
@@ -98,8 +104,19 @@ call plug#end()
 colorscheme gruvbox
 set background=dark
 
+
+let g:lsp_diagnostics_signs_error = {'text': '✗'}
+" let g:lsp_diagnostics_signs_warning = {'text': '‼', 'icon': '/path/t'}
+let g:lsp_diagnostics_signs_hint = {'text': '🤫'}
+let g:lsp_inlay_hints_mode = {
+ \  'normal': ['curline'],
+ \}
+
+
+
 hi clear SpellBad
 hi SpellBad cterm=underline guifg=#ff0000
+highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
 
 " --- Trying to replace commenting plugin with simple
 " --- External bash script filtering.
