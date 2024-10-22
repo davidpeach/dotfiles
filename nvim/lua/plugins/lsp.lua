@@ -20,7 +20,7 @@ return {
       group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
       callback = function(event)
         local map = function(keys, func, desc)
-          vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+          vim.keymap.set("n", keys, func, { buffer = event.buf, desc = desc })
         end
 
         map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
@@ -157,7 +157,7 @@ return {
           "blade",
         },
       },
-      tsserver = {
+      ts_ls = {
         filetypes = {
           "javascript",
           "typescript",

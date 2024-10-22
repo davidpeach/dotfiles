@@ -24,11 +24,17 @@ vim.opt.writebackup = false
 vim.opt.termguicolors = false
 vim.opt.shiftwidth = 2
 
+vim.g.netrw_banner = 0
 vim.g.slime_target = "tmux"
 
 vim.g.VtrOrientation = "h" -- Which direction to create tmux pane (for vim-test runner).
 vim.g.VtrClearSequence = "" -- The characters that vim tmux test runner will use to clear the pane when running next test.
 vim.g.vrc_trigger = "<C-c>" -- Not sure how this is effecting things right now :grimacing:
+
+vim.cmd([[
+  hi clear SpellBad
+  hi SpellBad cterm=underline guifg=#ff0000
+]])
 
 vim.cmd([[
   let test#php#pest#options = '--colors=always'
