@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
 declare -a commands=(new commit index latest edit push build test)
-declare directory="$GHREPOS/zet"
+# declare directory="$GHREPOS/zet"
+declare directory="$HOME/Zet"
 declare zet_index_folder_name="zet"
 declare markdown_index_filename="README.md"
 declare remote_user="david"

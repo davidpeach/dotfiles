@@ -24,7 +24,8 @@ set path+=**
 set ruler
 set scrolloff=8
 set shortmess=aoOtTI
-set signcolumn=auto
+set signcolumn="yes:2"
+set smartcase
 set smartindent
 set smarttab
 set softtabstop=4
@@ -45,10 +46,12 @@ set wrapscan
 set spell
 set spelllang=en_gb
 set grepprg=git\ grep\ -n
+set laststatus=0
 
 filetype plugin on
 
 let mapleader=" "
+let maplocalleader=","
 
 match IncSearch '\s\+$'
 syntax enable
@@ -162,5 +165,6 @@ augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
 
 "au FileType php set makeprg=./vendor/bin/phpstan\ analyse\ --memory-limit=2G\ --no-progress\ --error-format=raw\ --configuration=phpstan.neon
