@@ -144,5 +144,6 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Completions
 complete -C z z
+complete -C zz zz
 complete -C zet zet
 complete -C lupo lupo

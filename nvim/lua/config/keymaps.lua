@@ -53,7 +53,7 @@ wk.add({
   { "<leader>l", desc = "LSP" },
   { "<leader>ld", desc = "LSP Diagnostics" },
   { "<leader>lde", vim.diagnostic.enable, desc = "[e]nable" },
-  { "<leader>ldd", vim.diagnostic.disable, desc = "[d]isable" },
+  { "<leader>ldd", vim.diagnostic.enable(false), desc = "[d]isable" },
   { "<leader>ldq", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" }, -- check
   { "<leader>ldr", "<cmd>LspRestart<cr>", desc = "[R]estart LSP" },
   { "<leader>lds", telescope.diagnostics, desc = "[S]earch in diagnostics" },

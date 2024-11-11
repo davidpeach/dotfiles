@@ -13,6 +13,7 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 	sudo pacman -S --noconfirm \
 		acpid \
 		alsa-utils \
+        alacritty \
 		ansible \
 		aws-cli \
 		base \
@@ -41,15 +42,12 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 		grub \
 		haskell-language-server \
 		htop \
-		i3-wm \
 		inotify-tools \
 		jq \
 		keychain \
-		kitty \
 		kubectl \
 		libva-utils \
 		linux-firmware-qlogic \
-		linux-lts \
 		luarocks \
 		make \
 		man-db \
@@ -58,19 +56,19 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 		neovim \
 		nitrogen \
 		noto-fonts-emoji \
-		obs-studio \
-		obsidian \
 		pandoc-cli \
 		pavucontrol \
+        php \
 		picom \
 		playerctl \
-		polybar \
+        r \
 		ranger \
 		ripgrep \
 		rsync \
 		s3cmd \
 		scrot \
 		shellcheck \
+        sway \
 		sxiv \
 		task \
 		terraform \
@@ -78,12 +76,7 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 		tree \
 		unzip \
 		wget \
-		wireguard-tools \
-		xclip \
-		xsel \
-		xorg-server \
-		xorg-xinit \
-		xorg-xrandr
+		wireguard-tools
 fi
 
 if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
@@ -96,14 +89,11 @@ if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
 	yay -S --noconfirm \
 		aic94xx-firmware \
 		ast-firmware \
-		jira-cli \
-		mycli \
 		phpactor \
 		python-sqlglot \
 		quarto-cli-bin \
 		r-styler \
 		signal-desktop \
-		slack-desktop \
 		upd72020x-fw \
 		wd719x-firmware
 	echo "Complete :: Required Yay packages."
@@ -155,5 +145,21 @@ ln -sf "$PWD/task" "$HOME/.config/" && echo "Symlinked task folder."
 # Git config global settings (dotfile?)
 
 # add the include into ssh config
+
+EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+then
+    >&2 echo 'ERROR: Invalid installer checksum'
+    rm composer-setup.php
+    exit 1
+fi
+
+php composer-setup.php --quiet
+RESULT=$?
+rm composer-setup.php
+sudo mv composer.phar /usr/local/bin/composer
 
 echo "This setup file is not yet complete."
