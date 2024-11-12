@@ -27,7 +27,7 @@ export WORK="$HOME/work/projects"
 export SCRIPTS="$HOME/.local/bin"
 export GOBIN="$HOME/.local/bin"
 
-export ZETROOT="$HOME/Zet"
+export ZETROOT="$GHREPOS/zet"
 
 
 # -- CD Path

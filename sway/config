@@ -1,0 +1,292 @@
+# =============================
+# Set the terminal to be kitty.
+# =============================
+set $terminal "alacritty"
+
+# ================================
+# Set my MOD key to the Super Key.
+# ================================
+set $mod Mod4
+
+# ===========================
+# Set the font and font size.
+# ===========================
+font pango:NotoMono NF 14
+
+# ===========
+# Exiting i3.
+# ===========
+
+# bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+# ===========================================================
+# Set which button to hold for moving floating windows about.
+# ===========================================================
+floating_modifier $mod
+
+# =====================================
+# Only have a gap around the windows when more than
+# one window is on screen. Otherwise, use gap in px
+# =====================================
+gaps inner 40px
+smart_gaps on
+
+# =====================================
+# Set the border width for all windows.
+# =====================================
+for_window [class=".*"] border pixel 5
+
+# =============================================
+# Set the default border width for new windows.
+# =============================================
+default_border pixel 1
+
+# ===============================
+# BINDING :: Open Kitty terminal.
+# ===============================
+bindsym $mod+Return exec $terminal
+
+# ================================
+# BINDING :: Kill focussed window.
+# ================================
+bindsym $mod+Shift+Delete kill
+
+# ============================================
+# Navigating windows in the current workspace.
+# ============================================
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# ========================================
+# Moving windows in the current workspace.
+# ========================================
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# ============================================================
+# Toggle the direction that the next container is created at.
+# Toggling between right and below.
+# ============================================================
+bindsym $mod+minus split toggle
+
+# ===============================
+# Toggle fullscreen for a window.
+# ===============================
+bindsym $mod+f fullscreen toggle
+
+# ==================================
+# Cycle through layouts for a container.
+# ==================================
+bindsym $mod+v layout toggle splith splitv tabbed
+
+# ==================================================
+# Toggle floating for a focused container / window.
+# ==================================================
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# ========================================================
+# Switch focus between a window and it's parent container.
+# ========================================================
+bindsym $mod+p focus parent
+bindsym $mod+c focus child
+
+# =========================================
+# Binding :: Close all dunst notifications.
+# =========================================
+bindsym $mod+slash exec --no-startup-id dunstctl close-all
+
+
+# ===========
+# Workspaces.
+# ===========
+set $ws1 "1" 
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# =======================================
+# Navigation between workspaces.
+# I use the first three keys of each row 
+# to make switching easier from one hand:
+# [1] [2] [3]
+#  [q] [w] [e]
+#   [a] [s] [d]
+#    [z]
+# =======================================
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+q workspace number $ws4
+bindsym $mod+w workspace number $ws5
+bindsym $mod+e workspace number $ws6
+bindsym $mod+a workspace number $ws7
+bindsym $mod+s workspace number $ws8
+bindsym $mod+d workspace number $ws9
+bindsym $mod+z workspace number $ws10
+
+# =====================================
+# Moving containers between workspaces.
+# =====================================
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+q move container to workspace number $ws4
+bindsym $mod+Shift+w move container to workspace number $ws5
+bindsym $mod+Shift+e move container to workspace number $ws6
+bindsym $mod+Shift+a move container to workspace number $ws7
+bindsym $mod+Shift+s move container to workspace number $ws8
+bindsym $mod+Shift+d move container to workspace number $ws9
+bindsym $mod+Shift+z move container to workspace number $ws10
+
+# Manual dock and undock until i figure out how to make it work
+# automatically.
+bindsym $mod+Down exec --no-startup-id $HOME/.local/bin/dockon
+bindsym $mod+Up exec --no-startup-id $HOME/.local/bin/dockoff
+
+# Audio controls
+set $audioSink @DEFAULT_SINK@
+bindsym F1 exec --no-startup-id pactl set-sink-mute $audioSink toggle
+bindsym F2 exec --no-startup-id pactl set-sink-volume $audioSink -5%
+bindsym F3 exec --no-startup-id pactl set-sink-volume $audioSink +5%
+bindsym $mod+i exec --no-startup-id playerctl play-pause
+bindsym $mod+bracketleft exec --no-startup-id playerctl previous
+bindsym $mod+bracketright exec --no-startup-id playerctl next
+
+# Bluetooth
+bindsym F10 exec --no-startup-id ~/.local/bin/btconnect
+bindsym Shift+F10 exec --no-startup-id ~/.local/bin/btdc
+
+bindsym F5 exec --no-startup-id brightnessctl set 10%-
+bindsym F6 exec --no-startup-id brightnessctl set +10%
+
+bindsym Shift+F12 exec --no-startup-id ~/.local/bin/keyboard-light-toggle
+
+mode "resize" {
+  bindsym h resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym j resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+mode "snippets" {
+    bindsym Return mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+    bindsym $mod+Left mode "default"; exec dunstify "Default" "default bindings" -h string:x-dunst-stack-tag:switchmode
+
+    bindsym F1 exec --no-startup-id ~/.local/bin/mwah
+}
+bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet bindings" -h string:x-dunst-stack-tag:switchmode
+
+# ================================================
+# Opening certain programs in specific workspaces.
+# ================================================
+assign [class="kitty" instance="main"]  $ws1 
+assign [class="FFQuarto"] $ws1
+assign [class="firefox"] $ws2
+assign [title="Google Chrome"] $ws3 
+assign [class="Slack"] $ws6
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# ============
+# Custom Dmenu 
+# ============
+# bindsym $mod+m exec --no-startup-id "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-16' -p 'What is your pleasure..? '"
+bindsym $mod+m exec --no-startup-id "kickoff" 
+# ===============================
+# Lock screen keybinding.
+# ===============================
+# xss-lock grabs a logind suspend inhibit lock and will use 
+# screen before suspend. Use loginctl lock-session to lock your screen.
+bindsym $mod+x exec lockscreen
+
+
+# ============================================================================
+# Print screen. Either whole window in focus or choose an area with the mouse.
+# ============================================================================
+for_window [instance="scrot"] move scratchpad
+bindsym Shift+Print exec --no-startup-id "kitty --name scrot -e scrot -s"
+bindsym Print exec --no-startup-id "kitty --name scrot -e scrot -u"
+
+# ======================================================================
+# Press same workspace key binding to go back to the previous workspace.
+# ======================================================================
+workspace_auto_back_and_forth yes
+focus_follows_mouse no
+
+# ==============================
+# Set the colour scheme colours.
+# ==============================
+# class                 border  bground text    indicator child_border
+#client.focused          #6272A4 #6272A4 #F8F8F2 #ff6e6   #BADA55
+#client.focused_inactive #44475A #44475A #F8F8F2 #ff6e6e   #44475A
+#client.unfocused        #282A36 #282A36 #BFBFBF #ff6e6e   #44475A
+#client.urgent           #44475A #FF5555 #F8F8F2 #ff6e6e   #FF5555
+#client.placeholder      #282A36 #282A36 #F8F8F2 #ff6e6e   #282A36
+
+#client.background       #F8F8F2
+
+
+for_window [instance="task"] floating enable
+for_window [instance="task"] resize set 1000 1000
+for_window [instance="task"] move scratchpad
+for_window [instance="task"] border pixel 5
+exec --no-startup-id kitty --name task 
+
+for_window [instance="pulse"] floating enable
+for_window [instance="pulse"] resize set 1000 600
+for_window [instance="pulse"] move scratchpad
+exec --no-startup-id kitty --name pulse -e pulsemixer
+
+for_window [instance="lynx"] floating enable
+for_window [instance="lynx"] resize set 1000 600
+for_window [instance="lynx"] move scratchpad
+exec --no-startup-id kitty --name lynx
+
+bindsym $mod+F2 [instance="lynx"] scratchpad show; [instance="lynx"] move position center
+bindsym $mod+F5 [instance="pulse"] scratchpad show; [instance="pulse"] move position center
+bindsym $mod+F7 [instance="task"] scratchpad show; [instance="task"] move position center
+
+bindsym $mod+b exec --no-startup-id ffprofile
+
+exec_always --no-startup-id setxkbmap gb
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
+exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/aeris.jpg"
+
+#================
+# Launch Polybar.
+#================
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+bar {
+    swaybar_command waybar
+}
+
+output * bg "/home/david/.config/wallpapers/The Last of Us™ Part II_20200716182454.jpg" fill
+
+
+
+#========================
+# Re-load previous theme.
+#========================
+# exec_always --no-startup-id wal -R &
+
+input "type:keyboard" {
+    xkb_layout gb
+}
+
+exec_always --no-startup-id "killall dunst && dunst &"

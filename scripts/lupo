@@ -111,8 +111,6 @@ _index() {
     count=0
 
     while IFS="" read -r src_file; do
-
-        echo "$src_path"
         if [[ 
             $src_file == "${src_file::-9}style.css" ||
             $src_file == "${src_file::-9}script.js" ||
@@ -120,12 +118,14 @@ _index() {
             $src_file == "${src_file::-17}favicon-32x32.png" ||
             $src_file == "${src_file::-17}favicon-16x16.png" ||
             $src_file == "${src_file::-11}favicon.ico" ||
-            $src_file == "${src_file::-16}site.webmanifest"
+            $src_file == "${src_file::-16}site.webmanifest" ||
+            $src_file == "${src_file::-3}ttf"
            ]]
         then
             continue
         fi
 
+        echo "$src_file"
         count=$((count + 1))
         uri=$(_get_uri_from_src_file "$src_file")
 
@@ -248,7 +248,7 @@ _new() {
 
     echo -e  "---\ntitle: $post_title\ndate: $post_date\ntimestamp: $timestamp\n---\n" > "$full_path"
 
-    twindow "$full_path" "${1:-""}" "${2:-"$EDITOR index.md"}" "${3:-""}"
+    twindow "$full_path" "${1:-""}" "${2:-"$EDITOR $full_path"}" "open"
 
     echo "$full_path"
 }
@@ -381,7 +381,7 @@ _build_frontmatter() {
 
     frontmatter="---\n"
     frontmatter+="title: \"$2 \"\n"
-    frontmatter+="items:\n"
+    frontmatter+="posts:\n"
 
     for item in "${items[@]}"; do
         mapfile -t item <<< "$item"
@@ -435,10 +435,10 @@ _create_index_page() {
 
 _determine_template() {
     end_of_path="${1##"$HTML_DIRECTORY"/}"
-    [[ "${end_of_path:0:10}" == "tags/index" ]] && echo "$TEMPLATES_DIRECTORY/tag-index.template.html" && exit 0
+    [[ "${end_of_path:0:10}" == "tags/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:4}" == "tags" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:11}" == "index/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
-    [[ "${end_of_path:0:10}" =~ ^[0-9]{4}/[0-9]{2}/[0-9]{2}.* ]] && echo "$TEMPLATES_DIRECTORY/posts.template.html" && exit 0
+    [[ "${end_of_path:0:10}" =~ ^[0-9]{4}/[0-9]{2}/[0-9]{2}.* ]] && echo "$TEMPLATES_DIRECTORY/post.template.html" && exit 0
 
     echo "$TEMPLATES_DIRECTORY/default.template.html"
 }
@@ -462,7 +462,7 @@ _convert_file() {
         pandoc -s "$1" \
             -t 'html' \
             -o "$target_file_path" \
-            --template="$template" 2> /dev/null
+            --template="$template"
 
         return
     fi

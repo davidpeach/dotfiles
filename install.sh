@@ -13,7 +13,7 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 	sudo pacman -S --noconfirm \
 		acpid \
 		alsa-utils \
-        alacritty \
+		alacritty \
 		ansible \
 		aws-cli \
 		base \
@@ -55,20 +55,22 @@ if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
 		mpv \
 		neovim \
 		nitrogen \
+		nodejs \
 		noto-fonts-emoji \
+		npm \
 		pandoc-cli \
 		pavucontrol \
-        php \
+		php \
 		picom \
 		playerctl \
-        r \
+		r \
 		ranger \
 		ripgrep \
 		rsync \
 		s3cmd \
 		scrot \
 		shellcheck \
-        sway \
+		sway \
 		sxiv \
 		task \
 		terraform \
@@ -84,19 +86,20 @@ if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
 	if [[ ! -x $(command -v yay)  ]]; then
 		echo "Stopping :: Please install the yay package"
 		exit
-	fi
+	else
 
-	yay -S --noconfirm \
-		aic94xx-firmware \
-		ast-firmware \
-		phpactor \
-		python-sqlglot \
-		quarto-cli-bin \
-		r-styler \
-		signal-desktop \
-		upd72020x-fw \
-		wd719x-firmware
-	echo "Complete :: Required Yay packages."
+		yay -S --noconfirm \
+			aic94xx-firmware \
+			ast-firmware \
+			phpactor \
+			python-sqlglot \
+			quarto-cli-bin \
+			r-styler \
+			signal-desktop \
+			upd72020x-fw \
+			wd719x-firmware
+					echo "Complete :: Required Yay packages."
+	fi
 fi
 
 # -------------------------------------
@@ -117,10 +120,8 @@ if [[ ! -e $HOME/.config ]]; then
 fi
 
 # Symlink all my dotfiles.
-ln -sf "$PWD/i3" "$HOME/.config/" && echo "Symlinked i3 config."
+ln -sf "$PWD/sway" "$HOME/.config/" && echo "Symlinked sway config."
 ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
-ln -sf "$PWD/polybar" "$HOME/.config/" && echo "Symlinked polybar config."
-ln -sf "$PWD/picom" "$HOME/.config/" && echo "Symlinked picom config."
 ln -sf "$PWD/wallpapers" "$HOME/.config/" && echo "Symlinked wallpapers."
 ln -sf "$PWD/scripts" "$HOME/.local/bin" && echo "Symlinked scripts folder."
 ln -sf "$PWD/ranger" "$HOME/.config/" && echo "Symlinked ranger folder."
@@ -130,11 +131,9 @@ ln -sf "$PWD/.vimrc" "$HOME/.vimrc" && echo "Symlinked vimrc config."
 ln -sf "$PWD/.inputrc" "$HOME/.inputrc" && echo "Symlinked inputrc config."
 ln -sf "$PWD/.xinitrc" "$HOME/.xinitrc" && echo "Symlinked xinitrc config."
 ln -sf "$PWD/.Xresources" "$HOME/.Xresources" && echo "Symlinked Xresources config."
-ln -sf "$PWD/kitty" "$HOME/.config/" && echo "Symlinked kitty folder."
 ln -sf "$PWD/alacritty" "$HOME/.config/" && echo "Symlinked alacritty folder."
 ln -sf "$PWD/lynx" "$HOME/.config/" && echo "Symlinked lynx folder."
 ln -sf "$PWD/dunst" "$HOME/.config/" && echo "Symlinked dunst folder."
-ln -sf "$PWD/ssh.d" "$HOME/.config/" && echo "Symlinked ssh.d folder."
 ln -sf "$PWD/task" "$HOME/.config/" && echo "Symlinked task folder."
 
 # SSH Key Generation

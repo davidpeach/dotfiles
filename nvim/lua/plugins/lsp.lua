@@ -152,6 +152,9 @@ return {
           },
         },
       },
+      bashls = {
+        cmd = { "bash-language-server", "start" },
+      },
       tailwindcss = {
         filetypes = {
           "blade",
