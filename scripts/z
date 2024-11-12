@@ -83,7 +83,9 @@ _new() {
 
 	read -r -p $'\e[32mDo you want to commit this\e[0m? ' answer
 	if [[ $answer == "y" ]]; then
-		_commit "$title"
+		titleline=$(head -1 "$filepath")
+		title="${titleline//# /}"
+		_commit "$title - created"
 	fi
 }
 

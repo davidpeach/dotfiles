@@ -214,14 +214,6 @@ bindsym $mod+m exec --no-startup-id "kickoff"
 # screen before suspend. Use loginctl lock-session to lock your screen.
 bindsym $mod+x exec lockscreen
 
-
-# ============================================================================
-# Print screen. Either whole window in focus or choose an area with the mouse.
-# ============================================================================
-for_window [instance="scrot"] move scratchpad
-bindsym Shift+Print exec --no-startup-id "kitty --name scrot -e scrot -s"
-bindsym Print exec --no-startup-id "kitty --name scrot -e scrot -u"
-
 # ======================================================================
 # Press same workspace key binding to go back to the previous workspace.
 # ======================================================================
@@ -261,7 +253,8 @@ bindsym $mod+F2 [instance="lynx"] scratchpad show; [instance="lynx"] move positi
 bindsym $mod+F5 [instance="pulse"] scratchpad show; [instance="pulse"] move position center
 bindsym $mod+F7 [instance="task"] scratchpad show; [instance="task"] move position center
 
-bindsym $mod+b exec --no-startup-id ffprofile
+bindsym $mod+b exec --no-startup-id $HOME/.local/bin/ffprofile
+bindsym Print exec --no-startup-id 'grim -g "$(slurp)"'
 
 exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc

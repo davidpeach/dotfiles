@@ -34,9 +34,9 @@ normal.family = "Hack NerdFont"
 bold.family = "Hack NerdFont"
 italic.family = "Hack NerdFont"
 bold_italic.family = "Hack NerdFont"
-offset.y = 30
+offset.y = 20
 
-size = 14.0
+size = 10.0
 
 [colors]
 # primary.background = "#fbf1c7"

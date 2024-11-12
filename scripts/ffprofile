@@ -3,23 +3,23 @@
 BROWSER_CMD="firefox -P"
 
 declare -a profiles=(
-    "Amazon - amazon"
-    "DuckDuckGo - duckduckgo"
-    "Facebook - facebook"
-    "Github - github"
-    "Google - google"
-    "LinkedIn - linkedin"
-    "Music - music"
-    "Pinterest - pinterest"
-    "Pocketsmith - pocketsmith"
-    "Proton - proton"
-    "Quarto - quarto"
-    "Reddit - reddit"
-    "Twitter - twitter"
-    "Work - work"
+    "amazon"
+    "duckduckgo"
+    "facebook"
+    "github"
+    "google"
+    "linkedin"
+    "music"
+    "pinterest"
+    "pocketsmith"
+    "proton"
+    "quarto"
+    "reddit"
+    "twitter"
+    "work"
 )
 
-chosen=$(printf '%s\n' "${profiles[@]}" | dmenu -i -l 10 -p 'Firefox Profile: ')
+chosen=$(printf '%s\n' "${profiles[@]}" | kickoff --from-stdin --stdout )
 
 if [[ -z "$chosen" ]]
 then
@@ -27,5 +27,4 @@ then
     exit 1
 fi
 
-chosen_profile=$(printf '%s\n' "$chosen" | awk '{print $3}')
-$BROWSER_CMD "$chosen_profile"
+$BROWSER_CMD "$chosen"
