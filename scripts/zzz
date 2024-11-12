@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+
+declare directory="$ZETROOT"
+
+_new() {
+	timestamp=$(date +%s)
+	datestring=$(date -d "@$timestamp")
+
+	read -r -p $'\e[33mZet title\e[0m: ' title
+
+	title=${title:-"$timestamp"}
+
+	uri_title="${title,,}"
+	uri_title="${uri_title// /-}"
+
+	filepath="$directory/$uri_title.md"
+
+	mkdir -p "$(dirname "$filepath")"
+
+	touch "$filepath"
+	{
+		echo "$datestring"
+		echo -en "\n"
+	} >>"$filepath"
+
+	if [[ -n "$title" ]]; then
+	{
+		echo "# $title"
+		echo -en "\n\n"
+	} >>"$filepath"
+	fi
+
+
+	twindow "$filepath" "" "$EDITOR -c 'normal! Gi' $filepath" "open"
+}
+
+_new
