@@ -22,7 +22,7 @@ local function send_cell()
 end
 
 wk.add({
-  { "<leader><cr>", send_cell, desc = "run code cell" },
+  { "<leader><cr>", send_cell, desc = "Run code cell" },
   { "<leader>c", desc = "[C]ode" },
   { "<leader>cc", "<cmd>SlimeConfig<cr>", desc = "Slime [C]onfig" },
   { "<leader>cp", "<cmd>silent !tmux split-window -dh php -a<cr>", desc = "New [P]HP Terminal" },
@@ -37,38 +37,51 @@ wk.add({
   { "<leader>cy", "<cmd>silent !tmux split-window -dh ipython<cr>", desc = "New P[y]thon Terminal" },
   { "<leader>e", "<cmd>Explore<cr>", desc = "Open File [E]xplorer" },
 
-  { "<leader>f", desc = "Find" },
-  { "<leader>fb", telescope.buffers, desc = "Find open [B]uffers" },
-  { "<leader>ff", telescope.find_files, desc = "Find [F]iles" },
-  { "<leader>fh", telescope.quickfixhistory, desc = "Look at Quickfix [H]istory" },
+  -- [[------------------------
+  --  👉 Find-related bindings.
+  ----------------------------- ]]
+  { "<leader>f", desc = "[F]ind" },
+  { "<leader>fb", telescope.buffers, desc = "[F]ind in open [B]uffers" },
+  { "<leader>ff", telescope.find_files, desc = "[F]ind in [F]iles" },
+  { "<leader>fh", telescope.quickfixhistory, desc = "[F]ind in Quickfix [H]istory" },
   { "<leader>fm", telescope.marks, desc = "Find across Vim [M]arks" },
-  { "<leader>fq", telescope.quickfix, desc = "Find files in current [Q]uickfix list" },
-  { "<leader>fr", telescope.resume, desc = "[R]esume previous find" },
-  { "<leader>fw", telescope.grep_string, desc = "Find [W]ord under cursor" },
+  { "<leader>fn", function() telescope.find_files({ cwd = vim.fn.stdpath("config") }) end, desc = "[F]ind in [N]eovim files"},
+  { "<leader>fq", telescope.quickfix, desc = "[F]ind files in current [Q]uickfix list" },
+  { "<leader>fr", telescope.resume, desc = "[F]ind [R]esuming last search" },
+  { "<leader>fw", telescope.grep_string, desc = "[F]ind the [W]ord under cursor" },
   { "<leader>f/", telescope.live_grep, desc = "Grep [/] in current project" },
   { "<leader>f.", telescope.oldfiles, desc = "Find [.] recent files" },
-
   { "<leader>h", telescope.help_tags, desc = "Search [H]elp" },
 
-  { "<leader>l", desc = "LSP" },
-  { "<leader>ld", desc = "LSP Diagnostics" },
-  { "<leader>lde", vim.diagnostic.enable, desc = "[e]nable" },
-  { "<leader>ldd", vim.diagnostic.enable(false), desc = "[d]isable" },
-  { "<leader>ldq", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list" }, -- check
-  { "<leader>ldr", "<cmd>LspRestart<cr>", desc = "[R]estart LSP" },
-  { "<leader>lds", telescope.diagnostics, desc = "[S]earch in diagnostics" },
+  -- [[-----------------------
+  --  👉 LSP-related bindings.
+  ---------------------------- ]]
+  { "<leader>l", desc = "[L]SP" },
+  { "<leader>ld", desc = "[L]SP Diagnostics" },
+  { "<leader>lde", vim.diagnostic.enable, desc = "[L]SP [D]iagnostics [e]nable" },
+  { "<leader>ldd", vim.diagnostic.enable(false), desc = "[L]SP [D]iagnostics [D]isable" },
+  { "<leader><leader>d", vim.diagnostic.setloclist, desc = "Open LSP [D]iagnostics location list" },
+  { "<leader>lr", "<cmd>LspRestart<cr>", desc = "[L]SP [R]estart" },
+  { "<leader>lo", "<cmd>Outline<cr>", desc = "[L]SP [O]utline document" },
 
-  { "<leader>le", vim.diagnostic.open_float, desc = "Show diagnostic [E]rror messages" },
-  { "<leader>lo", "<cmd>Outline<cr>", desc = "[O]utline code structure" },
+  -- [[------------------------------
+  --  👉 Spellcheck-related bindings.
+  ----------------------------------- ]]
+  { "<leader><leader>s", desc = "Spellcheck" },
+  { "<leader><leader>se", ":lua vim.opt.spell = true<cr>", desc = "[E]nable Spellcheck" },
+  { "<leader><leader>sd", ":lua vim.opt.spell = false<cr>", desc = "[D]isable Spellcheck" },
 
-  { "<leader>s", desc = "Spellcheck" },
-  { "<leader>se", ":lua vim.opt.spell = true<cr>", desc = "[E]nable Spellcheck" },
-  { "<leader>sd", ":lua vim.opt.spell = false<cr>", desc = "[D]isable Spellcheck" },
 
-  { "<leader>v", desc = "Vim" },
-  { "<leader>vl", "<cmd>Lazy<cr>", desc = "[L]azy" },
-  { "<leader>vm", "<cmd>Mason<cr>", desc = "[M]ason" },
+  -- [[------------------------------
+  --  👉 Quick-open-related bindings.
+  ----------------------------------- ]]
+  { "<leader>o", desc = "[O]pen" },
+  { "<leader>ol", "<cmd>Lazy<cr>", desc = "[O]pen [L]azy" },
+  { "<leader>om", "<cmd>Mason<cr>", desc = "[O]pen [M]ason" },
 
+  -- [[--------------------------
+  --  👉 Window-related bindings.
+  ------------------------------- ]]
   { "<leader>w", desc = "Windows" },
   { "<leader>we", "<cmd>wincmd =<cr>", desc = "[E]qual sizes" },
   { "<leader>wm", "<cmd>wincmd |<cr>", desc = "[M]aximize window" },
@@ -82,55 +95,31 @@ wk.add({
 vim.cmd("autocmd FileType php lua WhichKeyPhp()")
 function WhichKeyPhp()
   wk.add({
-    { "<localleader>p", desc = "PHP" },
-    {
-      "<localleader>pc",
-      "<cmd>:PhpactorContextMenu<cr>",
-      desc = "[C]ontext menu",
-    },
-    {
-      "<localleader>pi",
-      "<cmd>:PhpactorImportClass<cr>",
-      desc = "[I]mport class",
-    },
-    {
-      "<localleader>pI",
-      "<cmd>silent !phpactor class:transform --transform=implement_contracts %:p<cr>",
-      desc = "[I]mplement contracts",
-    },
-    {
-      "<localleader>pn",
-      "<cmd>silent !phpactor class:transform --transform=fix_namespace_class_name %:p<cr>",
-      desc = "Fix [N]amespace and class name",
-    },
-    {
-      "<localleader>pp",
-      "<cmd>silent !phpactor class:transform --transform=add_missing_properties %:p<cr>",
-      desc = "Add missing [P]roperty declarations",
-    },
-    {
-      "<localleader>pr",
-      "<cmd>silent !phpactor class:transform --transform=add_missing_return_types %:p<cr>",
-      desc = "Add missing [R]eturn types",
-    },
+    { "<localleader>a", desc = "PHP [A]ctions" },
+    { "<localleader>ac", "<cmd>:PhpactorContextMenu<cr>", desc = "[A]ction [C]ontext menu" },
+    { "<localleader>at", "<cmd>:PhpactorTransform<cr>", desc = "[A]ction [T]ransform" },
+    { "<localleader>ai", "<cmd>:PhpactorImportClass<cr>", desc = "[A]ction [I]mport class" },
+    { "<localleader>ae", "<cmd>:PhpactorExtractExpression<cr>",  desc = "[A]ction [E]xtract expression to variable." },
+    { "<localleader>ax", "<cmd>:PhpactorExtractMethod<cr>",  desc = "[A]ction E[x]tract selection to method." },
   })
 end
 
-vim.keymap.set("n", "<leader>sn", function()
-  telescope.find_files({ cwd = vim.fn.stdpath("config") })
-end, { desc = "[S]earch [N]eovim files" })
-
 wk.add({
   { "<esc>", "<cmd>nohlsearch<CR>", desc = "Remove search highlighting" },
+
   { "[d", vim.diagnostic.goto_prev, desc = "Previous [D]iagnostic message" },
-  { "[q", "<cmd>cprevious<cr>", desc = "Previous [Q]uickfix Item" },
   { "]d", vim.diagnostic.goto_next, desc = "Go to next [D]iagnostic message" },
+
+  { "[q", "<cmd>cprevious<cr>", desc = "Previous [Q]uickfix Item" },
   { "]q", "<cmd>cnext<cr>", desc = "Next [Q]uickfix Item" },
-  { "\\c", "<cmd>cclose<cr>", desc = "[C]lose the Quickfix list." },
+
   { "\\m", "<cmd>make<cr>", desc = "Run [M]ake" },
-  { "\\n", "<cmd>cnext<cr>", desc = "[N]ext Quickfix item." },
-  { "\\o", "<cmd>copen<cr>", desc = "[O]pen the Quickfix list." },
-  { "\\p", "<cmd>cprev<cr>", desc = "[P]revious Quickfix item." },
+
+  { "<leader>q", "<cmd>copen<cr>", desc = "Open the [Q]uickfix list." },
+  { "<leader><leader>q", "<cmd>cclose<cr>", desc = "[C]lose the Quickfix list." },
+
+  { "[Q", "<cmd>colder<cr>", desc = "Older [Q]uickfix list." },
+  { "]Q", "<cmd>cnewer<cr>", desc = "Newer Quickfix list." },
 })
 
 wk.add({
