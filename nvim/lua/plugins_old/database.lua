@@ -1,9 +1,12 @@
 return {
   'kristijanhusak/vim-dadbod-ui',
   dependencies = {
-    { 'tpope/vim-dadbod', lazy = true },
+    { 
+      'tpope/vim-dadbod', 
+      lazy = true ,
+    },
   },
-  lazy = false,
+  -- lazy = false,
   config = function()
     vim.keymap.set("n", "<leader>db", "<cmd>DBUIToggle<cr>", {desc = "open database viewer"})
   end,

@@ -4,8 +4,18 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    {
+      "hedyhli/outline.nvim",
+      lazy = true,
+      cmd = { "Outline", "OutlineOpen" },
+      opts = {
+        -- Your setup opts here
+      },
+    },
   },
   config = function()
+    -- Use LspAttach autocommand to only map the following keys
+    -- after the language server attaches to the current buffer
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
       callback = function(event)
@@ -13,7 +23,7 @@ return {
           vim.keymap.set("n", keys, func, { buffer = event.buf, desc = desc })
         end
 
-        -- map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
         map("gs", function()
           vim.cmd([[
             vsplit
@@ -46,7 +56,7 @@ return {
     })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    -- capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
     if capabilities.workspace == nil then
       capabilities.workspace = {}
