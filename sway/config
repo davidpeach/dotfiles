@@ -193,11 +193,11 @@ bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet 
 # ================================================
 # Opening certain programs in specific workspaces.
 # ================================================
-assign [class="kitty" instance="main"]  $ws1 
+assign [app_id="Alacritty" instance="main"]  $ws1 
 assign [class="FFQuarto"] $ws1
-assign [class="firefox"] $ws2
-assign [title="Google Chrome"] $ws3 
-assign [class="Slack"] $ws6
+assign [app_id="firefox"] $ws2
+assign [app_id="google-chrome"] $ws3 
+assign [app_id="slack"] $ws6
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
@@ -260,6 +260,9 @@ exec_always --no-startup-id setxkbmap gb
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
 exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/aeris.jpg"
+
+exec_always "killall chrome"
+exec_always "google-chrome-stable --ozone-platform=wayland --enable-features=VaapiVideoDecoder"
 
 #================
 # Launch Polybar.
