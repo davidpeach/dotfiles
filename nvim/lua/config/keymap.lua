@@ -1,1 +1,1 @@
-vim.keymap.set("n", "<space>e", "<cmd>Explore<CR>")
+vim.keymap.set("n", "<space>e", "<cmd>Oil<CR>")
