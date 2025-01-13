@@ -33,13 +33,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 --   hi SpellBad cterm=underline guifg=#ff0000
 -- ]])
 --
--- vim.cmd([[
---   let test#php#pest#options = '--colors=always'
---   " let test#php#pest#executable = 'docker compose exec laravel-website php artisan test'
---   let g:test#strategy = 'vtr'
---   let test#vtr#orientation = "h"
---   let g:test#echo_command = 0
--- ]])
 --
 -- vim.cmd([[
 --   let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
@@ -52,7 +45,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- ]])
 --
 -- vim.cmd([[
---   autocmd FileType lua setlocal shiftwidth=2 tabstop=2 
+--   autocmd FileType lua setlocal shiftwidth=2 tabstop=2
 --   autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
 --   set laststatus=3
 --   :highlight WinSeparator guibg=None
