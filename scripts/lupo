@@ -435,7 +435,7 @@ _create_index_page() {
 
 _determine_template() {
     end_of_path="${1##"$HTML_DIRECTORY"/}"
-    [[ "${end_of_path:0:10}" == "tags/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
+   [[ "${end_of_path:0:10}" == "tags/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:4}" == "tags" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:11}" == "index/index" ]] && echo "$TEMPLATES_DIRECTORY/tags.template.html" && exit 0
     [[ "${end_of_path:0:10}" =~ ^[0-9]{4}/[0-9]{2}/[0-9]{2}.* ]] && echo "$TEMPLATES_DIRECTORY/post.template.html" && exit 0

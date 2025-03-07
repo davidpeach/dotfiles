@@ -23,6 +23,7 @@ export GITUSER="davidpeach"
 export GHREPOS="$REPOS/github.com/$GITUSER"
 export DOTFILES="$GHREPOS/dotfiles"
 export WORK="$HOME/work/projects"
+export ZET_NOTES_DIR="$GHREPOS/zet"
 
 export SCRIPTS="$HOME/.local/bin"
 export GOBIN="$HOME/.local/bin"
@@ -90,7 +91,7 @@ _PS1="$_PS1 🍑 "
 PS1="$_PS1"
 
 # Aliases
-alias v="nvim ."
+alias nv="nvim ."
 alias r="ranger"
 
 # -- Navigation

@@ -24,7 +24,12 @@ _find() {
   select name in "${MAPFILE[@]}"
   do
     IFS=":" read -r foundfile <<< "$name"
+    echo "$foundfile"
+    exit 1
+    foundfile="1) /home/something.md#lol #cat"
     cleanfoundfile=$(sed -r "s/\x1b\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" <<< "$foundfile")
+    echo "$cleanfoundfile"
+    exit 0
     twindow "$cleanfoundfile" "" "$EDITOR $cleanfoundfile" "open"
   done
 }
