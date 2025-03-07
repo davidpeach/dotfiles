@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+scp -r root@davidpeach.me:/var/www/davidpeach.me/wordpress/wp-content/themes/numbernine ~/repos/misc/wp/wp-content/themes/

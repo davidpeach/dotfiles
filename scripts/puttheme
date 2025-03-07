@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+rsync -Pazog --delete --chown=www-data:www-data ~/repos/misc/wp/wp-content/themes/numbernine/ root@davidpeach.me:/var/www/davidpeach.me/wordpress/wp-content/themes/numbernine
+
