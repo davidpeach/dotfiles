@@ -12,6 +12,9 @@ return {
         if not client then return end
 
         if client.supports_method('textDocument/formatting') then
+          if vim.bo.filetype == 'html' then
+            return
+          end
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = event.buf,
             callback = function()
@@ -91,7 +94,7 @@ return {
       gopls = {
         settings = {
           gopls = {
-            gofumpt = true,   -- Use gofumpt for formatting (optional)
+            gofumpt = true, -- Use gofumpt for formatting (optional)
             -- Add other gopls settings here if needed
           }
         }
