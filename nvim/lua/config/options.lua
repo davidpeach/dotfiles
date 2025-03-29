@@ -19,5 +19,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.shiftwidth = 4
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevel = 99
 
 vim.g.netrw_banner = 0
