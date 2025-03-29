@@ -62,7 +62,8 @@ pathprepend() {
 pathprepend \
 	"$HOME/.local/bin" \
 	"$HOME/.local/go/bin" \
-	/usr/local/bin \
+	"/usr/local/bin" \
+  "$HOME/.ghcup/env" \
 	"$SCRIPTS"
 
 # Options
@@ -148,5 +149,3 @@ complete -C z z
 complete -C zz zz
 complete -C zet zet
 complete -C lupo lupo
-
-[ -f "/home/david/.ghcup/env" ] && . "/home/david/.ghcup/env" # ghcup-env
