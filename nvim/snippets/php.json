@@ -1,0 +1,24 @@
+{
+    "docblock_return": {
+        "prefix": "docr",
+        "body": [
+            "/**",
+            " * @return ${1:BelongsTo}<${2}>",
+            " */"
+        ]
+    },
+    "docblock_param": {
+        "prefix": "docp",
+        "body": [
+            "/**",
+            " * @param ${1}<${2}>",
+            " */"
+        ]
+    },
+    "docblock_var": {
+        "prefix": "docv",
+        "body": [
+            "/** @var ${1:string} ${2} */"
+        ]
+    }
+}
