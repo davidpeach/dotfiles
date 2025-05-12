@@ -20,6 +20,18 @@ vim.diagnostic.config({
 })
 
 vim.lsp.enable({ 'intelephense' })
+-- Clear existing PmenuSel definition (optional)
+vim.cmd('highlight clear PmenuSel')
+
+-- Define new colors using vim.api.nvim_set_hl
+-- The last argument is a table defining the attributes
+vim.api.nvim_set_hl(0, 'BlinkCmpMenu', { fg = '#ffffff', bg = '#202020', bold = true })
+vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', { bg = '#ff5ef1', fg = '#202020' })
+vim.api.nvim_set_hl(0, 'BlinkCmpKind', { fg = '#202020' })
+vim.api.nvim_set_hl(0, 'BlinkCmpMenuBorder', { fg = '#ff5ef1', })
+vim.api.nvim_set_hl(0, 'BlinkCmpScrollBarThumb', { bg = '#5ef1ff', })
+
+
 
 
 
