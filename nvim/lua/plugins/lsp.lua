@@ -1,17 +1,17 @@
-return {
+return { {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
   },
+  enabled = false,
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
       callback = function(event)
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if not client then return end
-
-        if client.supports_method('textDocument/formatting') then
+        if client:supports_method('textDocument/formatting') then
           if vim.bo.filetype == 'html' then
             return
           end
@@ -43,13 +43,12 @@ return {
         map("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplentations")
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-        map("K", vim.lsp.buf.hover, "Hover Documentation")
+        -- map("K", vim.lsp.buf.hover, "Hover Documentation")
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
       end,
     })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    -- capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
     if capabilities.workspace == nil then
       capabilities.workspace = {}
@@ -94,8 +93,7 @@ return {
       gopls = {
         settings = {
           gopls = {
-            gofumpt = true, -- Use gofumpt for formatting (optional)
-            -- Add other gopls settings here if needed
+            gofumpt = true,
           }
         }
       },
@@ -191,4 +189,4 @@ return {
       },
     })
   end,
-}
+} }

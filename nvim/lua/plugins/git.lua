@@ -2,10 +2,10 @@ return {
   {
     "tpope/vim-fugitive",
     config = function()
-      vim.keymap.set("n", "<leader>gc", "<cmd>Git checkout ")
-      vim.keymap.set("n", "<leader>gg", "<cmd>Git ")
-      vim.keymap.set("n", "<leader>gl", "<cmd>Git log ")
-      vim.keymap.set("n", "<leader>gm", "<cmd>Git merge ")
+      vim.keymap.set("n", "<leader>gc", ":Git checkout ")
+      vim.keymap.set("n", "<leader>gg", ":Git ")
+      vim.keymap.set("n", "<leader>gl", ":Git log ")
+      vim.keymap.set("n", "<leader>gm", ":Git merge ")
       vim.keymap.set("n", "<leader>go", "<cmd>Git<cr>")
       vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
       vim.keymap.set("n", "<leader>gu", "<cmd>Git pull<cr>")
