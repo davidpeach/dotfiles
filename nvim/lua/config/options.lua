@@ -10,8 +10,8 @@ vim.opt.smartcase = true
 vim.wo.signcolumn = "yes:2"
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
-vim.opt.inccommand = "split"
-vim.opt.cursorline = true
+vim.opt.inccommand = "nosplit"
+vim.opt.cursorline = false
 vim.opt.expandtab = true
 vim.o.exrc = true
 vim.opt.laststatus = 3

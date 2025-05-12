@@ -6,6 +6,10 @@ return {
         show_hidden = true,
       },
       use_default_keymaps = false,
+      watch_for_changes = true,
+      win_options = {
+        signcolumn = "yes",
+      },
       keymaps = {
         ["<CR>"] = "actions.select",
         ["<C-t>"] = { "actions.select", opts = { tab = true } },
