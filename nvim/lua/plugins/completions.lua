@@ -19,7 +19,11 @@ return { {
 
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
+      per_filetype = {
+        mysql = { 'snippets', 'dadbod', 'buffer' },
+      },
       providers = {
+        dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
         emoji = {
           module = "blink-emoji",
           name = "Emoji",

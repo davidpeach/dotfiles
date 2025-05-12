@@ -5,6 +5,9 @@ return {
       'tpope/vim-dadbod',
       lazy = true,
     },
+    {
+      'kristijanhusak/vim-dadbod-completion',
+    }
   },
   -- lazy = false,
   config = function()
