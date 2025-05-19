@@ -38,9 +38,14 @@ offset.y = 20
 
 size = 14.0
 
-[colors]
+[general]
+import = [
+  "~/.config/alacritty/cyberdream.toml"
+]
+
+# [colors]
 # primary.background = "#fbf1c7"
-primary.background = "#262626"
+# primary.background = "#262626"
 # Tip: for inspiration, look for values in the source code files of your favorite VS Code themes, and use the color picker in
 # Google to test colors before setting a value, or simply using an editor such as VS Code where colors are displayed in a 
 # small box when a HEX is detected by the editor.

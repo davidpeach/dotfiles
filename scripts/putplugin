@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+rsync -Pazog --exclude '.git' --delete --chown=www-data:www-data ~/repos/github.com/davidpeach/scrobbles/ david@davidpeach.me:/var/www/davidpeach.me/wordpress/wp-content/plugins/scrobbles
+

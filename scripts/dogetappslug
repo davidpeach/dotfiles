@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+doctl compute image list-application | fzf | awk -F' {2,}' '{print $5}' | wl-copy

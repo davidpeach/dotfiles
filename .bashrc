@@ -149,3 +149,8 @@ complete -C z z
 complete -C zz zz
 complete -C zet zet
 complete -C lupo lupo
+
+export PATH="/home/david/.lando/bin:$PATH"; #landopath
+
+export PATH="/home/david/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/home/david/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"

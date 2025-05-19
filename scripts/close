@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+issueId=$(gh issue list | fzf | awk '{print $1}')
+
+if [[ -z $issueId ]]; then
+  echo "No issue chosen" && exit 1
+fi
+
+gh issue close "$issueId"
+
+echo "Issue $issueId closed."

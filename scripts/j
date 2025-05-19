@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+
+JIRA_BIN=$HOME/.local/bin/jira
+
+declare -a commands=(issue)
+
+if [[ -n $COMP_LINE ]]; then
+	for c in "${commands[@]}"; do
+		[[ ${c:0:${#2}} == "${2,,}" ]] && echo "$c"
+	done
+	exit
+fi
+
+_issue() {
+  chosen_issue=$($JIRA_BIN issue list --assignee=david.peach@getlaidbeds.co.uk -s~Done -p=WESBITE --plain --no-headers | fzf | awk '{print $2}')
+  echo "$chosen_issue"
+  # $JIRA_BIN issue view
+}
+
+declare CMD="$1"
+shift
+for c in "${commands[@]}"; do
+	[[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
+done

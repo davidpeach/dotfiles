@@ -117,10 +117,12 @@ fi
 if [[ ! -e $HOME/.config ]]; then
 	mkdir -p "$HOME"/.config
 	echo "Created :: .config folder."
+else
+  echo "Config directory already exists."
 fi
 
 # Symlink all my dotfiles.
-ln -sf "$PWD/sway" "$HOME/.config/" && echo "Symlinked sway config."
+ln -sf $PWD"sway" "$HOME/.config/" && echo "Symlinked sway config."
 ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
 ln -sf "$PWD/wallpapers" "$HOME/.config/" && echo "Symlinked wallpapers."
 ln -sf "$PWD/scripts" "$HOME/.local/bin" && echo "Symlinked scripts folder."
@@ -131,6 +133,7 @@ ln -sf "$PWD/.vimrc" "$HOME/.vimrc" && echo "Symlinked vimrc config."
 ln -sf "$PWD/.inputrc" "$HOME/.inputrc" && echo "Symlinked inputrc config."
 ln -sf "$PWD/.xinitrc" "$HOME/.xinitrc" && echo "Symlinked xinitrc config."
 ln -sf "$PWD/.Xresources" "$HOME/.Xresources" && echo "Symlinked Xresources config."
+ln -sf "$PWD/git/gitignore" "$HOME/.gitignore" && echo "Symlinked Xresources config."
 ln -sf "$PWD/alacritty" "$HOME/.config/" && echo "Symlinked alacritty folder."
 ln -sf "$PWD/lynx" "$HOME/.config/" && echo "Symlinked lynx folder."
 ln -sf "$PWD/dunst" "$HOME/.config/" && echo "Symlinked dunst folder."
@@ -145,20 +148,20 @@ ln -sf "$PWD/task" "$HOME/.config/" && echo "Symlinked task folder."
 
 # add the include into ssh config
 
-EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-
-if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
-then
-    >&2 echo 'ERROR: Invalid installer checksum'
-    rm composer-setup.php
-    exit 1
-fi
-
-php composer-setup.php --quiet
-RESULT=$?
-rm composer-setup.php
-sudo mv composer.phar /usr/local/bin/composer
+# EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+# php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+# ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+#
+# if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+# then
+#     >&2 echo 'ERROR: Invalid installer checksum'
+#     rm composer-setup.php
+#     exit 1
+# fi
+#
+# php composer-setup.php --quiet
+# RESULT=$?
+# rm composer-setup.php
+# sudo mv composer.phar /usr/local/bin/composer
 
 echo "This setup file is not yet complete."
