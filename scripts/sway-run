@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Export the variables needed for portals and Wayland apps to work correctly
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway
+
+# Set variables for other toolkits to use Wayland
+export QT_QPA_PLATFORM=wayland
+export SDL_VIDEODRIVER=wayland
+export GDK_BACKEND=wayland # For GTK apps
+
+# Finally, execute the real sway command
+exec sway

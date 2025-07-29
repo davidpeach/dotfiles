@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+if ! pgrep -x "chrome" > /dev/null
+then
+    google-chrome-stable &
+fi

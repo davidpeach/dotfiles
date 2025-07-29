@@ -1,3 +1,3 @@
 #!/usr/bin/bash
 
-doctl auth init --access-token=$(cat ~/terraform-test)
+doctl auth init --access-token="$(cat ~/terraform-test)"
