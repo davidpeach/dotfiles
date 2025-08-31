@@ -1,0 +1,9 @@
+aic94xx-firmware \
+        ast-firmware \
+        phpactor \
+        python-sqlglot \
+        quarto-cli-bin \
+        r-styler \
+        signal-desktop \
+        upd72020x-fw \
+        wd719x-firmware
