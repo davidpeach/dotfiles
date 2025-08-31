@@ -1,148 +1,15 @@
 #!/usr/bin/bash
 
-declare -a commands=(new push build find)
-declare directory="/home/david/repos/github.com/davidpeach/zet"
-
-if [[ -n $COMP_LINE ]]; then
-  for c in "${commands[@]}"; do
-    [[ ${c:0:${#2}} == "${2,,}" ]] && echo "$c"
-  done
-  exit
-fi
-
-_find() {
-  read -r -p $'\e[33m Search \e[0m: ' term
-
-  result=$(/usr/bin/grep --color=always -m1 "$term" $directory/**/*.md)
-  readarray -t <<<"$result"
-
-  ESC=$(printf "\e")
-  PEACH="${ESC}[33m"
-  CLEAR="${ESC}[0m"
-
-  PS3="$PEACH Which file would you like to open? $CLEAR"
-  select name in "${MAPFILE[@]}"
-  do
-    IFS=":" read -r foundfile <<< "$name"
-    echo "$foundfile"
-    exit 1
-    foundfile="1) /home/something.md#lol #cat"
-    cleanfoundfile=$(sed -r "s/\x1b\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" <<< "$foundfile")
-    echo "$cleanfoundfile"
-    exit 0
-    twindow "$cleanfoundfile" "" "$EDITOR $cleanfoundfile" "open"
-  done
-}
+declare directory="$ZETROOT"
 
 _new() {
-  latest=$(find * -maxdepth 1 ! -name '*[!0-9]*' -type d -printf '%p\n' | sort -t '\0' -n | awk -F '\0' '{print $1}' | tail -n1)
-  ((latest++))
+	read -r -p $'\e[33mZet title\e[0m: ' title
 
-  datestring=$(date "+%A, %d %B %Y. %T%Z")
+	filepath="$directory/$title.md"
+	mkdir -p "$(dirname "$filepath")"
+	touch "$filepath"
 
-  read -r -p $'\e[33mZet title\e[0m: ' title
-
-  [[ -z $title ]] && echo -e "\e[31mPlease provide a title for the zet!\e[0,:." && exit 1
-
-  uri_title="${title,,}"
-  uri_title="${uri_title// /-}"
-
-  filepath="$directory/$latest/$uri_title.md"
-
-  mkdir -p "$(dirname "$filepath")"
-
-  touch "$filepath"
-  {
-    echo "# $title"
-    echo -en "\n"
-    echo "$datestring"
-    echo -en "\n\n"
-  } >>"$filepath"
-
-  twindow "$filepath" "" "$EDITOR -c 'normal! G' $filepath" "open"
-
-  _index
-
-  read -r -p $'\e[32mDo you want to commit this\e[0m? ' answer
-  if [[ $answer == "y" ]]; then
-    titleline=$(head -1 "$filepath")
-    title="${titleline//# /}"
-    _commit "$title - created"
-  fi
+	twindow "$filepath" "" "$EDITOR -c 'normal! Gi' '$filepath'" "open"
 }
 
-_index() {
-  mkdir -p "$directory/zet"
-  touch "$directory/zet/README.md"
-  indexfile="$directory/README.md"
-  string="<ol>"
-  while IFS=" " read -r filename; do
-
-    file="$directory/$filename"
-
-    date=$(sed -n '3p' < "$file")
-
-    titleline=$(head -1 "$file")
-    title="${titleline//# /}"
-    f=$(basename "$file")
-
-    tagsline=$(tail -1 "$file")
-    if [[ $tagsline != *"#"* ]]; then
-      tagsline=""
-    else
-      tagsline="($tagsline)"
-    fi
-    string+=" - <li x-show='show_item(\$el)'><time>$date</time> [$title](${filename%%"$f"}) <span class='tags-list'>$tagsline</span></li>\n"
-  done < <(find . -maxdepth 1 -type d -name '*[0-9]*' -print0 | xargs -0 -I {} find {} -type f -print)
-  string+="</ol>"
-
-  template=$(cat "$HOME/.local/bin/template")
-  content="${template/"{{INSERT}}"/$string}"
-  echo -e "$content" >"$indexfile"
-}
-
-_commit() {
-  message="${1:-"zet updated"}"
-  git add .
-  git commit -m "$message"
-}
-
-_build() {
-  rm -rf "$directory/html/**"
-  _index
-  while read -r filepath; do
-    titleline=$(head -1 "$filepath")
-    title="${titleline//# /}"
-
-    path="${filepath##"$directory"/}"
-
-    if [[ $path == "*/README.md" ]]; then
-      target="$directory/html/${path/README.md/index.html}"
-    else
-      f=$(basename "$path")
-      target="$directory/html/${path/$f/index.html}"
-    fi
-
-    if [[ $target == *"/html/index.html" ]]; then
-      template="$directory/index.template"
-    else
-      template="$directory/page.template"
-    fi
-
-    mkdir -p "$(dirname "$target")"
-    pandoc -s "$filepath" -t html -o "$target" --metadata "title=$title" --template="$template" -c "$directory/style.css" -s
-  done < <(find "$directory"  -type f -name "*.md")
-  cp "$directory/style.css" "./html"
-  cp "$directory/alpine.js" "./html"
-}
-
-_push() {
-  rsync -Paz --delete -e "ssh -l david -i ~/.ssh/id_ed25519" "$directory/html/" david@zet.davidpeach.me:/var/www/zet.davidpeach.me
-  git push
-}
-
-declare CMD="$1"
-shift
-for c in "${commands[@]}"; do
-  [[ $c == "$CMD" ]] && "_$c" "$@" && exit $?
-done
+_new

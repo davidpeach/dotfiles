@@ -10,8 +10,8 @@
 
 if [[ -n "$TMUX" ]]
 then
-    current_session=$(tmux display-message -p "#S")
-    session_name=${2:-$current_session}
+    current_session="$(tmux display-message -p "#S")"
+    session_name="${2:-$current_session}"
     window_name="${1##*/}"
 
     if ! tmux has-session -t="$session_name" 2> /dev/null; then
@@ -23,7 +23,7 @@ then
     fi
 
     if [[ -n $3 ]]; then
-        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}" "$3"
+        tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}" "${3}"
     else
         tmux new-window -a -t "$session_name" -n "$window_name" -c "${1%%README.md}"
     fi

@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+cpu_level=${1:-0.4}
+
+docker container ls | fzf | awk '{print $1}' | xargs -o -I % docker update --cpus "$cpu_level" %
+

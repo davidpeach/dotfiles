@@ -7,7 +7,7 @@ style_clear="\033[0m"
 color_text_peach="\033[38;5;217m"
 color_text_a="\033[38;5;217m"
 color_text_b="\033[38;5;217m"
-style_emphasis="\033[38;5;206m"
+emphasis="\033[38;5;206m"
 color_clear="\033[0m"
 
 declare -A commands=(
@@ -21,8 +21,8 @@ declare -A commands=(
 [init]="Initiallize your folder to be a new Lupo website."
 [live]="Automatically build and deploy your website on source changes."
 [new]="Create a new post for your site."
-[push]="Push your built website to your configured remote server ${style_emphasis}rsync required${style_clear}"
-[serve]="Serve your website locally. ${style_emphasis}Docker required${style_clear}"
+[push]="Push your built website to your configured remote server ${emphasis}rsync required${style_clear}"
+[serve]="Serve your website locally. ${emphasis}Docker required${style_clear}"
 [watch]="Watch your source files for changes and automatically rebuild."
 )
 
@@ -449,7 +449,6 @@ _init() {
   _create_dir_if_not_exists "$TEMPLATES_DIRECTORY"
   _create_dir_if_not_exists "$TMP_DIRECTORY"
   _create_dir_if_not_exists "$(dirname "$CONFIG_FILE")"
-  _create_file_if_not_exists "$CONFIG_FILE"
   _create_file_if_not_exists "$GITIGNORE_FILE"
 
   printf "html\ntmp" > "$GITIGNORE_FILE"
