@@ -1,6 +1,6 @@
 /nvim/.config/nvim/plugin
-/ranger/colorschemes/__pycache__
-/bashtop/.config/bashtop/error.log
+__pycache__/
+*.log
 /ssh.d/work
 .luarepl-history
 .swp
