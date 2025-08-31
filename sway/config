@@ -1,5 +1,25 @@
+# =================================
+# Set the Cyberdream theme colours.
+# =================================
+set $bg          #ffffff
+set $bg_alt      #eaeaea
+set $fg          #16181a
+set $grey         #7b8496
+set $blue         #0057d1
+set $green        #008b0c
+set $cyan         #008c99
+set $red          #d11500
+set $yellow       #997b00
+set $magenta      #d100bf
+set $pink         #f40064
+set $orange       #d17c00
+set $purple       #a018ff
+
+# Forcefully update the environment for D-Bus services and portals
+exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
 # =============================
-# Set the terminal to be kitty.
+# Set the terminal to be alacritty.
 # =============================
 set $terminal "alacritty"
 
@@ -31,18 +51,18 @@ floating_modifier $mod
 gaps inner 40px
 smart_gaps on
 
-# =====================================
-# Set the border width for all windows.
-# =====================================
-for_window [class=".*"] border pixel 5
+# # =====================================
+# # Set the border width for all windows.
+# # =====================================
+# for_window [class=".*"] border pixel 5
 
 # =============================================
 # Set the default border width for new windows.
 # =============================================
-default_border pixel 1
+default_border pixel 5
 
 # ===============================
-# BINDING :: Open Kitty terminal.
+# BINDING :: Open terminal.
 # ===============================
 bindsym $mod+Return exec $terminal
 
@@ -155,10 +175,10 @@ bindsym $mod+Down exec --no-startup-id $HOME/.local/bin/dockon
 bindsym $mod+Up exec --no-startup-id $HOME/.local/bin/dockoff
 
 # Audio controls
-set $audioSink @DEFAULT_SINK@
-bindsym F1 exec --no-startup-id pactl set-sink-mute $audioSink toggle
-bindsym F2 exec --no-startup-id pactl set-sink-volume $audioSink -5%
-bindsym F3 exec --no-startup-id pactl set-sink-volume $audioSink +5%
+bindsym F1 exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym F2 exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym F3 exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+
 bindsym $mod+i exec --no-startup-id playerctl play-pause
 bindsym $mod+bracketleft exec --no-startup-id playerctl previous
 bindsym $mod+bracketright exec --no-startup-id playerctl next
@@ -194,10 +214,10 @@ bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet 
 # Opening certain programs in specific workspaces.
 # ================================================
 assign [app_id="Alacritty" instance="main"]  $ws1 
-assign [class="FFQuarto"] $ws1
+# assign [class="FFQuarto"] $ws1
 assign [app_id="firefox"] $ws2
 assign [app_id="google-chrome"] $ws3 
-assign [app_id="slack"] $ws6
+# assign [app_id="slack"] $ws6
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
@@ -205,8 +225,8 @@ bindsym $mod+Shift+r restart
 # ============
 # Custom Dmenu 
 # ============
-# bindsym $mod+m exec --no-startup-id "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'JetBrainsMono Nerd Font-16' -p 'What is your pleasure..? '"
 bindsym $mod+m exec --no-startup-id "kickoff" 
+
 # ===============================
 # Lock screen keybinding.
 # ===============================
@@ -223,66 +243,37 @@ focus_follows_mouse no
 # ==============================
 # Set the colour scheme colours.
 # ==============================
-# class                 border  bground text    indicator child_border
-#client.focused          #6272A4 #6272A4 #F8F8F2 #ff6e6   #BADA55
-#client.focused_inactive #44475A #44475A #F8F8F2 #ff6e6e   #44475A
-#client.unfocused        #282A36 #282A36 #BFBFBF #ff6e6e   #44475A
-#client.urgent           #44475A #FF5555 #F8F8F2 #ff6e6e   #FF5555
-#client.placeholder      #282A36 #282A36 #F8F8F2 #ff6e6e   #282A36
+# Window colors (border, background, text, indicator, child_border)
+client.focused              $blue   $bg      $fg      $cyan   $blue
+client.focused_inactive     $grey   $bg_alt  $grey    $cyan   $grey
+client.unfocused            $bg_alt $bg_alt  $grey    $cyan   $bg_alt
+client.urgent               $red    $red     $fg      $cyan   $red
+client.placeholder          $bg     $bg      $fg      $cyan   $bg
 
-#client.background       #F8F8F2
-
-
-for_window [instance="task"] floating enable
-for_window [instance="task"] resize set 1000 1000
-for_window [instance="task"] move scratchpad
-for_window [instance="task"] border pixel 5
-exec --no-startup-id kitty --name task 
-
-for_window [instance="pulse"] floating enable
-for_window [instance="pulse"] resize set 1000 600
-for_window [instance="pulse"] move scratchpad
-exec --no-startup-id kitty --name pulse -e pulsemixer
-
-for_window [instance="lynx"] floating enable
-for_window [instance="lynx"] resize set 1000 600
-for_window [instance="lynx"] move scratchpad
-exec --no-startup-id kitty --name lynx
-
-bindsym $mod+F2 [instance="lynx"] scratchpad show; [instance="lynx"] move position center
-bindsym $mod+F5 [instance="pulse"] scratchpad show; [instance="pulse"] move position center
-bindsym $mod+F7 [instance="task"] scratchpad show; [instance="task"] move position center
+client.background           $bg
 
 bindsym $mod+b exec --no-startup-id $HOME/.local/bin/ffprofile
 bindsym Print exec --no-startup-id 'grim -g "$(slurp)"'
 
-exec_always --no-startup-id setxkbmap gb
-exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
-exec --no-startup-id picom -b --fade-in-step=1 --fade-out-step=1 --fade-delta=0
-exec_always --no-startup-id feh --bg-scale "/home/david/.config/wallpapers/aeris.jpg"
+exec_always kanshi
 
-exec_always "killall chrome"
-exec_always "google-chrome-stable --ozone-platform=wayland --enable-features=VaapiVideoDecoder"
+exec_always dunst
+# exec "google-chrome-stable"
+exec_always --no-startup-id ~/.local/bin/launch-chrome
+exec_always --no-startup-id ~/.local/bin/launch-slack
+# exec_always "google-chrome-stable --ozone-platform=wayland --enable-features=VaapiVideoDecoder"
 
 #================
-# Launch Polybar.
+# Launch Bar
 #================
-# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 bar {
     swaybar_command waybar
+    tray_output *
 }
 
 output * bg "/home/david/.config/wallpapers/The Last of Us™ Part II_20200716182454.jpg" fill
-
-
-
-#========================
-# Re-load previous theme.
-#========================
-# exec_always --no-startup-id wal -R &
 
 input "type:keyboard" {
     xkb_layout gb
 }
 
-exec_always --no-startup-id "killall dunst && dunst &"
