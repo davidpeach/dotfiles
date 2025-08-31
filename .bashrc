@@ -63,8 +63,9 @@ pathprepend \
 	"$HOME/.local/bin" \
 	"$HOME/.local/go/bin" \
 	"/usr/local/bin" \
+  "$HOME/.local/share/gem/ruby/3.4.0/bin" \
   "$HOME/.ghcup/env" \
-	"$SCRIPTS"
+  "$HOME/npm/bin"
 
 # Options
 # -- append to the history file, don't overwrite it
@@ -117,7 +118,6 @@ alias stan="./vendor/bin/phpstan analyse"
 alias g="git"
 alias ga="g add -p"
 alias gaa="g add ."
-# alias gb="g branch" -- see ./scripts/gb
 alias gc="git commit -S -m"
 alias gl="g log --oneline"
 alias gp="git push"
