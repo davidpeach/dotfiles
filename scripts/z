@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+[[ -z "$ZETROOT" ]] && echo "Please set the root directory of zet with the $ZETROOT env." && exit 1;
+
 declare directory="$ZETROOT"
 
 _new() {
