@@ -1,7 +1,7 @@
-return { {
-  "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  opts = {
+vim.pack.add({'https://github.com/nvim-tree/nvim-web-devicons'});
+vim.pack.add({'https://github.com/nvim-lualine/lualine.nvim'});
+
+require("lualine").setup({
     options = {
       theme = "auto",
       globalstatus = true,
@@ -14,5 +14,4 @@ return { {
       lualine_y = { "progress" },
       lualine_z = { "location" },
     },
-  },
-} }
+  });

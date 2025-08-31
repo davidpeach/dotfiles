@@ -1,7 +1,10 @@
-return {
-  {
-    "tpope/vim-fugitive",
-    config = function()
+vim.pack.add({"https://github.com/tpope/vim-fugitive"});
+vim.pack.add({"https://github.com/lewis6991/gitsigns.nvim"});
+
+-- return {
+--   {
+--     "tpope/vim-fugitive",
+--     config = function()
       vim.keymap.set("n", "<leader>gc", ":Git checkout ")
       vim.keymap.set("n", "<leader>gg", ":Git ")
       vim.keymap.set("n", "<leader>gl", ":Git log ")
@@ -9,11 +12,11 @@ return {
       vim.keymap.set("n", "<leader>go", "<cmd>Git<cr>")
       vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
       vim.keymap.set("n", "<leader>gu", "<cmd>Git pull<cr>")
-    end
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
+  --   end
+  -- },
+  -- {
+  --   "lewis6991/gitsigns.nvim",
+    -- config = function()
       require("gitsigns").setup({
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
@@ -63,6 +66,7 @@ return {
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
         end
       });
-    end
-  }
-}
+--     end
+--   }
+-- }
+--

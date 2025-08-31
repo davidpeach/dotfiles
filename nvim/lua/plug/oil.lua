@@ -1,7 +1,5 @@
-return {
-  {
-    'stevearc/oil.nvim',
-    opts = {
+vim.pack.add({'https://github.com/stevearc/oil.nvim'});
+require("oil").setup({
       view_options = {
         show_hidden = true,
       },
@@ -18,7 +16,5 @@ return {
         ["~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
         ["g."] = { "actions.toggle_hidden", mode = "n" },
       },
-    },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  }
-}
+    })
+
