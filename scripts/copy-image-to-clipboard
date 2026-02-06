@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+image="$1"
+
+# if [[ $# == 2 ]]; then
+#
+# fi;
+path_to_image=$(dirname $image)
+imagename=$(basename $image)
+cropped_path="$path_to_image/cropped/"
+mkdir -p "$cropped_path"
+
+mogrify -thumbnail 300x300^ -crop 300x300 -write "$cropped_path$imagename" "$image"  
+
+echo "$cropped_path"
+# wl-copy < "$image"
