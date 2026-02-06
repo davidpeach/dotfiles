@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
-rsync -Pazog --delete --chown=www-data:www-data ~/repos/github.com/davidpeach/davidpeach/ david@davidpeach.me:/var/www/davidpeach.me/wordpress/wp-content/themes/davidpeach
+rsync -Pazog --delete --chown=www-data:www-data ~/repos/github.com/davidpeach/davidpeach/ root@davidpeach.me:/var/www/html/wp-content/themes/davidpeach
 
