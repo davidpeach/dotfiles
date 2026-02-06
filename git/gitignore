@@ -1,1 +1,3 @@
 .exrc
+storage/clockwork
+*.bak
