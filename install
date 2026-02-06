@@ -3,6 +3,9 @@
 # my Lenovo Thinkpad T470 / T490
 #----------------------------------------
 
+DOTFILES_DIR=$PWD
+CONFIG_DIR="$HOME/.config"
+LOCAL_BIN_DIR="$HOME/.local/bin"
 INSTALL_OFFICIAL_PACKAGES=false
 INSTALL_AUR_PACKAGES=false
 
@@ -10,75 +13,7 @@ INSTALL_AUR_PACKAGES=false
 # Installing the packages I need.
 # -------------------------------
 if [[ "$INSTALL_OFFICIAL_PACKAGES" == true ]]; then
-	sudo pacman -S --noconfirm \
-		acpid \
-		alsa-utils \
-		alacritty \
-		ansible \
-		aws-cli \
-		base \
-		base-devel \
-		bc \
-		bluez \
-		bluez-utils \
-		brightnessctl \
-		ccls \
-		chromium \
-		curl \
-		dmidecode \
-		docker \
-		doctl \
-		dunst \
-		entr \
-		fd \
-		feh \
-		firefox \
-		fontconfig \
-		fwupd \
-		fzf \
-		github-cli \
-		go \
-		gopls \
-		grub \
-		haskell-language-server \
-		htop \
-		inotify-tools \
-		jq \
-		keychain \
-		kubectl \
-		libva-utils \
-		linux-firmware-qlogic \
-		luarocks \
-		make \
-		man-db \
-		marksman \
-		mpv \
-		neovim \
-		nitrogen \
-		nodejs \
-		noto-fonts-emoji \
-		npm \
-		pandoc-cli \
-		pavucontrol \
-		php \
-		picom \
-		playerctl \
-		r \
-		ranger \
-		ripgrep \
-		rsync \
-		s3cmd \
-		scrot \
-		shellcheck \
-		sway \
-		sxiv \
-		task \
-		terraform \
-		tlp \
-		tree \
-		unzip \
-		wget \
-		wireguard-tools
+	sudo pacman -S --noconfirm --needed - < packages.txt
 fi
 
 if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
@@ -88,56 +23,51 @@ if [[ "$INSTALL_AUR_PACKAGES" == true ]]; then
 		exit
 	else
 
-		yay -S --noconfirm \
-			aic94xx-firmware \
-			ast-firmware \
-			phpactor \
-			python-sqlglot \
-			quarto-cli-bin \
-			r-styler \
-			signal-desktop \
-			upd72020x-fw \
-			wd719x-firmware
-					echo "Complete :: Required Yay packages."
+		yay -S --noconfirm --needed - < packages-aur.txt
 	fi
 fi
 
-# -------------------------------------
-# Remove default ~/.local/bin as I have
-# my dotfiles version.
-# -------------------------------------
-if [[ -e $HOME/.local/bin ]]; then
-	rm -rf "$HOME"/.local/bin
-	echo "Removed :: Old local bin folder."
-fi
+# --- Symlinking Section ---
 
-# --------------------------------
-# Ensure a ~/.config folder exists
-# --------------------------------
-if [[ ! -e $HOME/.config ]]; then
-	mkdir -p "$HOME"/.config
-	echo "Created :: .config folder."
-else
-  echo "Config directory already exists."
-fi
+# Create directories if they don't exist
+mkdir -p "$CONFIG_DIR"
+mkdir -p "$LOCAL_BIN_DIR"
 
-# Symlink all my dotfiles.
-ln -sf $PWD"sway" "$HOME/.config/" && echo "Symlinked sway config."
-ln -sf "$PWD/nvim" "$HOME/.config/" && echo "Symlinked nvim config."
-ln -sf "$PWD/wallpapers" "$HOME/.config/" && echo "Symlinked wallpapers."
-ln -sf "$PWD/scripts" "$HOME/.local/bin" && echo "Symlinked scripts folder."
-ln -sf "$PWD/ranger" "$HOME/.config/" && echo "Symlinked ranger folder."
-ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf" && echo "Symlinked tmux config."
-ln -sf "$PWD/.bashrc" "$HOME/.bashrc" && echo "Symlinked bashrc config."
-ln -sf "$PWD/.vimrc" "$HOME/.vimrc" && echo "Symlinked vimrc config."
-ln -sf "$PWD/.inputrc" "$HOME/.inputrc" && echo "Symlinked inputrc config."
-ln -sf "$PWD/.xinitrc" "$HOME/.xinitrc" && echo "Symlinked xinitrc config."
-ln -sf "$PWD/.Xresources" "$HOME/.Xresources" && echo "Symlinked Xresources config."
-ln -sf "$PWD/git/gitignore" "$HOME/.gitignore" && echo "Symlinked Xresources config."
-ln -sf "$PWD/alacritty" "$HOME/.config/" && echo "Symlinked alacritty folder."
-ln -sf "$PWD/lynx" "$HOME/.config/" && echo "Symlinked lynx folder."
-ln -sf "$PWD/dunst" "$HOME/.config/" && echo "Symlinked dunst folder."
-ln -sf "$PWD/task" "$HOME/.config/" && echo "Symlinked task folder."
+# 1. Config directories to link into ~/.config/
+config_dirs=(sway nvim nvim_refresh wallpapers ranger alacritty lynx dunst task kitty)
+
+echo "--- Symlinking .config directories ---"
+for dir in "${config_dirs[@]}"; do
+    # Before linking, remove the target if it's already a symlink
+    if [ -L "${CONFIG_DIR}/${dir}" ]; then
+        rm "${CONFIG_DIR}/${dir}"
+    fi
+    ln -s "$DOTFILES_DIR/$dir" "$CONFIG_DIR/" && echo "Linked $dir"
+done
+
+# 2. Files to link directly into ~/
+home_files=(.tmux.conf .bashrc .inputrc .xinitrc .Xresources)
+
+echo "--- Symlinking home files ---"
+for file in "${home_files[@]}"; do
+    if [ -L "${HOME}/${file}" ]; then
+        rm "${HOME}/${file}"
+    fi
+    ln -s "$DOTFILES_DIR/$file" "$HOME/" && echo "Linked $file"
+done
+
+if [ -L "${HOME}/.vimrc" ]; then
+    rm "${HOME}/.vimrc"
+fi
+ln -s "$DOTFILES_DIR/nvim_refresh/vimrc" "$HOME/.vimrc" && echo "Linked new vimrc"
+
+# 3. Special cases like scripts and gitignore
+echo "--- Symlinking special cases ---"
+if [ -L "$LOCAL_BIN_DIR" ]; then rm "$LOCAL_BIN_DIR"; fi
+ln -s "$DOTFILES_DIR/scripts" "$LOCAL_BIN_DIR" && echo "Linked scripts"
+
+if [ -L "${HOME}/.gitignore" ]; then rm "${HOME}/.gitignore"; fi
+ln -s "$DOTFILES_DIR/git/gitignore" "${HOME}/.gitignore" && echo "Linked global gitignore"
 
 # SSH Key Generation
 # ssh-keygen -t rsa -f "$HOME"/.ssh/marnie -C "Marnie" -b 4096
