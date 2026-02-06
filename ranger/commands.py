@@ -25,6 +25,11 @@ class view_image_split(Command):
         current_image = self.fm.thisfile.path
         self.fm.run("view-image-split " + current_image)
 
+class copy_image_to_clipboard (Command):
+    def execute(self):
+        current_image = self.fm.thisfile.path
+        self.fm.run("copy-image-to-clipboard " + current_image)
+
 # Any class that is a subclass of "Command" will be integrated into ranger as a
 # command.  Try typing ":my_edit<ENTER>" in ranger!
 class my_edit(Command):
