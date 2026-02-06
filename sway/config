@@ -19,9 +19,9 @@ set $purple       #a018ff
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # =============================
-# Set the terminal to be alacritty.
+# Set the terminal to be Kitty.
 # =============================
-set $terminal "alacritty"
+set $terminal "kitty"
 
 # ================================
 # Set my MOD key to the Super Key.
@@ -184,8 +184,8 @@ bindsym $mod+bracketleft exec --no-startup-id playerctl previous
 bindsym $mod+bracketright exec --no-startup-id playerctl next
 
 # Bluetooth
-bindsym F10 exec --no-startup-id ~/.local/bin/btconnect
-bindsym Shift+F10 exec --no-startup-id ~/.local/bin/btdc
+bindsym F10 exec --no-startup-id ~/.local/bin/btc
+bindsym Shift+F10 exec --no-startup-id ~/.local/bin/btd
 
 bindsym F5 exec --no-startup-id brightnessctl set 10%-
 bindsym F6 exec --no-startup-id brightnessctl set +10%
@@ -213,7 +213,7 @@ bindsym $mod+Left mode "snippets"; exec dunstify -u critical "Snippet" "snippet 
 # ================================================
 # Opening certain programs in specific workspaces.
 # ================================================
-assign [app_id="Alacritty" instance="main"]  $ws1 
+assign [app_id="kitty" instance="main"]  $ws1 
 # assign [class="FFQuarto"] $ws1
 assign [app_id="firefox"] $ws2
 assign [app_id="google-chrome"] $ws3 
@@ -271,9 +271,14 @@ bar {
     tray_output *
 }
 
-output * bg "/home/david/.config/wallpapers/The Last of Us™ Part II_20200716182454.jpg" fill
+output * bg "/home/david/.config/wallpapers/aeris.jpg" fill
 
 input "type:keyboard" {
     xkb_layout gb
+}
+
+input "type:pointer" {
+    accel_profile "flat"
+    pointer_accel 0.5
 }
 
