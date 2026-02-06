@@ -1,17 +1,16 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
--- require('config.lazy')
 require("config.options")
 require("config.keymap")
 require("config.abbreviations")
+
 require("plug.theme")
 require("plug.oil")
 require("plug.tmux")
 require("plug.git")
 require("plug.completions")
+require("plug.markdown")
 require("plug.mason")
 require("plug.hover")
+require("plug.images")
 require("plug.telescope")
 require("plug.statusline")
 require("plug.conform")
@@ -20,8 +19,23 @@ require("plug.treesitter")
 require("plug.trouble")
 require("plug.testing")
 require("plug.debugging")
+require("plug.haskell")
 
-vim.lsp.enable({ "tsserver", "intelephense", "lua" })
+vim.cmd([[
+"highlight Function guifg='#bada55'
+"highlight Special guifg='#bada55'
+"highlight Keyword guifg='#fd0e35'
+"highlight @variable.builtin guifg='#ba55d3'
+"highlight String guifg='#ba55d3'
+"syn match Todo \<\NOTE\>
+"match Todo /\<\word1\>/
+"autocmd Syntax * syntax keyword NoteMarker NOTE
+"highlight NoteMarker guifg='#bada55'
+]])
+
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+
+vim.lsp.enable({ "tsserver", "intelephense", "lua", "markdown" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),

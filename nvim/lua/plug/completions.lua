@@ -8,7 +8,7 @@ require('blink.cmp').setup({
       list = {
         max_items = 10,
       },
-      ghost_text = {enabled = true}
+      ghost_text = {enabled = false}
     },
     appearance = {
       use_nvim_cmp_as_default = true,
