@@ -6,6 +6,7 @@ esac
 
 # Environment Variables
 
+
 # -- History
 export HISTCONTROL=ignoreboth
 export HISTSIZE=5000
@@ -22,7 +23,7 @@ export REPOS="$HOME/repos"
 export GITUSER="davidpeach"
 export GHREPOS="$REPOS/github.com/$GITUSER"
 export DOTFILES="$GHREPOS/dotfiles"
-export WORK="$HOME/work/projects"
+export WORK="$HOME/work/repos"
 export ZET_NOTES_DIR="$GHREPOS/zet"
 
 export SCRIPTS="$HOME/.local/bin"
@@ -152,5 +153,7 @@ complete -C lupo lupo
 
 export PATH="/home/david/.lando/bin:$PATH"; #landopath
 
-export PATH="/home/david/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/home/david/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+# export PATH="/home/david/.config/herd-lite/bin:$PATH"
+# export PHP_INI_SCAN_DIR="/home/david/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+[ -f "/home/david/.ghcup/env" ] && . "/home/david/.ghcup/env" # ghcup-env
