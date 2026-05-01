@@ -1,5 +1,8 @@
-# Styles imported from ./.local/bin/read_styles
+# Color and style definitions for CLI scripts.
+# Can be sourced using: source "$(dirname "$0")/read_styles"
+
 style_heading="\033[36;1;210m"
 style_subheading="\033[32;3;1m"
+style_desc="\033[210;3m"
 style_clear="\033[0m"
 
