@@ -2,7 +2,7 @@
 
 JIRA_BIN=$HOME/.local/bin/jira
 
-declare -a commands=(issue)
+declare -a commands=(checkout)
 
 if [[ -n $COMP_LINE ]]; then
 	for c in "${commands[@]}"; do
@@ -11,9 +11,22 @@ if [[ -n $COMP_LINE ]]; then
 	exit
 fi
 
+_checkout() {
+  select project in WEBSITE DS
+  do
+    echo "Selected project: $project"
+    echo "Selected number: $REPLY"
+    break
+  done
+
+  chosen_issue=$($JIRA_BIN issue list --assignee=david.peach@getlaidbeds.co.uk -s~"TO DO" -p=$project --plain --no-headers | fzf --reverse | awk '{print $2}')
+  touch ~/work/.status/current-issue
+  echo "$chosen_issue" > ~/work/.status/current-issue
+  dunstify "Jira Issue" "Set to $chosen_issue"
+}
+
 _issue() {
-  chosen_issue=$($JIRA_BIN issue list --assignee=david.peach@getlaidbeds.co.uk -s~Done -p=WESBITE --plain --no-headers | fzf | awk '{print $2}')
-  echo "$chosen_issue"
+  echo "ISSUE"
   # $JIRA_BIN issue view
 }
 

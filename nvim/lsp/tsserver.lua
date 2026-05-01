@@ -48,10 +48,10 @@ return {
   filetypes = {
     'javascript',
     'javascriptreact',
-    'javascript.jsx',
+    -- 'javascript.jsx',
     'typescript',
     'typescriptreact',
-    'typescript.tsx',
+    -- 'typescript.tsx',
   },
   root_dir = function(bufnr, on_dir)
     -- The project root is where the LSP can be started from

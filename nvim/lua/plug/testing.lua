@@ -8,6 +8,17 @@ vim.g.VtrOrientation = "h"
 vim.g.VtrClearSequence = ""
 vim.g.vrc_trigger = "<C-c>"
 
+-- 1. Define a function without the # symbols in the name
+-- vim.cmd([[
+--   function! MyCustomPestExecutable() abort
+--     return './vendor/bin/pest'
+--   endfunction
+-- ]])
+--
+-- -- 2. Tell vim-test to use your custom function name
+-- -- This overrides the default lookup logic
+-- vim.g['test#php#pest#executable'] = 'MyCustomPestExecutable'
+
 vim.keymap.set(
 	"n",
 	",ta",

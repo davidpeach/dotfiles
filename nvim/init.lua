@@ -72,3 +72,40 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --   hi clear SpellBad
 --   hi SpellBad cterm=underline guifg=#ff0000
 -- ]])
+
+-- Minimal Highlight Overrides (Cyberdream colors)
+local red = "#d11500"
+local green = "#008b0c"
+local orange = "#d17c00"
+local grey = "#7b8496"
+
+-- Diagnostics
+vim.api.nvim_set_hl(0, "DiagnosticError", { fg = red, bold = true })
+vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = orange })
+vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = grey })
+vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = grey })
+vim.api.nvim_set_hl(0, "DiagnosticUnused", { fg = grey, italic = true, underline = true })
+
+-- Git Changes (Gitsigns)
+vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = green })
+vim.api.nvim_set_hl(0, "GitSignsChange", { fg = orange })
+vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = red })
+
+-- Spelling Errors
+vim.api.nvim_set_hl(0, "SpellBad", { sp = red, undercurl = true })
+vim.api.nvim_set_hl(0, "SpellCap", { sp = orange, undercurl = true })
+vim.api.nvim_set_hl(0, "SpellLocal", { sp = grey, undercurl = true })
+vim.api.nvim_set_hl(0, "SpellRare", { sp = grey, undercurl = true })
+
+-- Clear common syntax groups to force monochrome (optional but effective)
+-- Commenting these out by default, but ready if you want a truly monochrome experience:
+-- local syntax_groups = {
+--   "Comment", "String", "Number", "Boolean", "Float", "Constant",
+--   "Identifier", "Function", "Statement", "Conditional", "Repeat",
+--   "Label", "Operator", "Keyword", "Exception", "PreProc", "Include",
+--   "Define", "Macro", "PreCondit", "Type", "StorageClass", "Structure",
+--   "Typedef", "Special", "SpecialChar", "Tag", "Delimiter", "SpecialComment", "Debug"
+-- }
+-- for _, group in ipairs(syntax_groups) do
+--   vim.api.nvim_set_hl(0, group, { fg = "NONE", ctermfg = "NONE" })
+-- end

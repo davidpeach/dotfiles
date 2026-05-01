@@ -1,6 +1,5 @@
 acpid 
 alsa-utils 
-alacritty 
 ansible 
 aws-cli 
 base 
@@ -30,6 +29,7 @@ htop
 inotify-tools 
 jq 
 keychain 
+kitty 
 kubectl 
 libva-utils 
 linux-firmware-qlogic 

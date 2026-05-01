@@ -16,6 +16,8 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.inccommand = "nosplit"
 vim.opt.cursorline = false
 vim.opt.expandtab = true
+vim.opt.termguicolors = true
+vim.opt.background = "dark"
 vim.o.exrc = true
 vim.opt.laststatus = 3
 vim.opt.swapfile = false

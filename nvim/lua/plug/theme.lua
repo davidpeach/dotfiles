@@ -20,7 +20,10 @@
 -- 	-- end,
 -- })
 
+-- vim.pack.add({ "https://github.com/rktjmp/lush.nvim" })
+-- vim.pack.add({ "https://github.com/mcchrish/zenbones.nvim" })
 vim.pack.add({ "https://github.com/ellisonleao/gruvbox.nvim" })
 -- vim.pack.add({ "https://github.com/huyvohcmc/atlas.vim" })
 
 vim.cmd([[colorscheme gruvbox]])
+vim.opt.background = "dark"

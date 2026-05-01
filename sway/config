@@ -244,7 +244,7 @@ focus_follows_mouse no
 # Set the colour scheme colours.
 # ==============================
 # Window colors (border, background, text, indicator, child_border)
-client.focused              $blue   $bg      $fg      $cyan   $blue
+client.focused              #dda8B6   $bg      $fg      $cyan   #dda8B6
 client.focused_inactive     $grey   $bg_alt  $grey    $cyan   $grey
 client.unfocused            $bg_alt $bg_alt  $grey    $cyan   $bg_alt
 client.urgent               $red    $red     $fg      $cyan   $red
@@ -254,6 +254,8 @@ client.background           $bg
 
 bindsym $mod+b exec --no-startup-id $HOME/.local/bin/ffprofile
 bindsym Print exec --no-startup-id 'grim -g "$(slurp)"'
+
+bindsym $mod+o exec --no-startup-id $HOME/.local/bin/integration-debugger
 
 exec_always kanshi
 
@@ -267,8 +269,9 @@ exec_always --no-startup-id ~/.local/bin/launch-slack
 # Launch Bar
 #================
 bar {
+    position top
     swaybar_command waybar
-    tray_output *
+    # tray_output *
 }
 
 output * bg "/home/david/.config/wallpapers/aeris.jpg" fill
@@ -282,3 +285,5 @@ input "type:pointer" {
     pointer_accel 0.5
 }
 
+bindsym $mod+u exec --no-startup-id "~/.local/bin/dploy-start start"
+bindsym $mod+y exec --no-startup-id ~/.local/bin/dploy-stop
