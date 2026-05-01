@@ -34,7 +34,7 @@ mkdir -p "$CONFIG_DIR"
 mkdir -p "$LOCAL_BIN_DIR"
 
 # 1. Config directories to link into ~/.config/
-config_dirs=(sway nvim nvim_refresh wallpapers ranger alacritty lynx dunst task kitty)
+config_dirs=(sway nvim wallpapers ranger lynx dunst task kitty waybar rofi)
 
 echo "--- Symlinking .config directories ---"
 for dir in "${config_dirs[@]}"; do
@@ -59,7 +59,7 @@ done
 if [ -L "${HOME}/.vimrc" ]; then
     rm "${HOME}/.vimrc"
 fi
-ln -s "$DOTFILES_DIR/nvim_refresh/vimrc" "$HOME/.vimrc" && echo "Linked new vimrc"
+ln -s "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" && echo "Linked new vimrc"
 
 # 3. Special cases like scripts and gitignore
 echo "--- Symlinking special cases ---"

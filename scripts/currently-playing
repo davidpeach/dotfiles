@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+title=$(playerctl metadata title)
+artist=$(playerctl metadata artist)
+status=$(playerctl status)
+
+echo "  $status: $title by $artist"

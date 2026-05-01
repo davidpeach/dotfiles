@@ -31,13 +31,13 @@
     background = "#ffffff"
     foreground = "#7b8496"
     timeout = 5
-    frame_color = "#eaeaea"
+    frame_color = "#bada55"
 
 [urgency_normal]
     background = "#ffffff"
     foreground = "#16181a"
-    timeout = 8
-    frame_color = "#0057d1"
+    timeout = 5
+    frame_color = "#bada55"
 
 [urgency_critical]
     background = "#d11500"

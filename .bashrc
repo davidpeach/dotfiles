@@ -31,42 +31,12 @@ export GOBIN="$HOME/.local/bin"
 
 export ZETROOT="$GHREPOS/zet"
 
-
 # -- CD Path
 # -- For CD Path tab autocompletion, install bash-completion
 export CDPATH=./:$DOTFILES:$WORK:$HOME
 
-# Path Additions
-# -- Thanks to rwxrob.
-pathappend() {
-	declare arg
-	for arg in "$@"; do
-		test -d "$arg" || continue
-		PATH=${PATH//":$arg:"/:}
-		PATH=${PATH/#"$arg:"/}
-		PATH=${PATH/%":$arg"/}
-		export PATH="${PATH:+"$PATH:"}$arg"
-	done
-} && export -f pathappend
+export PATH="$HOME/npm/bin:$HOME/.ghcup/env:$HOME/.local/share/gem/ruby/3.4.0/bin:$HOME/.config/composer/vendor/bin:/usr/local/bin:$HOME/.local/go/bin:$HOME/.local/bin:$PATH"
 
-pathprepend() {
-	for arg in "$@"; do
-		test -d "$arg" || continue
-		PATH=${PATH//:"$arg:"/:}
-		PATH=${PATH/#"$arg:"/}
-		PATH=${PATH/%":$arg"/}
-		export PATH="$arg${PATH:+":${PATH}"}"
-	done
-} && export -f pathprepend
-
-# Remember, the last arg will be first in path
-pathprepend \
-	"$HOME/.local/bin" \
-	"$HOME/.local/go/bin" \
-	"/usr/local/bin" \
-  "$HOME/.local/share/gem/ruby/3.4.0/bin" \
-  "$HOME/.ghcup/env" \
-  "$HOME/npm/bin"
 
 # Options
 # -- append to the history file, don't overwrite it
@@ -84,16 +54,19 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-_PS1="\[\033[93;1m\]\u\[\033[31;1m\]@\[\033[35;1m\]\h \[\033[92;1m\]\w \[\033[0m\]"
-_PS1_length=${#_PS1}
-if [[ $_PS1_length -gt 40 ]]; then
-    _PS1="$_PS1\n"
-fi;
+# Executes before everytime the ps1 prompt is shown.
+# PROMPT_COMMAND="dunstify welcome."
 
-_PS1="$_PS1 🍑 "
+_PS1="\[\033[0;93m\]\u\[\033[0;31m\]@\[\033[0;35m\]\h \[\033[0;32m\]\w \[\033[0m\]"
+# _PS1=""
+# _PS1_length=${#_PS1}
+# if [[ $_PS1_length -gt 40 ]]; then
+#     _PS1="$_PS1\n"
+# fi;
+
+# _PS1="$_PS1 🍑 "
 PS1="$_PS1"
 
-# Aliases
 alias nv="nvim ."
 alias r="ranger"
 
@@ -146,14 +119,13 @@ export GPG_TTY
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Completions
+complete -C j j
 complete -C z z
 complete -C zz zz
 complete -C zet zet
 complete -C lupo lupo
+complete -C dploy-start dploy-start
 
-export PATH="/home/david/.lando/bin:$PATH"; #landopath
 
-# export PATH="/home/david/.config/herd-lite/bin:$PATH"
-# export PHP_INI_SCAN_DIR="/home/david/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 [ -f "/home/david/.ghcup/env" ] && . "/home/david/.ghcup/env" # ghcup-env
