@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# Description: Display currently playing media track using playerctl.
+# Usage: currently-playing
+# Dependencies: playerctl
+
 title=$(playerctl metadata title)
 artist=$(playerctl metadata artist)
 status=$(playerctl status)

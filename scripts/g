@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# Description: GitHub Gist creator.
+# Usage: Use from within Vim by piping a visual selection to this script.
+# Dependencies: gh
+
 # Github Gist creator
 # Dependancies: gh (github cli tool)
 # After you are authenticated with the gh tool, you can call this command

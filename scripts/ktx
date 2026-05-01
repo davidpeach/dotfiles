@@ -1,3 +1,7 @@
 #!/usr/bin/bash
 
+# Description: Display the current Kubernetes context.
+# Usage: ktx
+# Dependencies: kubectl
+
 kubectl config current-context

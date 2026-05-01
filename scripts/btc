@@ -1,3 +1,7 @@
 #!/bin/bash
 
+# Description: Connect to a specific Bluetooth device.
+# Usage: btc
+# Dependencies: bluetoothctl
+
 bluetoothctl -- connect F8:4E:17:84:06:7B

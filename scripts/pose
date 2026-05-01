@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+# Description: Tmux development environment setup and management tool.
+# Usage: pose [l | <name>]
+# Dependencies: tmux, fzf, docker-compose
 
 # Follow the logs of the chosen Docker container.
 if [[ $1 == "l" ]]; then

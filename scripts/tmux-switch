@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Description: Switch between tmux sessions or create a new one based on a selected directory.
+# Usage: tmux-switch [directory]
+# Dependencies: fzf, tmux
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else

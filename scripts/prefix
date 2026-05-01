@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# Description: Output a provided string as a prefix to each line of stdin.
+# Usage: <command> | prefix <string>
+# Dependencies: bash
+
 declare prefix
 declare value
 value="$1"

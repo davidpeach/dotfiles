@@ -6,3 +6,5 @@ __pycache__/
 .swp
 all-tasks.json
 nvim/lazy-lock.json
+.junie
+.serena

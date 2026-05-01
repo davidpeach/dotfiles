@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# Description: Fuzzy find and checkout a git branch.
+# Usage: gch
+# Dependencies: git, fzf, dunstify
+
 set -e
 
 branch=$(git branch | fzf)

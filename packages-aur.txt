@@ -1,5 +1,6 @@
 aic94xx-firmware \
         ast-firmware \
+        kickoff \
         phpactor \
         python-sqlglot \
         quarto-cli-bin \

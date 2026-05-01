@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+# Description: Cleanly switch to or create a git branch with notifications.
+# Usage: gb <branch_name>
+# Dependencies: git, dunstify
+
 wanted_branch_name="$1"
 
 if [[ -z ${wanted_branch_name} ]]; then
