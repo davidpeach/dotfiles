@@ -5,9 +5,9 @@
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 1);
+    background-color: rgba(40, 40, 40, 0.9);
     /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
-    color: #ffffff;
+    color: #ebdbb2;
     font-weight: bold;
     transition-property: background-color;
     transition-duration: .5s;
@@ -57,25 +57,23 @@ button:hover {
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
-    color: #ffffff;
+    color: #ebdbb2;
 }
 
 #workspaces button:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(235, 219, 178, 0.1);
 }
 
 #workspaces button.focused {
-    background-color: #64727D;
-    background-color: #dda8B6;
-    color: #222;
+    background-color: #fabd2f;
+    color: #282828;
     /* box-shadow: inset 0 -3px #ffffff; */
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
-    background-color: gold;
-    color: #222;
-    border-bottom: 2px solid yellow;
+    background-color: #cc241d;
+    color: #ebdbb2;
+    /* border-bottom: 2px solid yellow; */
     /* box-shadow: inset 0 0px 3px 3px #ffffff; */
 }
 
@@ -102,7 +100,7 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
     padding: 0 10px;
-    color: #ffffff;
+    color: #ebdbb2;
 }
 
 #window,

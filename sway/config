@@ -1,19 +1,17 @@
-# =================================
-# Set the Cyberdream theme colours.
-# =================================
-set $bg          #ffffff
-set $bg_alt      #eaeaea
-set $fg          #16181a
-set $grey         #7b8496
-set $blue         #0057d1
-set $green        #008b0c
-set $cyan         #008c99
-set $red          #d11500
-set $yellow       #997b00
-set $magenta      #d100bf
-set $pink         #f40064
-set $orange       #d17c00
-set $purple       #a018ff
+# ==============================
+# Set the Gruvbox theme colours.
+# ==============================
+set $bg          #282828
+set $bg_alt      #3c3836
+set $fg          #ebdbb2
+set $grey        #928374
+set $red         #cc241d
+set $green       #98971a
+set $yellow      #d79921
+set $blue        #458588
+set $purple      #b16286
+set $aqua        #689d6a
+set $orange      #d65d0e
 
 # Forcefully update the environment for D-Bus services and portals
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
@@ -244,11 +242,11 @@ focus_follows_mouse no
 # Set the colour scheme colours.
 # ==============================
 # Window colors (border, background, text, indicator, child_border)
-client.focused              #dda8B6   $bg      $fg      $cyan   #dda8B6
-client.focused_inactive     $grey   $bg_alt  $grey    $cyan   $grey
-client.unfocused            $bg_alt $bg_alt  $grey    $cyan   $bg_alt
-client.urgent               $red    $red     $fg      $cyan   $red
-client.placeholder          $bg     $bg      $fg      $cyan   $bg
+client.focused              #fabd2f   $bg      $fg      #fabd2f   #fabd2f
+client.focused_inactive     $bg_alt   $bg      $grey    $bg_alt   $bg_alt
+client.unfocused            $bg_alt   $bg      $grey    $bg_alt   $bg_alt
+client.urgent               $red      $red     $fg      $red      $red
+client.placeholder          $bg       $bg      $fg      $bg       $bg
 
 client.background           $bg
 

@@ -6,7 +6,7 @@
     font = NotoSans NF 14
     notification_limit = 5
     frame_width = 2
-    frame_color = "#eaeaea"
+    frame_color = "#928374"
 
     width = (0, 450)
     height = 200
@@ -28,21 +28,21 @@
     mouse_right_click = close_all
 
 [urgency_low]
-    background = "#ffffff"
-    foreground = "#7b8496"
+    background = "#282828"
+    foreground = "#928374"
     timeout = 5
-    frame_color = "#bada55"
+    frame_color = "#458588"
 
 [urgency_normal]
-    background = "#ffffff"
-    foreground = "#16181a"
+    background = "#282828"
+    foreground = "#ebdbb2"
     timeout = 5
-    frame_color = "#bada55"
+    frame_color = "#458588"
 
 [urgency_critical]
-    background = "#d11500"
-    foreground = "#ffffff"
-    frame_color = "#d11500"
+    background = "#cc241d"
+    foreground = "#ebdbb2"
+    frame_color = "#fabd2f"
     timeout = 0 
 
 
